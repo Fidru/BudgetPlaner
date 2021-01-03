@@ -86,7 +86,7 @@ namespace UI.WinForms.Views
 
             _payment.Category.Element = GetCheckedCategory ?? _payment.Category.Element;
             _payment.SubCategory.Element = GetCheckedSubCategory ?? _payment.SubCategory.Element;
-            _payment.PayPattern.Element.Interval = GetCheckedInterval ?? _payment.PayPattern.Element.Interval;
+            _payment.PayPattern.Element.Interval.Element = GetCheckedInterval ?? _payment.PayPattern.Element.Interval.Element;
             _payment.PayPattern.Element.UpdateAffectedMonths();
 
             TransactionFactory.UpdatePayment(_payment, _month);

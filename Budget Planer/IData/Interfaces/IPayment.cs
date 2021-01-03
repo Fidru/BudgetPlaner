@@ -1,12 +1,14 @@
-﻿using System;
+﻿using IData.Constants;
 
 namespace IData.Interfaces
 {
     public interface IPayment : IElement
     {
-        IElementGuidPair<ICategory> Category { get; set; }
-        IElementGuidPair<ICategory> SubCategory { get; set; }
+        ISaveableXmlElement<ICategory> Category { get; set; }
+        ISaveableXmlElement<ICategory> SubCategory { get; set; }
+        CategoryType CategoryType { get; }
+        CategoryType SubCategoryType { get; }
         double Amount { get; set; }
-        IElementGuidPair<IPayPattern> PayPattern { get; set; }
+        ISaveableXmlElement<IPayPattern> PayPattern { get; set; }
     }
 }

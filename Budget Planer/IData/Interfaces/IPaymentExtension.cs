@@ -22,7 +22,7 @@ namespace IData.Interfaces
 
         public static IEnumerable<ITransaction> GetTransactionsForCategory(this IEnumerable<ITransaction> transactions, IEnumerable<CategoryType> categories)
         {
-            return transactions.Where(p => categories.Any(c => c == p.Payment.Category.Element.CategoryType));
+            return transactions.Where(p => categories.Any(c => c == p.CategoryType));
         }
     }
 }

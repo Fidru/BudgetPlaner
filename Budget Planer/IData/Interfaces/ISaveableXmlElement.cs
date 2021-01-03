@@ -2,7 +2,7 @@
 
 namespace IData.Interfaces
 {
-    public interface IElementGuidPair<T>
+    public interface ISaveableXmlElement<T>
     {
         T Element { get; set; }
 

@@ -1,14 +1,16 @@
-﻿using System;
+﻿using IData.Constants;
 
 namespace IData.Interfaces
 {
     public interface ITransaction : IElement
     {
-        IMonth Month { get; set; }
-        Guid MonthId { get; set; }
-        IPayment Payment { get; set; }
-        Guid PaymentId { get; set; }
+        ISaveableXmlElement<IMonth> Month { get; set; }
+        ISaveableXmlElement<IPayment> Payment { get; set; }
         double Amount { get; set; }
         bool Payed { get; set; }
+        ICategory Category { get; }
+        CategoryType CategoryType { get; }
+        ICategory SubCategory { get; }
+        CategoryType SubCategoryType { get; }
     }
 }

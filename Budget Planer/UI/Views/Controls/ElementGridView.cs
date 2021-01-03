@@ -37,14 +37,13 @@ namespace UI.WinForms.Views.Controls
                 var difference = (bool)newValue ? transaction.Amount : transaction.Amount * -1;
 
                 //transaction.Month.UpdateBankBalance(difference);
-                transaction.Month.UpdateBankBalanceEndOfMonth();
+                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
             else if (e.Column.FieldName == "Amount")
             {
                 //Change in Amount.Setter
-                transaction.Month.UpdateIfIsBankBalanceRow(transaction);
-
-                transaction.Month.UpdateBankBalanceEndOfMonth();
+                transaction.Month.Element.UpdateBankBalanceRow(transaction);
+                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
 
             UpdateViews();
@@ -97,7 +96,7 @@ namespace UI.WinForms.Views.Controls
 
         private void EditPayment(object sender, System.EventArgs e)
         {
-            ShowPaymentView(GetSelectedItem.Payment);
+            ShowPaymentView(GetSelectedItem.Payment.Element);
         }
 
         private void ShowPaymentView(IPayment newPayment)

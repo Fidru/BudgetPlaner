@@ -1,33 +1,43 @@
-﻿using IData.Interfaces;
-using System;
+﻿using IData.Constants;
+using IData.Interfaces;
 
 namespace Data.Classes
 {
     public class Payment : Element, IPayment
     {
-        public Payment(IPaymentInterval interval) : base()
+        public Payment(IPaymentInterval interval)
+            : base()
         {
-            PayPattern = new ElementGuidPair<IPayPattern>(new PayPattern(interval));
+            Category = new SaveableXmlElement<ICategory>();
+            SubCategory = new SaveableXmlElement<ICategory>();
+            PayPattern = new SaveableXmlElement<IPayPattern>(new PayPattern(interval));
+
             Amount = 0.0;
         }
 
         public Payment(string name, ICategory category, double amount, IPayPattern payPattern, ICategory subCategory)
+            : base()
         {
             Name = name;
-            Category = new ElementGuidPair<ICategory>(category);
-            SubCategory = new ElementGuidPair<ICategory>(subCategory);
-            PayPattern = new ElementGuidPair<IPayPattern>(payPattern);
+
+            Category = new SaveableXmlElement<ICategory>(category);
+            SubCategory = new SaveableXmlElement<ICategory>(subCategory);
+            PayPattern = new SaveableXmlElement<IPayPattern>(payPattern);
 
             Amount = amount;
         }
 
-        public IElementGuidPair<ICategory> Category { get; set; }
+        public ISaveableXmlElement<ICategory> Category { get; set; }
 
         public double Amount { get; set; }
         public bool Payed { get; set; }
-        public IElementGuidPair<ICategory> SubCategory { get; set; }
-        public IElementGuidPair<IPayPattern> PayPattern { get; set; }
+        public ISaveableXmlElement<ICategory> SubCategory { get; set; }
+        public ISaveableXmlElement<IPayPattern> PayPattern { get; set; }
         public IMonth Month { get; set; }
+
+        public CategoryType CategoryType => Category.Element.CategoryType;
+
+        public CategoryType SubCategoryType => SubCategory.Element.CategoryType;
 
         public override void ConnectElements(IProject project)
         {

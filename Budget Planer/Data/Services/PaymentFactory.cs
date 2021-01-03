@@ -7,7 +7,7 @@ namespace Data.Services
 {
     public class PaymentFactory : ElementFactory, IPaymentFactory
     {
-        public IPayment CreateEmpty()
+        public new IPayment CreateEmpty()
         {
             var interval = Project.CurrentProject.Intervals.First();
             var payment = new Payment(interval);
@@ -28,11 +28,8 @@ namespace Data.Services
 
             newPayment.Name = original.Name;
             newPayment.PayPattern = original.PayPattern;
-            newPayment.PayPatternId = original.PayPatternId;
             newPayment.Category = original.Category;
-            newPayment.CategoryId = original.CategoryId;
             newPayment.SubCategory = original.SubCategory;
-            newPayment.SubCategoryId = original.SubCategoryId;
 
             newPayment.Amount = original.Amount;
 

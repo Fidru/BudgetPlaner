@@ -109,10 +109,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\XmlSaver\XmlSaver\XmlSaver.csproj">
-      <Project>{778b37eb-0a1d-4d12-9bbb-8d18bc7ef053}</Project>
-      <Name>XmlSaver</Name>
-    </ProjectReference>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{caff09d7-f5a6-496e-88bd-1227d4844991}</Project>
       <Name>Data</Name>
@@ -120,6 +119,10 @@
     <ProjectReference Include="..\IData\IData.csproj">
       <Project>{b14b9dfb-34c5-41a4-a534-ead0cdc0880d}</Project>
       <Name>IData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\XmlSaver\XmlSaver.csproj">
+      <Project>{a21d34a5-c6cf-4fd9-86e0-4e2350184290}</Project>
+      <Name>XmlSaver</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -45,7 +45,7 @@ namespace Data.Services
 
         public void UpdatePayment(IPayment payment, IMonth month)
         {
-            if (payment.PayPattern.Interval.Type == PaymentIntervalType.OneTimePayment)
+            if (payment.PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment)
             {
                 AddCustomPayment(payment, month);
                 return;
@@ -56,7 +56,7 @@ namespace Data.Services
 
         private void UpdateAllProjectMonths(IPayment payment)
         {
-            var months = Project.CurrentProject.Months.Where(m => payment.PayPattern.AffectedMonths.Any(affected => affected == m.MonthType));
+            var months = Project.CurrentProject.Months.Where(m => payment.PayPattern.Element.AffectedMonths.Any(affected => affected == m.MonthType));
 
             foreach (var projectMonth in months)
             {
@@ -64,7 +64,7 @@ namespace Data.Services
 
                 if (transaction != null)
                 {
-                    transaction.Payment = payment;
+                    transaction.Payment.Element = payment;
                 }
                 else
                 {

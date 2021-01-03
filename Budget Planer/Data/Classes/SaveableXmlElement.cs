@@ -3,15 +3,15 @@ using System;
 
 namespace Data.Classes
 {
-    public class ElementGuidPair<T> : IElementGuidPair<T> where T : IElement
+    public class SaveableXmlElement<T> : ISaveableXmlElement<T> where T : IElement
     {
         private T _element;
 
-        public ElementGuidPair()
+        public SaveableXmlElement()
         {
         }
 
-        public ElementGuidPair(T element)
+        public SaveableXmlElement(T element)
         {
             Element = element;
         }

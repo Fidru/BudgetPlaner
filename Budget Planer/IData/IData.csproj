@@ -52,7 +52,7 @@
     <Compile Include="Interfaces\ICategoryExtension.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\IElementCollection.cs" />
-    <Compile Include="Interfaces\IElementGuidPair.cs" />
+    <Compile Include="Interfaces\ISaveableXmlElement.cs" />
     <Compile Include="Interfaces\IIdentifier.cs" />
     <Compile Include="Interfaces\IMonth.cs" />
     <Compile Include="Interfaces\IElementExtension.cs" />
@@ -61,7 +61,6 @@
     <Compile Include="Interfaces\IPaymentInterval.cs" />
     <Compile Include="Interfaces\IPayPattern.cs" />
     <Compile Include="Interfaces\IProject.cs" />
-    <Compile Include="Interfaces\ISaveable.cs" />
     <Compile Include="Interfaces\ITransaction.cs" />
     <Compile Include="Interfaces\IYear.cs" />
     <Compile Include="Interfaces\ITimestamp.cs" />

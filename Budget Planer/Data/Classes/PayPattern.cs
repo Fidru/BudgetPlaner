@@ -15,26 +15,26 @@ namespace Data.Classes
         public PayPattern(IPaymentInterval interval, MonthEnum startsInMonth)
             : base()
         {
-            Interval = interval;
-            IntervalId = interval.Id;
+            Interval = new SaveableXmlElement<IPaymentInterval>(interval);
             StartsInMonth = startsInMonth;
 
             UpdateAffectedMonths();
         }
 
-        public IPaymentInterval Interval { get; set; }
+        public ISaveableXmlElement<IPaymentInterval> Interval { get; set; }
         public MonthEnum StartsInMonth { get; set; }
-        public Guid IntervalId { get; set; }
         public IEnumerable<MonthEnum> AffectedMonths { get; set; }
 
         public void UpdateAffectedMonths()
         {
-            AffectedMonths = new AffectedMonthsCollection(StartsInMonth, Interval.Type);
+            AffectedMonths = new AffectedMonthsCollection(StartsInMonth, Interval.Element.Type);
         }
 
         public override void ConnectElements(IProject project)
         {
             base.ConnectElements(project);
+
+            Interval.Element = (IPaymentInterval)project.Intervals.GetElementById(Interval.Element.Id);
 
             UpdateAffectedMonths();
         }
