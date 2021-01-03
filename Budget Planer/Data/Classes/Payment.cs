@@ -5,26 +5,24 @@ namespace Data.Classes
 {
     public class Payment : Element, IPayment
     {
+        private ICategory _category;
+
         public Payment(IPaymentInterval interval) : base()
         {
-            Category = new Category();
-            SubCategory = new Category();
             PayPattern = new PayPattern(interval);
+            PayPatternId = PayPattern.Id;
 
             Amount = 0.0;
-
-            CategoryId = Category.Id;
-            SubCategoryId = SubCategory.Id;
-            PayPatternId = PayPattern.Id;
         }
 
         public override void ConnectElements(IProject project)
         {
             base.ConnectElements(project);
 
-            if (Name == "Bank balance end of Month")
+            if (Name.Contains("billa"))
             {
             }
+
             var found = (ICategory)project.Categories.GetElementById(CategoryId);
 
             Category = found;
@@ -53,7 +51,19 @@ namespace Data.Classes
             PayPatternId = PayPattern.Id;
         }
 
-        public ICategory Category { get; set; }
+        public ICategory Category
+        {
+            get
+            {
+                return _category;
+            }
+            set
+            {
+                _category = value;
+                CategoryId = value.Id;
+            }
+        }
+
         public double Amount { get; set; }
         public IPayPattern PayPattern { get; set; }
         public Guid PayPatternId { get; set; }

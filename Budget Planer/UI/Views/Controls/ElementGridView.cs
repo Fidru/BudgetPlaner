@@ -87,7 +87,7 @@ namespace UI.WinForms.Views.Controls
             //contextMenu.Items.Add(edit);
         }
 
-        private void AddNewPayment(object sender, System.EventArgs eö)
+        private void AddNewPayment(object sender, System.EventArgs e)
         {
             var payment = _services.GetService<IPaymentFactory>().CreateEmpty();
             payment.IsNew = true;

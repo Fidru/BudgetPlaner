@@ -38,12 +38,15 @@ namespace UI.WinForms.Views
             this.amountBox = new System.Windows.Forms.NumericUpDown();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.categoryBox = new System.Windows.Forms.CheckedListBox();
-            this.subCategoryBox = new System.Windows.Forms.CheckedListBox();
-            this.intervalBox = new System.Windows.Forms.CheckedListBox();
             this.save = new System.Windows.Forms.Button();
+            this.intervalRadio = new DevExpress.XtraEditors.RadioGroup();
+            this.categoryRadio = new DevExpress.XtraEditors.RadioGroup();
+            this.subCategoryRadio = new DevExpress.XtraEditors.RadioGroup();
             this.layout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.amountBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalRadio.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.categoryRadio.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subCategoryRadio.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // layout
@@ -59,10 +62,10 @@ namespace UI.WinForms.Views
             this.layout.Controls.Add(this.amountBox, 1, 1);
             this.layout.Controls.Add(this.labelControl4, 0, 3);
             this.layout.Controls.Add(this.labelControl5, 0, 4);
-            this.layout.Controls.Add(this.categoryBox, 1, 2);
-            this.layout.Controls.Add(this.subCategoryBox, 1, 3);
-            this.layout.Controls.Add(this.intervalBox, 1, 4);
             this.layout.Controls.Add(this.save, 1, 6);
+            this.layout.Controls.Add(this.intervalRadio, 1, 4);
+            this.layout.Controls.Add(this.categoryRadio, 1, 2);
+            this.layout.Controls.Add(this.subCategoryRadio, 1, 3);
             this.layout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layout.Location = new System.Drawing.Point(0, 0);
             this.layout.Name = "layout";
@@ -157,33 +160,6 @@ namespace UI.WinForms.Views
             this.labelControl5.TabIndex = 4;
             this.labelControl5.Text = "Payment pattern";
             // 
-            // categoryBox
-            // 
-            this.categoryBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.categoryBox.FormattingEnabled = true;
-            this.categoryBox.Location = new System.Drawing.Point(103, 57);
-            this.categoryBox.Name = "categoryBox";
-            this.categoryBox.Size = new System.Drawing.Size(821, 133);
-            this.categoryBox.TabIndex = 5;
-            // 
-            // subCategoryBox
-            // 
-            this.subCategoryBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.subCategoryBox.FormattingEnabled = true;
-            this.subCategoryBox.Location = new System.Drawing.Point(103, 196);
-            this.subCategoryBox.Name = "subCategoryBox";
-            this.subCategoryBox.Size = new System.Drawing.Size(821, 133);
-            this.subCategoryBox.TabIndex = 6;
-            // 
-            // intervalBox
-            // 
-            this.intervalBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.intervalBox.FormattingEnabled = true;
-            this.intervalBox.Location = new System.Drawing.Point(103, 335);
-            this.intervalBox.Name = "intervalBox";
-            this.intervalBox.Size = new System.Drawing.Size(821, 133);
-            this.intervalBox.TabIndex = 7;
-            // 
             // save
             // 
             this.save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -194,6 +170,31 @@ namespace UI.WinForms.Views
             this.save.Text = "OK";
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.Save);
+            // 
+            // intervalRadio
+            // 
+            this.intervalRadio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.intervalRadio.Location = new System.Drawing.Point(103, 335);
+            this.intervalRadio.Name = "intervalRadio";
+            this.intervalRadio.Size = new System.Drawing.Size(821, 133);
+            this.intervalRadio.TabIndex = 12;
+            this.intervalRadio.EditValueChanged += new System.EventHandler(this.intervalRadio_EditValueChanged);
+            // 
+            // categoryRadio
+            // 
+            this.categoryRadio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.categoryRadio.Location = new System.Drawing.Point(103, 57);
+            this.categoryRadio.Name = "categoryRadio";
+            this.categoryRadio.Size = new System.Drawing.Size(821, 133);
+            this.categoryRadio.TabIndex = 13;
+            // 
+            // subCategoryRadio
+            // 
+            this.subCategoryRadio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.subCategoryRadio.Location = new System.Drawing.Point(103, 196);
+            this.subCategoryRadio.Name = "subCategoryRadio";
+            this.subCategoryRadio.Size = new System.Drawing.Size(821, 133);
+            this.subCategoryRadio.TabIndex = 13;
             // 
             // PaymentView
             // 
@@ -206,6 +207,9 @@ namespace UI.WinForms.Views
             this.layout.ResumeLayout(false);
             this.layout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.amountBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalRadio.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.categoryRadio.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subCategoryRadio.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -220,10 +224,10 @@ namespace UI.WinForms.Views
         private System.Windows.Forms.NumericUpDown amountBox;
         private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.LabelControl labelControl5;
-        private System.Windows.Forms.CheckedListBox categoryBox;
-        private System.Windows.Forms.CheckedListBox subCategoryBox;
-        private System.Windows.Forms.CheckedListBox intervalBox;
         private System.Windows.Forms.CheckedListBox monthBox;
         private System.Windows.Forms.Button save;
+        private DevExpress.XtraEditors.RadioGroup intervalRadio;
+        private DevExpress.XtraEditors.RadioGroup categoryRadio;
+        private DevExpress.XtraEditors.RadioGroup subCategoryRadio;
     }
 }

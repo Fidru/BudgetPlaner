@@ -1,4 +1,6 @@
-﻿using IData.Constants;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Controls;
+using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
 using System.Collections.Generic;
@@ -44,29 +46,31 @@ namespace UI.WinForms.Views
             amountBox.Maximum = decimal.MaxValue;
             amountBox.Value = (decimal)_payment.Amount;
 
-            AddCategories(categoryBox, Project.Categories.FilterByTypes(_types), new[] { _payment.Category });
-            AddCategories(subCategoryBox, Project.SubCategories.FilterByTypes(_types), new[] { _payment.SubCategory });
-            AddCategories(intervalBox, Project.Intervals, new[] { _payment.PayPattern });
+            AddCategories(categoryRadio, Project.Categories.FilterByTypes(_types), _payment.Category);
+            AddCategories(subCategoryRadio, Project.SubCategories.FilterByTypes(_types), _payment.SubCategory);
+            AddCategories(intervalRadio, Project.Intervals, _payment.PayPattern);
 
-            AddMonths();
+            FillMonthListBox(_payment.PayPattern.AffectedMonths);
         }
 
-        private void AddCategories(CheckedListBox box, IEnumerable<object> items, IEnumerable<object> checkedItems)
+        private void AddCategories(RadioGroup box, IEnumerable<IElement> items, IElement checkedItem)
         {
-            box.Items.Clear();
+            box.Properties.Items.Clear();
 
             foreach (var item in items)
             {
-                box.Items.Add(item, checkedItems.Contains(item));
+                var radioItem = new RadioGroupItem(item, item.Name);
+
+                box.Properties.Items.Add(radioItem);
             }
-            box.MultiColumn = true;
+
+            box.SelectedIndex = items.ToList().IndexOf(checkedItem);
         }
 
-        private void AddMonths()
+        private void FillMonthListBox(IEnumerable<MonthEnum> checkedMonths)
         {
             monthBox.Items.Clear();
             var months = new AffectedMonthsCollection();
-            var checkedMonths = _payment.PayPattern.AffectedMonths;
 
             foreach (var month in months)
             {
@@ -80,23 +84,46 @@ namespace UI.WinForms.Views
             _payment.Name = nameBox.Text;
             _payment.Amount = (double)amountBox.Value;
 
-            foreach (var item in categoryBox.CheckedItems)
-            {
-                _payment.Category = (item as ICategory) ?? _payment.Category;
-            }
-            foreach (var item in subCategoryBox.CheckedItems)
-            {
-                _payment.SubCategory = (item as ICategory) ?? _payment.SubCategory;
-            }
-            foreach (var item in intervalBox.CheckedItems)
-            {
-                _payment.PayPattern.Interval = (item as IPaymentInterval) ?? _payment.PayPattern.Interval;
-                _payment.PayPattern.UpdateAffectedMonths();
-            }
+            _payment.Category = GetCheckedCategory ?? _payment.Category;
+            _payment.SubCategory = GetCheckedSubCategory ?? _payment.SubCategory;
+            _payment.PayPattern.Interval = GetCheckedInterval ?? _payment.PayPattern.Interval;
+            _payment.PayPattern.UpdateAffectedMonths();
 
             TransactionFactory.UpdatePayment(_payment, _month);
 
             Close();
+        }
+
+        private ICategory GetCheckedCategory
+        {
+            get { return GetItemFromRadioBox(categoryRadio) as ICategory; }
+        }
+
+        private ICategory GetCheckedSubCategory
+        {
+            get { return GetItemFromRadioBox(subCategoryRadio) as ICategory; }
+        }
+
+        private IPaymentInterval GetCheckedInterval
+        {
+            get { return GetItemFromRadioBox(intervalRadio) as IPaymentInterval; }
+        }
+
+        private IElement GetItemFromRadioBox(RadioGroup radio)
+        {
+            if (radio.SelectedIndex < 0)
+                return null;
+
+            var radioItem = radio.Properties.Items[radio.SelectedIndex] as RadioGroupItem;
+
+            return radioItem.Value as IElement;
+        }
+
+        private void intervalRadio_EditValueChanged(object sender, System.EventArgs e)
+        {
+            var affectedMonths = new AffectedMonthsCollection(_month.MonthType, GetCheckedInterval.Type);
+
+            FillMonthListBox(affectedMonths);
         }
     }
 }
