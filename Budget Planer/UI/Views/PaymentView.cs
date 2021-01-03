@@ -46,11 +46,11 @@ namespace UI.WinForms.Views
             amountBox.Maximum = decimal.MaxValue;
             amountBox.Value = (decimal)_payment.Amount;
 
-            AddCategories(categoryRadio, Project.Categories.FilterByTypes(_types), _payment.Category);
-            AddCategories(subCategoryRadio, Project.SubCategories.FilterByTypes(_types), _payment.SubCategory);
-            AddCategories(intervalRadio, Project.Intervals, _payment.PayPattern);
+            AddCategories(categoryRadio, Project.Categories.FilterByTypes(_types), _payment.Category.Element);
+            AddCategories(subCategoryRadio, Project.SubCategories.FilterByTypes(_types), _payment.SubCategory.Element);
+            AddCategories(intervalRadio, Project.Intervals, _payment.PayPattern.Element);
 
-            FillMonthListBox(_payment.PayPattern.AffectedMonths);
+            FillMonthListBox(((IPayPattern)_payment.PayPattern.Element).AffectedMonths);
         }
 
         private void AddCategories(RadioGroup box, IEnumerable<IElement> items, IElement checkedItem)
@@ -84,10 +84,10 @@ namespace UI.WinForms.Views
             _payment.Name = nameBox.Text;
             _payment.Amount = (double)amountBox.Value;
 
-            _payment.Category = GetCheckedCategory ?? _payment.Category;
-            _payment.SubCategory = GetCheckedSubCategory ?? _payment.SubCategory;
-            _payment.PayPattern.Interval = GetCheckedInterval ?? _payment.PayPattern.Interval;
-            _payment.PayPattern.UpdateAffectedMonths();
+            _payment.Category.Element = GetCheckedCategory ?? _payment.Category.Element;
+            _payment.SubCategory.Element = GetCheckedSubCategory ?? _payment.SubCategory.Element;
+            _payment.PayPattern.Element.Interval = GetCheckedInterval ?? _payment.PayPattern.Element.Interval;
+            _payment.PayPattern.Element.UpdateAffectedMonths();
 
             TransactionFactory.UpdatePayment(_payment, _month);
 

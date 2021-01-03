@@ -28,9 +28,9 @@ namespace Data.Classes
         public double Amount { get; set; }
         public bool Payed { get; set; }
 
-        public ICategory Category { get { return Payment.Category; } }
+        public IElementGuidPair<ICategory> Category { get { return Payment.Category; } }
 
-        public void ConnectElements(IProject project)
+        public override void ConnectElements(IProject project)
         {
             Month = (IMonth)project.Months.GetElementById(MonthId);
             Payment = (IPayment)project.Payments.GetElementById(PaymentId);

@@ -52,6 +52,7 @@
     <Compile Include="Interfaces\ICategoryExtension.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\IElementCollection.cs" />
+    <Compile Include="Interfaces\IElementGuidPair.cs" />
     <Compile Include="Interfaces\IIdentifier.cs" />
     <Compile Include="Interfaces\IMonth.cs" />
     <Compile Include="Interfaces\IElementExtension.cs" />
