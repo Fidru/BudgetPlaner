@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Budget Planer/UI/bin
+/.vs
+*.user
+/Budget Planer/packages/DocumentFormat.OpenXml.2.12.0/lib
+/Budget Planer/packages/DocumentFormat.OpenXml.2.12.0
+/Budget Planer/src/ServiceCollection/ServiceCollection/obj
+/Budget Planer/UI/Properties
