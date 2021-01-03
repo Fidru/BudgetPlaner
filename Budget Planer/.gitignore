@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/IData/bin
+/IData/bin/Debug
+/IData/obj
+/IData/obj/Debug
+/IData/Data/packages.config
+/Data/bin
+/Data/bin/Debug
+/Data/obj
+/Data/obj/Debug
+/UI.WinForms/bin
+/UI.WinForms/bin/Debug
+/UI/obj
+/UI.WinForms/obj/Debug
+/.vs
