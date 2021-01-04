@@ -7,7 +7,7 @@ namespace Data.Services
 {
     public class CategoryFactory : ElementFactory, ICategoryFactory
     {
-        public ICategory CreateEmpty()
+        public new ICategory GetCreateEmpty()
         {
             var category = new Category();
 
@@ -28,9 +28,9 @@ namespace Data.Services
             return original;
         }
 
-        public void Delete(ICategory element)
+        public void Delete(ICategory toDelete)
         {
-            throw new System.NotImplementedException();
+            base.Delete(toDelete);
         }
     }
 }

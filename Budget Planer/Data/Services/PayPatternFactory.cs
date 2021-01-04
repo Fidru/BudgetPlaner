@@ -8,7 +8,7 @@ namespace Data.Services
 {
     public class PayPatternFactory : ElementFactory, IPayPatternFactory
     {
-        public IPayPattern CreateEmpty()
+        public new IPayPattern GetCreateEmpty()
         {
             var interval = Project.CurrentProject.Intervals.First();
             var payPattern = new PayPattern(interval, MonthEnum.Jan);
@@ -30,9 +30,9 @@ namespace Data.Services
             return original;
         }
 
-        public void Delete(IPayPattern element)
+        public void Delete(IPayPattern toDelete)
         {
-            throw new System.NotImplementedException();
+            base.Delete(toDelete);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Data.Services
 {
     public class PaymentFactory : ElementFactory, IPaymentFactory
     {
-        public new IPayment CreateEmpty()
+        public new IPayment GetCreateEmpty()
         {
             var interval = Project.CurrentProject.Intervals.First();
             var payment = new Payment(interval);
@@ -24,7 +24,7 @@ namespace Data.Services
 
         public IPayment Copy(IPayment original)
         {
-            var newPayment = CreateEmpty();
+            var newPayment = GetCreateEmpty();
 
             newPayment.Name = original.Name;
             newPayment.PayPattern = original.PayPattern;
@@ -36,8 +36,9 @@ namespace Data.Services
             return newPayment;
         }
 
-        public void Delete(IPayment element)
+        public void Delete(IPayment toDelete)
         {
+            base.Delete(toDelete);
         }
     }
 }

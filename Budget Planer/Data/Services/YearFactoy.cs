@@ -9,7 +9,7 @@ namespace Data.Services
 {
     public class YearFactoy : ElementFactory, IYearFactoy
     {
-        public new IYear CreateEmpty()
+        public IYear GetCreateEmpty()
         {
             var year = new Year();
 
@@ -78,9 +78,9 @@ namespace Data.Services
             return original;
         }
 
-        public void Delete(IYear element)
+        public void Delete(IYear toDelete)
         {
-            throw new System.NotImplementedException();
+            base.Delete(toDelete);
         }
     }
 }

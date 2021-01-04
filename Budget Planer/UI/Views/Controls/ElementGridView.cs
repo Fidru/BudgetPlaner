@@ -88,7 +88,7 @@ namespace UI.WinForms.Views.Controls
 
         private void AddNewPayment(object sender, System.EventArgs e)
         {
-            var payment = _services.GetService<IPaymentFactory>().CreateEmpty();
+            var payment = _services.GetService<IPaymentFactory>().GetCreateEmpty();
             payment.IsNew = true;
 
             ShowPaymentView(payment);
@@ -106,15 +106,15 @@ namespace UI.WinForms.Views.Controls
 
             if (newPayment.IsNew)
             {
-                DeletePayment(newPayment);
+                DeleteElement(newPayment);
             }
 
             UpdateViews();
         }
 
-        private void DeletePayment(IPayment payment)
+        private void DeleteElement(IElement element)
         {
-            _services.GetService<IPaymentFactory>().Delete(payment);
+            _services.GetService<IElementFactory>().Delete(element);
         }
 
         private ITransaction GetSelectedItem

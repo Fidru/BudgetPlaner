@@ -2,10 +2,10 @@
 {
     public interface IFactory<T>
     {
-        T CreateEmpty();
-
-        void Delete(T element);
+        T GetCreateEmpty();
 
         T Copy(T original);
+
+        void Delete(T toDelete);
     }
 }

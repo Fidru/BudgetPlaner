@@ -1,4 +1,5 @@
-﻿using IData.Interfaces;
+﻿using Data.Classes;
+using IData.Interfaces;
 using IData.Services;
 
 namespace Data.Services
@@ -19,12 +20,12 @@ namespace Data.Services
 
         public IElement Copy(IElement original)
         {
-            throw new System.NotImplementedException();
+            return original;
         }
 
-        public IElement CreateEmpty()
+        public IElement GetCreateEmpty()
         {
-            throw new System.NotImplementedException();
+            return new Element();
         }
 
         public void Delete(IElement element)

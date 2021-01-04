@@ -57,37 +57,31 @@ namespace XmlSaver.Save
 
         public IProject Read(IEnumerable<IService> services)
         {
-            ICurentProjectService currentProject = services.GetService<ICurentProjectService>();
-
-            IProjectFactory projectFactory = services.GetService<IProjectFactory>();
-            ICategoryFactory categoryFactory = services.GetService<ICategoryFactory>();
-            IPayPatternFactory payPatternFactory = services.GetService<IPayPatternFactory>();
-            IPaymentFactory paymentFactory = services.GetService<IPaymentFactory>();
-            IMonthFactory monthFactory = services.GetService<IMonthFactory>();
-            ITransactionFactory transactionFactory = services.GetService<ITransactionFactory>();
-            IYearFactoy yearFactory = services.GetService<IYearFactoy>();
-            IPaymentIntervalFactory intervalFactory = services.GetService<IPaymentIntervalFactory>();
-
             var reader = XmlReader.Create(SavePaths.XmlFile);
 
             reader.Read();
             SkipWrongTags(XmlIds.Finance, reader);
 
-            var projects = ReadElements(projectFactory, XmlIds.Projects, XmlIds.Project, reader);
-            var firstProject = projects.First() as IProject;
+            return ReadProject(services, reader);
+        }
 
+        private IProject ReadProject(IEnumerable<IService> services, XmlReader reader)
+        {
+            var elements = new List<IElement>();
+            ICurentProjectService currentProject = services.GetService<ICurentProjectService>();
+
+            var projects = ReadElements<IProjectFactory>(services, XmlIds.Projects, XmlIds.Project, reader);
+            var firstProject = projects.First() as IProject;
             currentProject.CurrentProject = firstProject;
 
-            var elements = new List<IElement>();
+            elements.AddRange(ReadElements<IPaymentIntervalFactory>(services, XmlIds.Intervals, XmlIds.Interval, reader));
+            elements.AddRange(ReadElements<IPayPatternFactory>(services, XmlIds.PayPatterns, XmlIds.PayPattern, reader));
+            elements.AddRange(ReadElements<ICategoryFactory>(services, XmlIds.Categories, XmlIds.Category, reader));
+            elements.AddRange(ReadElements<IPaymentFactory>(services, XmlIds.Payments, XmlIds.Payment, reader));
 
-            elements.AddRange(ReadElements(intervalFactory, XmlIds.Intervals, XmlIds.Interval, reader));
-            elements.AddRange(ReadElements(payPatternFactory, XmlIds.PayPatterns, XmlIds.PayPattern, reader));
-            elements.AddRange(ReadElements(categoryFactory, XmlIds.Categories, XmlIds.Category, reader));
-            elements.AddRange(ReadElements(paymentFactory, XmlIds.Payments, XmlIds.Payment, reader));
-
-            elements.AddRange(ReadElements(monthFactory, XmlIds.Months, XmlIds.Month, reader));
-            elements.AddRange(ReadElements(transactionFactory, XmlIds.Transactions, XmlIds.Transaction, reader));
-            elements.AddRange(ReadElements(yearFactory, XmlIds.Years, XmlIds.Year, reader));
+            elements.AddRange(ReadElements<IMonthFactory>(services, XmlIds.Months, XmlIds.Month, reader));
+            elements.AddRange(ReadElements<ITransactionFactory>(services, XmlIds.Transactions, XmlIds.Transaction, reader));
+            elements.AddRange(ReadElements<IYearFactoy>(services, XmlIds.Years, XmlIds.Year, reader));
 
             reader.Close();
 
@@ -101,18 +95,19 @@ namespace XmlSaver.Save
             project.Elements.Elements.OrderBy(e => e.LoadingOrder).ToList().ForEach(e => e.ConnectElements(project));
         }
 
-        private IEnumerable<IElement> ReadElements<T>(IFactory<T> factory, string groupTag, string itemTag, XmlReader reader)
+        private IEnumerable<IElement> ReadElements<T>(IEnumerable<IService> services, string groupTag, string itemTag, XmlReader reader)
         {
             var elements = new List<IElement>();
 
             SkipWrongTags(groupTag, reader);
+            var factory = services.GetService<T>() as IElementFactory;
 
             reader.Read();
             reader.Read();
 
             while (reader.Name == itemTag)
             {
-                var element = factory.CreateEmpty() as IElement;
+                var element = factory.GetCreateEmpty();
 
                 var xmlReader = CreateSaveableXmlElement(itemTag, element);
                 xmlReader.ReadAttribute(reader);

@@ -6,7 +6,7 @@ namespace Data.Services
 {
     public class ProjectFactory : ElementFactory, IProjectFactory
     {
-        public IProject CreateEmpty()
+        public new IProject GetCreateEmpty()
         {
             var project = new Project();
 
@@ -25,9 +25,9 @@ namespace Data.Services
             return original;
         }
 
-        public void Delete(IProject element)
+        public void Delete(IProject toDelete)
         {
-            throw new System.NotImplementedException();
+            base.Delete(toDelete);
         }
     }
 }

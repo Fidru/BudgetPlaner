@@ -9,6 +9,14 @@ namespace Data.Services
 {
     public class TransactionFactory : ElementFactory, ITransactionFactory
     {
+        public new ITransaction GetCreateEmpty()
+        {
+            var transaction = new Transaction();
+
+            Project.CurrentProject.Elements.AddElement(transaction);
+            return transaction;
+        }
+
         public ITransaction Copy(ITransaction original)
         {
             return original;
@@ -17,14 +25,6 @@ namespace Data.Services
         public ITransaction Create(IMonth month, IPayment payment)
         {
             var transaction = new Transaction(month, payment);
-
-            Project.CurrentProject.Elements.AddElement(transaction);
-            return transaction;
-        }
-
-        public ITransaction CreateEmpty()
-        {
-            var transaction = new Transaction();
 
             Project.CurrentProject.Elements.AddElement(transaction);
             return transaction;
@@ -73,9 +73,9 @@ namespace Data.Services
             }
         }
 
-        public void Delete(ITransaction element)
+        public void Delete(ITransaction toDelete)
         {
-            throw new System.NotImplementedException();
+            base.Delete(toDelete);
         }
     }
 }

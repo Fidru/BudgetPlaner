@@ -2,14 +2,12 @@
 using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Data.Services
 {
     public class MonthFactory : ElementFactory, IMonthFactory
     {
-        public IMonth CreateEmpty()
+        public new IMonth GetCreateEmpty()
         {
             var month = new Month();
             Project.CurrentProject.Elements.AddElement(month);
@@ -41,9 +39,9 @@ namespace Data.Services
             return original;
         }
 
-        public void Delete(IMonth element)
+        public void Delete(IMonth toDelete)
         {
-            throw new System.NotImplementedException();
+            base.Delete(toDelete);
         }
     }
 }
