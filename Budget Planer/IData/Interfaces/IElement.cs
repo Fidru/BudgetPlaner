@@ -9,5 +9,7 @@
         int LoadingOrder { get; }
 
         void ConnectElements(IProject project);
+
+        void Delete();
     }
 }

@@ -27,5 +27,11 @@ namespace Data.Classes
         public IEnumerable<IMonth> Months { get { return Elements.Elements.OfType<IMonth>(); } }
         public IEnumerable<ITransaction> Transactions { get { return Elements.Elements.OfType<ITransaction>(); } }
         public IElementCollection<IElement> Elements { get; set; }
+
+        public override void Delete()
+        {
+            base.Delete();
+            Elements.Elements.ToList().ForEach(e => e.Delete());
+        }
     }
 }

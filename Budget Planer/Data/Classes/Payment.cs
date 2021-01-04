@@ -1,5 +1,6 @@
 ﻿using IData.Constants;
 using IData.Interfaces;
+using System.Linq;
 
 namespace Data.Classes
 {
@@ -46,6 +47,23 @@ namespace Data.Classes
             Category.Element = (ICategory)project.Categories.GetElementById(Category.Id);
             SubCategory.Element = (ICategory)project.SubCategories.GetElementById(SubCategory.Id);
             PayPattern.Element = (IPayPattern)project.PayPatterns.GetElementById(PayPattern.Id);
+        }
+
+        public override void Delete()
+        {
+            base.Delete();
+
+            if (PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment)
+            {
+                var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
+                transactions.ToList().ForEach(t => t.Delete());
+            }
+        }
+
+        public void DeleteAllTransactions()
+        {
+            var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
+            transactions.ToList().ForEach(t => t.Delete());
         }
     }
 }

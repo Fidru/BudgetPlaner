@@ -110,5 +110,10 @@ namespace Data.Classes
         {
             return Name;
         }
+
+        public virtual void Delete()
+        {
+            IsDeleted = true;
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace IData.Interfaces
 {
     public interface IElementCollection<T> where T : IElement
     {
-        IEnumerable<T> Elements { get; set; }
+        IEnumerable<T> Elements { get; }
 
         void AddElement(T element);
 
@@ -16,9 +16,5 @@ namespace IData.Interfaces
         string Ids { get; set; }
 
         void ConnectIds(IEnumerable<IElement> projectElements);
-
-        IEnumerable<E> ElementOfType<E>();
-
-        string GetIdsOfType<E>();
     }
 }

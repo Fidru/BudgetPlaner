@@ -1,6 +1,7 @@
 ﻿using Data.Classes;
 using IData.Interfaces;
 using IData.Services;
+using System.Collections.Generic;
 
 namespace Data.Services
 {
@@ -30,7 +31,15 @@ namespace Data.Services
 
         public void Delete(IElement element)
         {
-            Project.CurrentProject.Elements.RemoveElement(element);
+            element.Delete();
+        }
+
+        public void Delete(IEnumerable<IElement> toDelete)
+        {
+            foreach (var element in toDelete)
+            {
+                Delete(element);
+            }
         }
     }
 }

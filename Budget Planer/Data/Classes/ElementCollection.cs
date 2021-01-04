@@ -1,4 +1,5 @@
 ﻿using IData.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,15 +7,34 @@ namespace Data.Classes
 {
     public class ElementCollection<T> : IElementCollection<T> where T : IElement
     {
+        private List<T> _elements;
+        private List<Guid> _ids;
+
         public ElementCollection()
         {
-            Ids = string.Empty;
-            Elements = new List<T>();
+            _elements = new List<T>();
+            _ids = new List<Guid>();
         }
 
-        public IEnumerable<T> Elements { get; set; }
+        public IEnumerable<T> Elements
+        {
+            get
+            {
+                return _elements.Where(e => !e.IsDeleted);
+            }
+        }
 
-        public string Ids { get; set; }
+        public string Ids
+        {
+            get
+            {
+                return _ids.ConvertToStringIds();
+            }
+            set
+            {
+                _ids = value.ConvertStringIdsToGuids().ToList();
+            }
+        }
 
         public void AddElement(T element)
         {
@@ -24,27 +44,19 @@ namespace Data.Classes
                 return;
             }
 
-            var newElements = Elements.ToList();
-            newElements.Add(element);
-
-            Elements = newElements;
-            Ids = Elements.OfType<IIdentifier>().ConvertToStringIds();
+            _elements.Add(element);
+            _ids.Add(element.Id);
         }
 
         public void RemoveElement(T element)
         {
-            element.IsDeleted = true;
-
             if (!Elements.Contains(element))
             {
                 return;
             }
 
-            var newElements = Elements.ToList();
-            newElements.Remove(element);
-
-            Elements = newElements;
-            Ids = Elements.OfType<IIdentifier>().ConvertToStringIds();
+            _elements.Remove(element);
+            _ids.Remove(element.Id);
         }
 
         public void AddElements(IEnumerable<T> elements)
@@ -55,16 +67,6 @@ namespace Data.Classes
         public void ConnectIds(IEnumerable<IElement> projectElements)
         {
             AddElements(projectElements.GetElementsByIds(Ids).OfType<T>());
-        }
-
-        public IEnumerable<E> ElementOfType<E>()
-        {
-            return Elements.OfType<E>();
-        }
-
-        public string GetIdsOfType<E>()
-        {
-            return ElementOfType<E>().OfType<IIdentifier>().ConvertToStringIds();
         }
     }
 }

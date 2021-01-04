@@ -90,5 +90,12 @@ namespace Data.Classes
                             && p.SubCategory != null && p.SubCategoryType == CategoryType.BankbalanceEndOfMonth);
             }
         }
+
+        public override void Delete()
+        {
+            base.Delete();
+
+            Transactions.Elements.ToList().ForEach(t => t.Delete());
+        }
     }
 }

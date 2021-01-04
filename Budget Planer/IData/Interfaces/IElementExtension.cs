@@ -12,9 +12,9 @@ namespace IData.Interfaces
             return string.Join(";", items.Select(i => (int)i));
         }
 
-        public static string ConvertToStringIds(this IEnumerable<IIdentifier> items)
+        public static string ConvertToStringIds(this IEnumerable<Guid> items)
         {
-            return string.Join(";", items.Select(i => i.Id));
+            return string.Join(";", items.Select(id => id));
         }
 
         public static IEnumerable<Guid> ConvertStringIdsToGuids(this string stringId)
