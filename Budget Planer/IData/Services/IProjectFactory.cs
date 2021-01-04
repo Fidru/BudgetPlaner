@@ -2,7 +2,7 @@
 
 namespace IData.Services
 {
-    public interface IProjectFactory : IElementFactory<IProject>, IElementService
+    public interface IProjectFactory : IFactory<IProject>, IService
     {
         IProject Create(string name);
     }

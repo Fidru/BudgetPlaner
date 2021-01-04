@@ -40,5 +40,10 @@ namespace Data.Services
         {
             return original;
         }
+
+        public void Delete(IMonth element)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

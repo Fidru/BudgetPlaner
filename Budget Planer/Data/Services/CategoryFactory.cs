@@ -27,5 +27,10 @@ namespace Data.Services
         {
             return original;
         }
+
+        public void Delete(ICategory element)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

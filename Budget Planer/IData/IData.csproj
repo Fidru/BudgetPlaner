@@ -69,7 +69,8 @@
     <Compile Include="Services\ICategoryFactory.cs" />
     <Compile Include="Services\ICurentProjectService.cs" />
     <Compile Include="Services\IElementFactory.cs" />
-    <Compile Include="Services\IElementService.cs" />
+    <Compile Include="Services\IFactory.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IElementServiceExtension.cs" />
     <Compile Include="Services\IMonthFactory.cs" />
     <Compile Include="Services\IPayPatternFactory1.cs" />

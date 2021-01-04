@@ -72,5 +72,10 @@ namespace Data.Services
                 }
             }
         }
+
+        public void Delete(ITransaction element)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

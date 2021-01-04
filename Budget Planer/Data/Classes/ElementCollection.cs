@@ -31,6 +31,22 @@ namespace Data.Classes
             Ids = Elements.OfType<IIdentifier>().ConvertToStringIds();
         }
 
+        public void RemoveElement(T element)
+        {
+            element.IsDeleted = true;
+
+            if (!Elements.Contains(element))
+            {
+                return;
+            }
+
+            var newElements = Elements.ToList();
+            newElements.Remove(element);
+
+            Elements = newElements;
+            Ids = Elements.OfType<IIdentifier>().ConvertToStringIds();
+        }
+
         public void AddElements(IEnumerable<T> elements)
         {
             elements.ToList().ForEach(e => AddElement(e));

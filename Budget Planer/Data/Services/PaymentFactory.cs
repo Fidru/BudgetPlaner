@@ -35,5 +35,9 @@ namespace Data.Services
 
             return newPayment;
         }
+
+        public void Delete(IPayment element)
+        {
+        }
     }
 }

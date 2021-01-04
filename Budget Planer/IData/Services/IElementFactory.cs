@@ -2,10 +2,7 @@
 
 namespace IData.Services
 {
-    public interface IElementFactory<T>
+    public interface IElementFactory : IFactory<IElement>
     {
-        T CreateEmpty();
-
-        T Copy(T original);
     }
 }

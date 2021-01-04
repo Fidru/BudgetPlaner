@@ -24,5 +24,10 @@ namespace Data.Services
         {
             return original;
         }
+
+        public void Delete(IProject element)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

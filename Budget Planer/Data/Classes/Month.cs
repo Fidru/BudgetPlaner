@@ -20,6 +20,8 @@ namespace Data.Classes
         {
             base.ConnectElements(project);
             Transactions.ConnectIds(project.Transactions);
+
+            AlignedMonths = new AlignedMonths(this);
         }
 
         public Month(MonthEnum monthType) : this()

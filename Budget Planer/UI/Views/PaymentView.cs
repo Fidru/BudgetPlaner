@@ -12,11 +12,11 @@ namespace UI.WinForms.Views
     public partial class PaymentView : Form
     {
         private IPayment _payment;
-        private IEnumerable<IElementService> _services;
+        private IEnumerable<IService> _services;
         private IEnumerable<CategoryType> _types;
         private IMonth _month;
 
-        public PaymentView(IEnumerable<IElementService> services, IPayment payment, IMonth month, IEnumerable<CategoryType> categoryTypes)
+        public PaymentView(IEnumerable<IService> services, IPayment payment, IMonth month, IEnumerable<CategoryType> categoryTypes)
         {
             InitializeComponent();
 
@@ -90,6 +90,8 @@ namespace UI.WinForms.Views
             _payment.PayPattern.Element.UpdateAffectedMonths();
 
             TransactionFactory.UpdatePayment(_payment, _month);
+
+            _payment.IsNew = false;
 
             Close();
         }

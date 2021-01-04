@@ -92,7 +92,6 @@ namespace XmlSaver.Data
             }
 
             var element = GetXmlElement();
-
             element.ReadAttribute(reader);
 
             Value.Data = element.GetValue;

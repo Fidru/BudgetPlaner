@@ -11,6 +11,8 @@ namespace IData.Interfaces
 
         void AddElements(IEnumerable<T> elements);
 
+        void RemoveElement(T element);
+
         string Ids { get; set; }
 
         void ConnectIds(IEnumerable<IElement> projectElements);

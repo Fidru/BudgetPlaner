@@ -61,6 +61,8 @@ namespace Data.Classes
             }
         }
 
+        public bool IsDeleted { get; set; }
+
         internal string GetDefaultName
         {
             get

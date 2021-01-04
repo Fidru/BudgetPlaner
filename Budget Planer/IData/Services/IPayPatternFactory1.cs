@@ -3,12 +3,12 @@ using IData.Interfaces;
 
 namespace IData.Services
 {
-    public interface IPaymentIntervalFactory : IElementFactory<IPaymentInterval>
+    public interface IPaymentIntervalFactory : IFactory<IPaymentInterval>
     {
         IPaymentInterval Create(PaymentIntervalType paymentInterval);
     }
 
-    public interface IPayPatternFactory : IElementFactory<IPayPattern>
+    public interface IPayPatternFactory : IFactory<IPayPattern>
     {
         IPayPattern Create(IPaymentInterval interval, MonthEnum startsInMonth);
     }

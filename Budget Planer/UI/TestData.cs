@@ -9,7 +9,7 @@ namespace UI.WinForms
 {
     public class TestData
     {
-        public IProject CreateTestData(IEnumerable<IElementService> services)
+        public IProject CreateTestData(IEnumerable<IService> services)
         {
             var currentProject = services.GetService<ICurentProjectService>();
 

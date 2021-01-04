@@ -27,5 +27,10 @@ namespace Data.Services
         {
             return original;
         }
+
+        public void Delete(IPaymentInterval element)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

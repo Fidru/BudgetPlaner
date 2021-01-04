@@ -9,11 +9,11 @@
 
         public SaveableAttribute(string attributeTag, object data)
         {
-            Data = data;
             AttributeTag = attributeTag;
+            Data = data;
         }
 
-        public object Data { get; set; }
         public string AttributeTag { get; set; }
+        public object Data { get; set; }
     }
 }

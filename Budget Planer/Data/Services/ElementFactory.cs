@@ -3,7 +3,7 @@ using IData.Services;
 
 namespace Data.Services
 {
-    public class ElementFactory : IElementFactory<IElement>, IElementService
+    public class ElementFactory : IElementFactory, IService
 
     {
         public ElementFactory()
@@ -25,6 +25,11 @@ namespace Data.Services
         public IElement CreateEmpty()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void Delete(IElement element)
+        {
+            Project.CurrentProject.Elements.RemoveElement(element);
         }
     }
 }

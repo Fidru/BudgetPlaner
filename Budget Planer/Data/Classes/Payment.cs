@@ -44,9 +44,8 @@ namespace Data.Classes
             base.ConnectElements(project);
 
             Category.Element = (ICategory)project.Categories.GetElementById(Category.Id);
-            PayPattern.Element = (IPayPattern)project.PayPatterns.GetElementById(PayPattern.Id);
-
             SubCategory.Element = (ICategory)project.SubCategories.GetElementById(SubCategory.Id);
+            PayPattern.Element = (IPayPattern)project.PayPatterns.GetElementById(PayPattern.Id);
         }
     }
 }

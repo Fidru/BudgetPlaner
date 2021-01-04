@@ -29,5 +29,10 @@ namespace Data.Services
         {
             return original;
         }
+
+        public void Delete(IPayPattern element)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

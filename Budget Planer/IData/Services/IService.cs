@@ -1,6 +1,6 @@
 ﻿namespace IData.Services
 {
-    public interface IElementService
+    public interface IService
     {
     }
 }

@@ -2,13 +2,14 @@
 using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Data.Services
 {
     public class YearFactoy : ElementFactory, IYearFactoy
     {
-        public IYear CreateEmpty()
+        public new IYear CreateEmpty()
         {
             var year = new Year();
 
@@ -47,7 +48,12 @@ namespace Data.Services
             year.Months.AddElement(monthFactory.Create(MonthEnum.Nov));
             year.Months.AddElement(monthFactory.Create(MonthEnum.Dez));
 
-            var allMonthsSorted = year.Months.Elements.OrderBy(m => (int)m.MonthType);
+            AlligneMonths(year.Months.Elements);
+        }
+
+        public void AlligneMonths(IEnumerable<IMonth> months)
+        {
+            var allMonthsSorted = months.OrderBy(m => (int)m.MonthType);
 
             foreach (var month in allMonthsSorted)
             {
@@ -70,6 +76,11 @@ namespace Data.Services
         public IYear Copy(IYear original)
         {
             return original;
+        }
+
+        public void Delete(IYear element)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

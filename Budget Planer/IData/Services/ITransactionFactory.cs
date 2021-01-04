@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IData.Services
 {
-    public interface ITransactionFactory : IElementFactory<ITransaction>
+    public interface ITransactionFactory : IFactory<ITransaction>
     {
         ITransaction Create(IMonth month, IPayment payment);
 

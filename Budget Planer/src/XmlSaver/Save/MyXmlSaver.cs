@@ -55,7 +55,7 @@ namespace XmlSaver.Save
             return new SaveableXmlElement(itemTag, new SaveableAttribute(itemTag, element));
         }
 
-        public IProject Read(IEnumerable<IElementService> services)
+        public IProject Read(IEnumerable<IService> services)
         {
             ICurentProjectService currentProject = services.GetService<ICurentProjectService>();
 
@@ -101,7 +101,7 @@ namespace XmlSaver.Save
             project.Elements.Elements.OrderBy(e => e.LoadingOrder).ToList().ForEach(e => e.ConnectElements(project));
         }
 
-        private IEnumerable<IElement> ReadElements<T>(IElementFactory<T> factory, string groupTag, string itemTag, XmlReader reader)
+        private IEnumerable<IElement> ReadElements<T>(IFactory<T> factory, string groupTag, string itemTag, XmlReader reader)
         {
             var elements = new List<IElement>();
 

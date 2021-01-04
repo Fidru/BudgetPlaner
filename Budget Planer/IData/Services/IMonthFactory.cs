@@ -3,7 +3,7 @@ using IData.Interfaces;
 
 namespace IData.Services
 {
-    public interface IMonthFactory : IElementFactory<IMonth>
+    public interface IMonthFactory : IFactory<IMonth>
     {
         IMonth Create(MonthEnum month);
 

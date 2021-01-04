@@ -12,7 +12,7 @@ namespace UI.WinForms.Views.Controls
     public partial class ElementGridView : UserControl, IElementGridView
     {
         private IEnumerable<CategoryType> _categories;
-        private IEnumerable<IElementService> _services;
+        private IEnumerable<IService> _services;
         private IEnumerable<IElementGridView> _grids;
         private IMonth _month;
 
@@ -49,7 +49,7 @@ namespace UI.WinForms.Views.Controls
             UpdateViews();
         }
 
-        public void InitView(IEnumerable<CategoryType> categories, IEnumerable<IElementService> services)
+        public void InitView(IEnumerable<CategoryType> categories, IEnumerable<IService> services)
         {
             _categories = categories;
             _services = services;
@@ -103,7 +103,18 @@ namespace UI.WinForms.Views.Controls
         {
             var view = new PaymentView(_services, newPayment, _month, _categories);
             view.ShowDialog();
+
+            if (newPayment.IsNew)
+            {
+                DeletePayment(newPayment);
+            }
+
             UpdateViews();
+        }
+
+        private void DeletePayment(IPayment payment)
+        {
+            _services.GetService<IPaymentFactory>().Delete(payment);
         }
 
         private ITransaction GetSelectedItem
