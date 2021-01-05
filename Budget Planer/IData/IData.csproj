@@ -62,6 +62,7 @@
     <Compile Include="Interfaces\IPayPattern.cs" />
     <Compile Include="Interfaces\IProject.cs" />
     <Compile Include="Interfaces\ITransaction.cs" />
+    <Compile Include="Interfaces\ITransactionExtension.cs" />
     <Compile Include="Interfaces\IYear.cs" />
     <Compile Include="Interfaces\ITimestamp.cs" />
     <Compile Include="Interfaces\IPayment.cs" />

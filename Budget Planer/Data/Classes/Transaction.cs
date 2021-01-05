@@ -27,10 +27,10 @@ namespace Data.Classes
         public bool Payed { get; set; }
 
         public ICategory Category { get { return Payment.Element.Category.Element; } }
-        public CategoryType CategoryType { get { return Category.CategoryType; } }
+        public CategoryType CategoryType { get { return Category != null ? Category.CategoryType : CategoryType.None; } }
 
         public ICategory SubCategory { get { return Payment.Element.SubCategory.Element; } }
-        public CategoryType SubCategoryType { get { return SubCategory.CategoryType; } }
+        public CategoryType SubCategoryType { get { return SubCategory != null ? SubCategory.CategoryType : CategoryType.None; } }
 
         public override void ConnectElements(IProject project)
         {

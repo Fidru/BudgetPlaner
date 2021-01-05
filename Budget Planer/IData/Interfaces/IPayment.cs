@@ -10,5 +10,6 @@ namespace IData.Interfaces
         CategoryType SubCategoryType { get; }
         double Amount { get; set; }
         ISaveableXmlElement<IPayPattern> PayPattern { get; set; }
+        bool IsOneTimePayment { get; }
     }
 }

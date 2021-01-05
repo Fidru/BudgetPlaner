@@ -77,10 +77,5 @@ namespace Data.Services
         {
             return original;
         }
-
-        public void Delete(IYear toDelete)
-        {
-            base.Delete(toDelete);
-        }
     }
 }

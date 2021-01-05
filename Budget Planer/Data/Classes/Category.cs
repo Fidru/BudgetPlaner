@@ -9,6 +9,7 @@ namespace Data.Classes
         public Category() : base()
         {
             Description = GetDefaultName;
+            CategoryType = CategoryType.None;
         }
 
         public Category(string name, string description, CategoryType categoryType, int sortOrder, bool isMain) : this()

@@ -35,10 +35,5 @@ namespace Data.Services
 
             return newPayment;
         }
-
-        public void Delete(IPayment toDelete)
-        {
-            base.Delete(toDelete);
-        }
     }
 }

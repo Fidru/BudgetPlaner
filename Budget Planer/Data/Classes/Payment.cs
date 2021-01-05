@@ -40,6 +40,8 @@ namespace Data.Classes
 
         public CategoryType SubCategoryType => SubCategory.Element.CategoryType;
 
+        public bool IsOneTimePayment => PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment;
+
         public override void ConnectElements(IProject project)
         {
             base.ConnectElements(project);

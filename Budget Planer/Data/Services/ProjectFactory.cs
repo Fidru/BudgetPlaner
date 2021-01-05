@@ -24,10 +24,5 @@ namespace Data.Services
         {
             return original;
         }
-
-        public void Delete(IProject toDelete)
-        {
-            base.Delete(toDelete);
-        }
     }
 }

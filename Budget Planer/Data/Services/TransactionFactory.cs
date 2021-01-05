@@ -25,42 +25,41 @@ namespace Data.Services
         public ITransaction Create(IMonth month, IPayment payment)
         {
             var transaction = new Transaction(month, payment);
-
             Project.CurrentProject.Elements.AddElement(transaction);
+
             return transaction;
         }
 
         public void AddTransactions(IMonth month, IEnumerable<IPayment> paymentsForMonth)
         {
-            foreach (var payment in paymentsForMonth)
+            foreach (IPayment payment in paymentsForMonth)
             {
-                month.AddTransaction(Create(month, payment));
+                UpdateTransactions(payment, new[] { month });
             }
-        }
-
-        public void AddCustomPayment(IPayment payment, IMonth month)
-        {
-            month.AddTransaction(Create(month, payment));
         }
 
         public void UpdatePayment(IPayment payment, IMonth month)
         {
-            if (payment.PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment)
-            {
-                AddCustomPayment(payment, month);
-                return;
-            }
+            var months = payment.IsOneTimePayment ?
+                new[] { month } :
+                Project.CurrentProject.Months.GeMonthsForPayment(payment);
 
-            UpdateAllProjectMonths(payment);
+            UpdateTransactions(payment, months);
         }
 
-        private void UpdateAllProjectMonths(IPayment payment)
+        private void UpdateTransactions(IPayment payment, IEnumerable<IMonth> months)
         {
-            var months = Project.CurrentProject.Months.Where(m => payment.PayPattern.Element.AffectedMonths.Any(affected => affected == m.MonthType));
+            UpdateProjectMonths(payment, months);
+            RemoveOldTransactions(payment);
+        }
 
-            foreach (var projectMonth in months)
+        private void UpdateProjectMonths(IPayment payment, IEnumerable<IMonth> months)
+        {
+            var updateMonths = new List<IMonth>();
+
+            foreach (var month in months)
             {
-                var transaction = projectMonth.Transactions.Elements.SingleOrDefault(t => t.Payment.Id == payment.Id);
+                var transaction = month.Transactions.Elements.SingleOrDefault(t => t.Payment.Id == payment.Id);
 
                 if (transaction != null)
                 {
@@ -68,14 +67,21 @@ namespace Data.Services
                 }
                 else
                 {
-                    projectMonth.AddTransaction(Create(projectMonth, payment));
+                    updateMonths.Add(month);
                 }
             }
+
+            updateMonths.ForEach(m => m.AddTransaction(Create(m, payment)));
         }
 
-        public void Delete(ITransaction toDelete)
+        private void RemoveOldTransactions(IPayment payment)
         {
-            base.Delete(toDelete);
+            var newAffectedMonths = payment.PayPattern.Element.AffectedMonths;
+            IEnumerable<ITransaction> projectTransactions = Project.CurrentProject.Transactions.GetTransactionsByPayment(payment);
+
+            var removedTransactions = projectTransactions.Where(t => !newAffectedMonths.Contains(t.Month.Element.MonthType));
+
+            removedTransactions.ToList().ForEach(t => t.Delete());
         }
     }
 }

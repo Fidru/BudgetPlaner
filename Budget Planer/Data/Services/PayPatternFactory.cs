@@ -29,10 +29,5 @@ namespace Data.Services
         {
             return original;
         }
-
-        public void Delete(IPayPattern toDelete)
-        {
-            base.Delete(toDelete);
-        }
     }
 }

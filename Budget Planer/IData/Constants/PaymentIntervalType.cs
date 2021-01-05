@@ -7,7 +7,7 @@
         EverySecondMonth = 3,
         EverySixthMonth = 4,
         Yearly = 5,
-        //Custom = 6,
+        Custom = 6,
     }
 
     public static class PaymentIntervalExtension

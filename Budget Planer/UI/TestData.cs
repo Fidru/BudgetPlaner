@@ -58,6 +58,7 @@ namespace UI.WinForms
             var yearlyInterval = intervalFactory.Create(PaymentIntervalType.Yearly);
             intervalFactory.Create(PaymentIntervalType.EverySixthMonth);
             intervalFactory.Create(PaymentIntervalType.OneTimePayment);
+            intervalFactory.Create(PaymentIntervalType.Custom);
 
             var monthly = payPatternFactory.Create(montlyInterval, MonthEnum.Jan);
             var evenMonths = payPatternFactory.Create(evenMonthsInterval, MonthEnum.Feb);

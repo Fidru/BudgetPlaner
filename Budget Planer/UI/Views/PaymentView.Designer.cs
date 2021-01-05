@@ -30,7 +30,6 @@ namespace UI.WinForms.Views
         private void InitializeComponent()
         {
             this.layout = new System.Windows.Forms.TableLayoutPanel();
-            this.monthBox = new System.Windows.Forms.CheckedListBox();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.nameBox = new System.Windows.Forms.TextBox();
@@ -42,6 +41,7 @@ namespace UI.WinForms.Views
             this.intervalRadio = new DevExpress.XtraEditors.RadioGroup();
             this.categoryRadio = new DevExpress.XtraEditors.RadioGroup();
             this.subCategoryRadio = new DevExpress.XtraEditors.RadioGroup();
+            this.monthBox = new System.Windows.Forms.CheckedListBox();
             this.layout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.amountBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalRadio.Properties)).BeginInit();
@@ -54,7 +54,6 @@ namespace UI.WinForms.Views
             this.layout.ColumnCount = 2;
             this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.layout.Controls.Add(this.monthBox, 1, 5);
             this.layout.Controls.Add(this.labelControl3, 0, 2);
             this.layout.Controls.Add(this.labelControl1, 0, 0);
             this.layout.Controls.Add(this.nameBox, 1, 0);
@@ -66,6 +65,7 @@ namespace UI.WinForms.Views
             this.layout.Controls.Add(this.intervalRadio, 1, 4);
             this.layout.Controls.Add(this.categoryRadio, 1, 2);
             this.layout.Controls.Add(this.subCategoryRadio, 1, 3);
+            this.layout.Controls.Add(this.monthBox, 1, 5);
             this.layout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layout.Location = new System.Drawing.Point(0, 0);
             this.layout.Name = "layout";
@@ -79,29 +79,6 @@ namespace UI.WinForms.Views
             this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 4.453093F));
             this.layout.Size = new System.Drawing.Size(927, 553);
             this.layout.TabIndex = 0;
-            // 
-            // monthBox
-            // 
-            this.monthBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.monthBox.FormattingEnabled = true;
-            this.monthBox.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12"});
-            this.monthBox.Location = new System.Drawing.Point(103, 474);
-            this.monthBox.MultiColumn = true;
-            this.monthBox.Name = "monthBox";
-            this.monthBox.Size = new System.Drawing.Size(821, 49);
-            this.monthBox.TabIndex = 10;
             // 
             // labelControl3
             // 
@@ -196,6 +173,15 @@ namespace UI.WinForms.Views
             this.subCategoryRadio.Size = new System.Drawing.Size(821, 133);
             this.subCategoryRadio.TabIndex = 13;
             // 
+            // monthBox
+            // 
+            this.monthBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.monthBox.FormattingEnabled = true;
+            this.monthBox.Location = new System.Drawing.Point(103, 474);
+            this.monthBox.Name = "monthBox";
+            this.monthBox.Size = new System.Drawing.Size(821, 49);
+            this.monthBox.TabIndex = 14;
+            // 
             // PaymentView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,10 +210,10 @@ namespace UI.WinForms.Views
         private System.Windows.Forms.NumericUpDown amountBox;
         private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.LabelControl labelControl5;
-        private System.Windows.Forms.CheckedListBox monthBox;
         private System.Windows.Forms.Button save;
         private DevExpress.XtraEditors.RadioGroup intervalRadio;
         private DevExpress.XtraEditors.RadioGroup categoryRadio;
         private DevExpress.XtraEditors.RadioGroup subCategoryRadio;
+        private System.Windows.Forms.CheckedListBox monthBox;
     }
 }

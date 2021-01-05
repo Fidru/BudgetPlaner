@@ -27,10 +27,5 @@ namespace Data.Services
         {
             return original;
         }
-
-        public void Delete(IPaymentInterval toDelete)
-        {
-            base.Delete(toDelete);
-        }
     }
 }

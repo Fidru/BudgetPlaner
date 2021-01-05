@@ -18,11 +18,11 @@ namespace Data.Services
         {
             var transactionFactory = new TransactionFactory() { Project = Project };
             var newMonth = new Month(monthType);
-            var paymentsForMonth = Project.CurrentProject.Payments.GetPaymentsForMonth(monthType);
+            Project.CurrentProject.Elements.AddElement(newMonth);
 
+            var paymentsForMonth = Project.CurrentProject.Payments.GetPaymentsForMonth(monthType);
             transactionFactory.AddTransactions(newMonth, paymentsForMonth);
 
-            Project.CurrentProject.Elements.AddElement(newMonth);
             return newMonth;
         }
 
@@ -37,11 +37,6 @@ namespace Data.Services
         public IMonth Copy(IMonth original)
         {
             return original;
-        }
-
-        public void Delete(IMonth toDelete)
-        {
-            base.Delete(toDelete);
         }
     }
 }

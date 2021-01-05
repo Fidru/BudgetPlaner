@@ -27,10 +27,5 @@ namespace Data.Services
         {
             return original;
         }
-
-        public void Delete(ICategory toDelete)
-        {
-            base.Delete(toDelete);
-        }
     }
 }
