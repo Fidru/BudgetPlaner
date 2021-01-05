@@ -5,7 +5,7 @@ namespace IData.Services
 {
     public static class IElementServiceExtension
     {
-        public static T GetService<T>(this IEnumerable<IElementService> services)
+        public static T GetService<T>(this IEnumerable<IService> services)
         {
             return services.OfType<T>().First();
         }

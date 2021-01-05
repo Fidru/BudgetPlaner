@@ -2,7 +2,7 @@
 
 namespace IData.Services
 {
-    public interface ICurentProjectService : IElementService
+    public interface ICurentProjectService : IService
     {
         IProject CurrentProject { get; set; }
     }

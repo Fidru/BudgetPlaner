@@ -22,6 +22,6 @@ namespace IData.Interfaces
 
         ITransaction GetBankBalanceEndOfMonthPayment { get; }
 
-        void UpdateIfIsBankBalanceRow(ITransaction transaction);
+        void UpdateBankBalanceRow(ITransaction transaction);
     }
 }

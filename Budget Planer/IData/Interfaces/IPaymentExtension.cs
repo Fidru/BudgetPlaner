@@ -8,8 +8,8 @@ namespace IData.Interfaces
     {
         public static IEnumerable<IPayment> GetPaymentsForMonth(this IEnumerable<IPayment> payments, MonthEnum currentMonth)
         {
-            return payments.Where(t => t.PayPattern.AffectedMonths.Any(p => p == currentMonth))
-            .OrderBy(p => p.Category.SortOrder).ThenBy(p => p.SubCategory?.SortOrder);
+            return payments.Where(t => t.PayPattern.Element.AffectedMonths.Any(p => p == currentMonth))
+            .OrderBy(p => p.Category.Element.SortOrder).ThenBy(p => p.SubCategory.Element?.SortOrder);
         }
 
         public static IEnumerable<IPayment> GetNotAddedPaymentsForMonth(this IEnumerable<IPayment> payments, IMonth month)
@@ -22,11 +22,7 @@ namespace IData.Interfaces
 
         public static IEnumerable<ITransaction> GetTransactionsForCategory(this IEnumerable<ITransaction> transactions, IEnumerable<CategoryType> categories)
         {
-            if (transactions.Any(x => x.Name.Contains("billa")))
-            {
-            }
-
-            return transactions.Where(p => categories.Any(c => c == p.Payment.Category?.CategoryType));
+            return transactions.Where(p => categories.Any(c => c == p.CategoryType));
         }
     }
 }

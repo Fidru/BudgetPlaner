@@ -1,76 +1,71 @@
-﻿using IData.Interfaces;
-using System;
+﻿using IData.Constants;
+using IData.Interfaces;
+using System.Linq;
 
 namespace Data.Classes
 {
     public class Payment : Element, IPayment
     {
-        private ICategory _category;
-
-        public Payment(IPaymentInterval interval) : base()
+        public Payment(IPaymentInterval interval)
+            : base()
         {
-            PayPattern = new PayPattern(interval);
-            PayPatternId = PayPattern.Id;
+            Category = new SaveableXmlElement<ICategory>();
+            SubCategory = new SaveableXmlElement<ICategory>();
+            PayPattern = new SaveableXmlElement<IPayPattern>(new PayPattern(interval));
 
             Amount = 0.0;
         }
+
+        public Payment(string name, ICategory category, double amount, IPayPattern payPattern, ICategory subCategory)
+            : base()
+        {
+            Name = name;
+
+            Category = new SaveableXmlElement<ICategory>(category);
+            SubCategory = new SaveableXmlElement<ICategory>(subCategory);
+            PayPattern = new SaveableXmlElement<IPayPattern>(payPattern);
+
+            Amount = amount;
+        }
+
+        public ISaveableXmlElement<ICategory> Category { get; set; }
+
+        public double Amount { get; set; }
+        public bool Payed { get; set; }
+        public ISaveableXmlElement<ICategory> SubCategory { get; set; }
+        public ISaveableXmlElement<IPayPattern> PayPattern { get; set; }
+        public IMonth Month { get; set; }
+
+        public CategoryType CategoryType => Category.Element.CategoryType;
+
+        public CategoryType SubCategoryType => SubCategory.Element.CategoryType;
+
+        public bool IsOneTimePayment => PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment;
 
         public override void ConnectElements(IProject project)
         {
             base.ConnectElements(project);
 
-            if (Name.Contains("billa"))
-            {
-            }
-
-            var found = (ICategory)project.Categories.GetElementById(CategoryId);
-
-            Category = found;
-            PayPattern = (IPayPattern)project.PayPatterns.GetElementById(PayPatternId);
-            if (SubCategoryId != Guid.Empty)
-            {
-                SubCategory = (ICategory)project.SubCategories.GetElementById(SubCategoryId);
-            }
-            else
-            {
-                SubCategory = null;
-            }
+            Category.Element = (ICategory)project.Categories.GetElementById(Category.Id);
+            SubCategory.Element = (ICategory)project.SubCategories.GetElementById(SubCategory.Id);
+            PayPattern.Element = (IPayPattern)project.PayPatterns.GetElementById(PayPattern.Id);
         }
 
-        public Payment(string name, ICategory category, double amount, IPayPattern payPattern, ICategory subCategory)
+        public override void Delete()
         {
-            Name = name;
-            Category = category;
-            SubCategory = subCategory;
-            PayPattern = payPattern;
+            base.Delete();
 
-            Amount = amount;
-
-            CategoryId = Category.Id;
-            SubCategoryId = SubCategory?.Id ?? Guid.Empty;
-            PayPatternId = PayPattern.Id;
+            if (PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment)
+            {
+                var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
+                transactions.ToList().ForEach(t => t.Delete());
+            }
         }
 
-        public ICategory Category
+        public void DeleteAllTransactions()
         {
-            get
-            {
-                return _category;
-            }
-            set
-            {
-                _category = value;
-                CategoryId = value.Id;
-            }
+            var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
+            transactions.ToList().ForEach(t => t.Delete());
         }
-
-        public double Amount { get; set; }
-        public IPayPattern PayPattern { get; set; }
-        public Guid PayPatternId { get; set; }
-        public Guid CategoryId { get; set; }
-        public bool Payed { get; set; }
-        public ICategory SubCategory { get; set; }
-        public Guid SubCategoryId { get; set; }
-        public IMonth Month { get; set; }
     }
 }

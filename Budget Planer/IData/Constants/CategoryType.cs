@@ -34,5 +34,7 @@
 
         Bankbalance,
         BankbalanceEndOfMonth,
+
+        None,
     }
 }

@@ -1,11 +1,12 @@
 ﻿using IData.Interfaces;
+using System.Collections.Generic;
 
 namespace IData.Services
 {
-    public interface IElementFactory<T>
+    public interface IElementFactory : IFactory<IElement>
     {
-        T CreateEmpty();
+        void Delete(IElement toDelete);
 
-        T Copy(T original);
+        void Delete(IEnumerable<IElement> toDelete);
     }
 }

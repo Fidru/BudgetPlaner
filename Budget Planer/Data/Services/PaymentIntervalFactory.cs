@@ -7,7 +7,7 @@ namespace Data.Services
 {
     public class PaymentIntervalFactory : ElementFactory, IPaymentIntervalFactory
     {
-        public IPaymentInterval CreateEmpty()
+        public new IPaymentInterval GetCreateEmpty()
         {
             var payPattern = new PaymentInterval();
             Project.CurrentProject.Elements.AddElement(payPattern);

@@ -20,6 +20,8 @@ namespace Data.Classes
         {
             base.ConnectElements(project);
             Transactions.ConnectIds(project.Transactions);
+
+            AlignedMonths = new AlignedMonths(this);
         }
 
         public Month(MonthEnum monthType) : this()
@@ -38,27 +40,33 @@ namespace Data.Classes
         {
             get
             {
-                return Transactions.Elements.Where(p => !p.Payed && p.Payment.Category.CategoryType != CategoryType.Bankbalance).Sum(e => e.Amount);
+                return Transactions.Elements.Where(t => !t.Payed
+                && t.CategoryType != CategoryType.Bankbalance).Sum(e => e.Amount);
             }
         }
 
         public void AddTransaction(ITransaction transaction)
         {
-            transaction.Month = this;
+            transaction.Month.Element = this;
             Transactions.AddElement(transaction);
         }
 
-        public void UpdateIfIsBankBalanceRow(ITransaction transaction)
+        public void UpdateBankBalanceRow(ITransaction transaction)
         {
-            if (GetBankBalancePayment.Id == transaction.Id)
+            if (IsBankBalancePayment(transaction))
             {
                 Bankbalance = transaction.Amount;
             }
         }
 
+        private bool IsBankBalancePayment(ITransaction transaction)
+        {
+            return BankBalancePayment.Id == transaction.Id;
+        }
+
         public void UpdateBankBalance(double amount)
         {
-            var bankBalancePayment = GetBankBalancePayment;
+            var bankBalancePayment = BankBalancePayment;
             bankBalancePayment.Amount += amount;
             Bankbalance = bankBalancePayment.Amount;
         }
@@ -69,18 +77,25 @@ namespace Data.Classes
             bankBalanceEndOfMonthPayment.Amount = Bankbalance + OpenTransactions;
         }
 
-        private ITransaction GetBankBalancePayment
+        private ITransaction BankBalancePayment
         {
-            get { return Transactions.Elements.Single(p => p.Payment.Category.CategoryType == CategoryType.Bankbalance && p.Payment.SubCategory == null); }
+            get { return Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance && p.SubCategory == null); }
         }
 
         public ITransaction GetBankBalanceEndOfMonthPayment
         {
             get
             {
-                return Transactions.Elements.Single(p => p.Payment.Category.CategoryType == CategoryType.Bankbalance
-                            && p.Payment.SubCategory != null && p.Payment.SubCategory.CategoryType == CategoryType.BankbalanceEndOfMonth);
+                return Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance
+                            && p.SubCategory != null && p.SubCategoryType == CategoryType.BankbalanceEndOfMonth);
             }
+        }
+
+        public override void Delete()
+        {
+            base.Delete();
+
+            Transactions.Elements.ToList().ForEach(t => t.Delete());
         }
     }
 }

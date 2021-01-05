@@ -52,6 +52,7 @@
     <Compile Include="Interfaces\ICategoryExtension.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\IElementCollection.cs" />
+    <Compile Include="Interfaces\ISaveableXmlElement.cs" />
     <Compile Include="Interfaces\IIdentifier.cs" />
     <Compile Include="Interfaces\IMonth.cs" />
     <Compile Include="Interfaces\IElementExtension.cs" />
@@ -60,8 +61,8 @@
     <Compile Include="Interfaces\IPaymentInterval.cs" />
     <Compile Include="Interfaces\IPayPattern.cs" />
     <Compile Include="Interfaces\IProject.cs" />
-    <Compile Include="Interfaces\ISaveable.cs" />
     <Compile Include="Interfaces\ITransaction.cs" />
+    <Compile Include="Interfaces\ITransactionExtension.cs" />
     <Compile Include="Interfaces\IYear.cs" />
     <Compile Include="Interfaces\ITimestamp.cs" />
     <Compile Include="Interfaces\IPayment.cs" />
@@ -69,7 +70,8 @@
     <Compile Include="Services\ICategoryFactory.cs" />
     <Compile Include="Services\ICurentProjectService.cs" />
     <Compile Include="Services\IElementFactory.cs" />
-    <Compile Include="Services\IElementService.cs" />
+    <Compile Include="Services\IFactory.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IElementServiceExtension.cs" />
     <Compile Include="Services\IMonthFactory.cs" />
     <Compile Include="Services\IPayPatternFactory1.cs" />

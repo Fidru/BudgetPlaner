@@ -12,9 +12,10 @@ namespace UI.WinForms.Views.Controls
     public partial class ElementGridView : UserControl, IElementGridView
     {
         private IEnumerable<CategoryType> _categories;
-        private IEnumerable<IElementService> _services;
+        private IEnumerable<IService> _services;
         private IEnumerable<IElementGridView> _grids;
         private IMonth _month;
+        private IEnumerable<string> _visibleColumns;
 
         public ElementGridView()
         {
@@ -22,6 +23,16 @@ namespace UI.WinForms.Views.Controls
 
             CreateGroupSummary();
             elementView.CellValueChanged += ElementView_CellValueChanged;
+
+            InitList();
+        }
+
+        public ElementGridView(IEnumerable<CategoryType> categories, IEnumerable<string> visibleColumns, IEnumerable<IService> services, IEnumerable<IElementGridView> grids)
+        {
+            _categories = categories;
+            _visibleColumns = visibleColumns;
+            _services = services;
+            _grids = grids;
 
             InitList();
         }
@@ -37,20 +48,19 @@ namespace UI.WinForms.Views.Controls
                 var difference = (bool)newValue ? transaction.Amount : transaction.Amount * -1;
 
                 //transaction.Month.UpdateBankBalance(difference);
-                transaction.Month.UpdateBankBalanceEndOfMonth();
+                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
             else if (e.Column.FieldName == "Amount")
             {
                 //Change in Amount.Setter
-                transaction.Month.UpdateIfIsBankBalanceRow(transaction);
-
-                transaction.Month.UpdateBankBalanceEndOfMonth();
+                transaction.Month.Element.UpdateBankBalanceRow(transaction);
+                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
 
             UpdateViews();
         }
 
-        public void InitView(IEnumerable<CategoryType> categories, IEnumerable<IElementService> services)
+        public void InitView(IEnumerable<CategoryType> categories, IEnumerable<IService> services)
         {
             _categories = categories;
             _services = services;
@@ -75,6 +85,11 @@ namespace UI.WinForms.Views.Controls
             CreateColumns(visibleColumns, groupColumns);
         }
 
+        private void InitList(List<string> visibleColumns, List<string> groupColumns)
+        {
+            CreateColumns(visibleColumns, groupColumns);
+        }
+
         private void AddContextMenu()
         {
             var addNew = new ToolStripButton("New");
@@ -83,13 +98,13 @@ namespace UI.WinForms.Views.Controls
             var edit = new ToolStripButton("Edit");
             edit.Click += EditPayment;
 
+            contextMenu.Items.Add(edit);
             contextMenu.Items.Add(addNew);
-            //contextMenu.Items.Add(edit);
         }
 
         private void AddNewPayment(object sender, System.EventArgs e)
         {
-            var payment = _services.GetService<IPaymentFactory>().CreateEmpty();
+            var payment = _services.GetService<IPaymentFactory>().GetCreateEmpty();
             payment.IsNew = true;
 
             ShowPaymentView(payment);
@@ -97,14 +112,25 @@ namespace UI.WinForms.Views.Controls
 
         private void EditPayment(object sender, System.EventArgs e)
         {
-            ShowPaymentView(GetSelectedItem.Payment);
+            ShowPaymentView(GetSelectedItem.Payment.Element);
         }
 
         private void ShowPaymentView(IPayment newPayment)
         {
             var view = new PaymentView(_services, newPayment, _month, _categories);
             view.ShowDialog();
+
+            if (newPayment.IsNew)
+            {
+                DeleteElement(newPayment);
+            }
+
             UpdateViews();
+        }
+
+        private void DeleteElement(IElement element)
+        {
+            _services.GetService<IElementFactory>().Delete(element);
         }
 
         private ITransaction GetSelectedItem
@@ -146,7 +172,6 @@ namespace UI.WinForms.Views.Controls
             _month = month;
             _grids = grids;
             FillView(month);
-            InitList();
         }
 
         private void FillView(IMonth month)
@@ -155,7 +180,7 @@ namespace UI.WinForms.Views.Controls
 
             elementGridControl.DataSource = month.Transactions.Elements.GetTransactionsForCategory(_categories);
 
-            elementView.ExpandAllGroups();
+            InitList(); // Needed: Setting the DataSource resets the Columns
 
             elementGridControl.EndUpdate();
         }

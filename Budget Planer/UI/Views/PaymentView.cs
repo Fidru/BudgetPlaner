@@ -12,11 +12,11 @@ namespace UI.WinForms.Views
     public partial class PaymentView : Form
     {
         private IPayment _payment;
-        private IEnumerable<IElementService> _services;
+        private IEnumerable<IService> _services;
         private IEnumerable<CategoryType> _types;
         private IMonth _month;
 
-        public PaymentView(IEnumerable<IElementService> services, IPayment payment, IMonth month, IEnumerable<CategoryType> categoryTypes)
+        public PaymentView(IEnumerable<IService> services, IPayment payment, IMonth month, IEnumerable<CategoryType> categoryTypes)
         {
             InitializeComponent();
 
@@ -26,6 +26,21 @@ namespace UI.WinForms.Views
             _month = month;
 
             InitControls();
+        }
+
+        private void InitControls()
+        {
+            nameBox.Text = _payment.Name;
+
+            amountBox.Minimum = decimal.MinValue;
+            amountBox.Maximum = decimal.MaxValue;
+            amountBox.Value = (decimal)_payment.Amount;
+
+            AddElements(categoryRadio, Project.Categories.FilterByTypes(_types), _payment.Category.Element);
+            AddElements(subCategoryRadio, Project.SubCategories.FilterByTypes(_types), _payment.SubCategory.Element);
+            AddElements(intervalRadio, Project.Intervals, _payment.PayPattern.Element.Interval.Element);
+
+            FillMonthListBox(_payment.PayPattern.Element.AffectedMonths);
         }
 
         private IProject Project
@@ -38,22 +53,7 @@ namespace UI.WinForms.Views
             get { return _services.GetService<ITransactionFactory>(); }
         }
 
-        private void InitControls()
-        {
-            nameBox.Text = _payment.Name;
-
-            amountBox.Minimum = decimal.MinValue;
-            amountBox.Maximum = decimal.MaxValue;
-            amountBox.Value = (decimal)_payment.Amount;
-
-            AddCategories(categoryRadio, Project.Categories.FilterByTypes(_types), _payment.Category);
-            AddCategories(subCategoryRadio, Project.SubCategories.FilterByTypes(_types), _payment.SubCategory);
-            AddCategories(intervalRadio, Project.Intervals, _payment.PayPattern);
-
-            FillMonthListBox(_payment.PayPattern.AffectedMonths);
-        }
-
-        private void AddCategories(RadioGroup box, IEnumerable<IElement> items, IElement checkedItem)
+        private void AddElements(RadioGroup box, IEnumerable<IElement> items, IElement checkedItem)
         {
             box.Properties.Items.Clear();
 
@@ -70,13 +70,18 @@ namespace UI.WinForms.Views
         private void FillMonthListBox(IEnumerable<MonthEnum> checkedMonths)
         {
             monthBox.Items.Clear();
+
             var months = new AffectedMonthsCollection();
+            monthBox.MultiColumn = true;
 
             foreach (var month in months)
             {
-                monthBox.Items.Add(month.ConvertToText(), checkedMonths.Contains(month));
+                var item = new CheckedListBoxItem(month.ConvertToText());
+                item.CheckState = checkedMonths.Contains(month) ? CheckState.Checked : CheckState.Unchecked;
+                item.Tag = month;
+
+                monthBox.Items.Add(item, item.CheckState);
             }
-            monthBox.MultiColumn = true;
         }
 
         private void Save(object sender, System.EventArgs e)
@@ -84,12 +89,16 @@ namespace UI.WinForms.Views
             _payment.Name = nameBox.Text;
             _payment.Amount = (double)amountBox.Value;
 
-            _payment.Category = GetCheckedCategory ?? _payment.Category;
-            _payment.SubCategory = GetCheckedSubCategory ?? _payment.SubCategory;
-            _payment.PayPattern.Interval = GetCheckedInterval ?? _payment.PayPattern.Interval;
-            _payment.PayPattern.UpdateAffectedMonths();
+            _payment.Category.Element = GetCheckedCategory ?? _payment.Category.Element;
+            _payment.SubCategory.Element = GetCheckedSubCategory ?? _payment.SubCategory.Element;
+
+            _payment.PayPattern.Element.Interval.Element = GetCheckedInterval ?? _payment.PayPattern.Element.Interval.Element;
+
+            _payment.PayPattern.Element.AffectedMonths = GetCheckedMonths;
 
             TransactionFactory.UpdatePayment(_payment, _month);
+
+            _payment.IsNew = false;
 
             Close();
         }
@@ -107,6 +116,30 @@ namespace UI.WinForms.Views
         private IPaymentInterval GetCheckedInterval
         {
             get { return GetItemFromRadioBox(intervalRadio) as IPaymentInterval; }
+        }
+
+        private IEnumerable<MonthEnum> GetCheckedMonths
+        {
+            get
+            {
+                var months = new List<MonthEnum>();
+
+                foreach (CheckedListBoxItem item in monthBox.Items)
+                {
+                    if (item.CheckState == CheckState.Checked)
+                    {
+                        var tag = item.Tag;
+                        var converted = (MonthEnum)tag;
+
+                        months.Add(converted);
+                    }
+                }
+                IEnumerable<MonthEnum> query = monthBox.Items.OfType<CheckedListBoxItem>()
+                    .Where(x => x.CheckState == CheckState.Checked)
+                    .Select(x => (MonthEnum)x.Tag);
+
+                return months; ;
+            }
         }
 
         private IElement GetItemFromRadioBox(RadioGroup radio)

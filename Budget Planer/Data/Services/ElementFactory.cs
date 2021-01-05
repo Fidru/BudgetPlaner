@@ -1,9 +1,11 @@
-﻿using IData.Interfaces;
+﻿using Data.Classes;
+using IData.Interfaces;
 using IData.Services;
+using System.Collections.Generic;
 
 namespace Data.Services
 {
-    public class ElementFactory : IElementFactory<IElement>, IElementService
+    public class ElementFactory : IElementFactory, IService
 
     {
         public ElementFactory()
@@ -19,12 +21,25 @@ namespace Data.Services
 
         public IElement Copy(IElement original)
         {
-            throw new System.NotImplementedException();
+            return original;
         }
 
-        public IElement CreateEmpty()
+        public IElement GetCreateEmpty()
         {
-            throw new System.NotImplementedException();
+            return new Element();
+        }
+
+        public void Delete(IElement element)
+        {
+            element.Delete();
+        }
+
+        public void Delete(IEnumerable<IElement> toDelete)
+        {
+            foreach (var element in toDelete)
+            {
+                Delete(element);
+            }
         }
     }
 }

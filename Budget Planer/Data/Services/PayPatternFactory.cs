@@ -8,7 +8,7 @@ namespace Data.Services
 {
     public class PayPatternFactory : ElementFactory, IPayPatternFactory
     {
-        public IPayPattern CreateEmpty()
+        public new IPayPattern GetCreateEmpty()
         {
             var interval = Project.CurrentProject.Intervals.First();
             var payPattern = new PayPattern(interval, MonthEnum.Jan);

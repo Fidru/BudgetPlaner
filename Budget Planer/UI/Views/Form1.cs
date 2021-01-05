@@ -13,10 +13,10 @@ namespace UI.WinForms
     public partial class Form1 : Form
     {
         private IProject _project;
-        private IEnumerable<IElementService> _services;
+        private IEnumerable<IService> _services;
         private MyXmlSaver saver;
 
-        public Form1(IProject project, IEnumerable<IElementService> services)
+        public Form1(IProject project, IEnumerable<IService> services)
         {
             InitializeComponent();
             saver = new MyXmlSaver();

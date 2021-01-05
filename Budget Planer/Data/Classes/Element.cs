@@ -61,6 +61,8 @@ namespace Data.Classes
             }
         }
 
+        public bool IsDeleted { get; set; }
+
         internal string GetDefaultName
         {
             get
@@ -107,6 +109,11 @@ namespace Data.Classes
         public override string ToString()
         {
             return Name;
+        }
+
+        public virtual void Delete()
+        {
+            IsDeleted = true;
         }
     }
 }

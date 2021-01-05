@@ -78,7 +78,8 @@ namespace IData.Constants
                 CreateDefaultPayments();
             }
             else if (paymentInterval == PaymentIntervalType.Yearly
-                || paymentInterval == PaymentIntervalType.OneTimePayment)
+                || paymentInterval == PaymentIntervalType.OneTimePayment
+                || paymentInterval == PaymentIntervalType.Custom)
             {
                 Clear();
                 Add(startingMonth);

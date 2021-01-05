@@ -2,14 +2,12 @@
 using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Data.Services
 {
     public class MonthFactory : ElementFactory, IMonthFactory
     {
-        public IMonth CreateEmpty()
+        public new IMonth GetCreateEmpty()
         {
             var month = new Month();
             Project.CurrentProject.Elements.AddElement(month);
@@ -20,11 +18,11 @@ namespace Data.Services
         {
             var transactionFactory = new TransactionFactory() { Project = Project };
             var newMonth = new Month(monthType);
-            var paymentsForMonth = Project.CurrentProject.Payments.GetPaymentsForMonth(monthType);
+            Project.CurrentProject.Elements.AddElement(newMonth);
 
+            var paymentsForMonth = Project.CurrentProject.Payments.GetPaymentsForMonth(monthType);
             transactionFactory.AddTransactions(newMonth, paymentsForMonth);
 
-            Project.CurrentProject.Elements.AddElement(newMonth);
             return newMonth;
         }
 

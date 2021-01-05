@@ -29,5 +29,10 @@ namespace IData.Interfaces
 
             return months.Single(m => m.MonthType == relatedMont);
         }
+
+        public static IEnumerable<IMonth> GeMonthsForPayment(this IEnumerable<IMonth> months, IPayment payment)
+        {
+            return months.Where(m => payment.PayPattern.Element.AffectedMonths.Any(affected => affected == m.MonthType));
+        }
     }
 }

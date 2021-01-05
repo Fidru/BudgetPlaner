@@ -14,7 +14,7 @@ namespace UI.WinForms
         [STAThread]
         private static void Main()
         {
-            IEnumerable<IElementService> services = CreateServices();
+            IEnumerable<IService> services = CreateServices();
 
             IProject project = LoadData(services);
 
@@ -24,14 +24,14 @@ namespace UI.WinForms
             Application.Run(new Form1(project, services));
         }
 
-        private static IProject LoadData(IEnumerable<IElementService> services)
+        private static IProject LoadData(IEnumerable<IService> services)
         {
             //return new XmlSaver.Save.MyXmlSaver().Read(services);
 
             return new TestData().CreateTestData(services);
         }
 
-        private static IEnumerable<IElementService> CreateServices()
+        private static IEnumerable<IService> CreateServices()
         {
             var projectFact = new ProjectFactory();
             var project = projectFact.Create("Betriebskosten 2021");
@@ -39,7 +39,7 @@ namespace UI.WinForms
             var currentProject = new CurentProjectService(project);
             projectFact.Project = currentProject;
 
-            return new IElementService[]
+            return new IService[]
             {
                 projectFact,
                 currentProject,
