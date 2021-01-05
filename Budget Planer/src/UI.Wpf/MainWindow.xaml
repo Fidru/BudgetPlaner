@@ -3,10 +3,77 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UI.Wpf"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:TreeHelpers="clr-namespace:UI.Wpf.TreeHelpers"
+        Title="MainWindow" Width="1768" Height="992"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        mc:Ignorable="d">
+    <!--Enable for FullScreen !-->
+    <!-- WindowStyle="None" ResizeMode="NoResize"!-->
+    <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel MinWidth="212">
+                <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                              DockPanel.Dock="Top"
+                              HorizontalAlignment="Right" Margin="16"
+                              IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                <Menu>
+                    <Menu.Resources>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
+                                <Setter.Value>
+                                    <TreeHelpers:ModifierCollection>
+                                        <TreeHelpers:Modifier Property="{x:Static Popup.PlacementProperty}"
+                                                            Value="{x:Static PlacementMode.Right}"
+                                                            TemplatePartName="PART_Popup" />
+                                    </TreeHelpers:ModifierCollection>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Menu.Resources>
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+                    <MenuItem Header="Item 1">
+                        <MenuItem Header="Sub Item 1" />
+                        <MenuItem Header="Sub Item 2" />
+                        <MenuItem Header="Sub Item 3" />
+                    </MenuItem>
+                    <MenuItem Header="Item 2">
+                        <MenuItem Header="Sub Item 1" />
+                        <MenuItem Header="Sub Item 2" />
+                        <MenuItem Header="Sub Item 3" />
+                    </MenuItem>
+                    <MenuItem Header="Item 3">
+                        <MenuItem Header="Sub Item 1" />
+                        <MenuItem Header="Sub Item 2" />
+                        <MenuItem Header="Sub Item 3" />
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                      Mode="PrimaryMid" DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                  x:Name="MenuToggleButton" Grid.Column="0" />
+                </Grid>
+            </materialDesign:ColorZone>
+        </Grid>
+    </materialDesign:DrawerHost>
 </Window>

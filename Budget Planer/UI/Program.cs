@@ -5,7 +5,6 @@ using IData.Services;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using UI.WinForms.Views;
 
 namespace UI.WinForms
 {
@@ -14,20 +13,18 @@ namespace UI.WinForms
         [STAThread]
         private static void Main()
         {
-            IEnumerable<IService> services = CreateServices();
-
-            IProject project = LoadData(services);
+            IProject project = LoadData();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new Form1(project, services));
+            //Application.Run(new MainWindow(project));
         }
 
-        private static IProject LoadData(IEnumerable<IService> services)
+        private static IProject LoadData()
         {
             //return new XmlSaver.Save.MyXmlSaver().Read(services);
-
+            IEnumerable<IService> services = CreateServices();
             return new TestData().CreateTestData(services);
         }
 
