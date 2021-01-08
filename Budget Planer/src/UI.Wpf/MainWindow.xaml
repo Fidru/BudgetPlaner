@@ -293,10 +293,31 @@
                         <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"
+                                    <!--<RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"
                                                  Style="{StaticResource MaterialDesignActionRadioButton}" Click="radioPaid_Click">
                                         <wpf:PackIcon />
-                                    </RadioButton>
+                                    </RadioButton>-->
+
+                                    <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                        Background="{DynamicResource PrimaryHueMidBrush}"
+                                                  IsChecked="{Binding Payed}" Checked="ToggleButton_Checked">
+                                        <ToggleButton.Resources>
+                                            <!-- Checked thumb foreground -->
+                                            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush">
+                                                <SolidColorBrush.Color>
+                                                    <Color A="255" R="3" G="169" B="244"></Color>
+                                                </SolidColorBrush.Color>
+                                            </SolidColorBrush>
+                                            <!-- Unchecked thumb foreground -->
+                                            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{DynamicResource MaterialDesignShadow}" />
+
+                                            <!-- Checked track color: There will be an opacity of 0.26 applied to it -->
+                                            <!-- Setting this will also affect the color of the ripple when the thumb is clicked -->
+                                            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="Cyan" />
+                                            <!-- Unchecked track color: Hard coded to be black with 0.26 opacity -->
+                                        </ToggleButton.Resources>
+                                        <materialDesign:PackIcon Kind="Smiley" />
+                                    </ToggleButton>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

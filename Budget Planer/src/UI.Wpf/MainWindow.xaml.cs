@@ -7,6 +7,7 @@ using System.Linq;
 using XmlSaver.Save;
 using IData.Services;
 using System;
+using System.Windows.Controls.Primitives;
 
 namespace UI.Wpf
 {
@@ -121,20 +122,6 @@ namespace UI.Wpf
 
         private void radioPaid_Click(object sender, RoutedEventArgs e)
         {
-            RadioButton item = sender as RadioButton;
-
-            if (item == null) return;
-
-            ITransaction transaction = item.DataContext as ITransaction;
-            transaction.Payed = item.IsChecked.HasValue ? item.IsChecked.Value : false;
-
-            transaction.Month.Element.UpdateBankBalanceEndOfMonth();
-
-            SetCurrentMonth(transaction.Month.Element);
-        }
-
-        private void textAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
         }
 
         private void textAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -152,6 +139,20 @@ namespace UI.Wpf
                 transaction.Month.Element.UpdateBankBalanceEndOfMonth();
                 SetCurrentMonth(transaction.Month.Element);
             }
+        }
+
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton item = sender as ToggleButton;
+
+            if (item == null) return;
+
+            ITransaction transaction = item.DataContext as ITransaction;
+            transaction.Payed = item.IsChecked.HasValue ? item.IsChecked.Value : false;
+
+            transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+
+            SetCurrentMonth(transaction.Month.Element);
         }
     }
 }
