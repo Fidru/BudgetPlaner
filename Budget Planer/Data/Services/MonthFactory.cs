@@ -7,7 +7,7 @@ namespace Data.Services
 {
     public class MonthFactory : ElementFactory, IMonthFactory
     {
-        public new IMonth GetCreateEmpty()
+        public override IElement CreateEmpty()
         {
             var month = new Month();
             Project.CurrentProject.Elements.AddElement(month);

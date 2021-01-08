@@ -40,8 +40,10 @@ namespace Data.Classes
         {
             get
             {
-                return Transactions.Elements.Where(t => !t.Payed
-                && t.CategoryType != CategoryType.Bankbalance).Sum(e => e.Amount);
+                var openPayments = Transactions.Elements.Where(t => !t.Payed
+                && t.CategoryType != CategoryType.Bankbalance).ToArray();
+
+                return openPayments.Sum(e => e.Amount);
             }
         }
 

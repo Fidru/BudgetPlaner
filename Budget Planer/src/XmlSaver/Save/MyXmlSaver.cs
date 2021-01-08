@@ -107,7 +107,7 @@ namespace XmlSaver.Save
 
             while (reader.Name == itemTag)
             {
-                var element = factory.GetCreateEmpty();
+                var element = factory.CreateEmpty();
 
                 var xmlReader = CreateSaveableXmlElement(itemTag, element);
                 xmlReader.ReadAttribute(reader);

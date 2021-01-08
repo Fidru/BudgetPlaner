@@ -1,6 +1,5 @@
 ﻿using IData.Interfaces;
 using IData.Services;
-using System.Collections.Generic;
 
 namespace Data.Services
 {

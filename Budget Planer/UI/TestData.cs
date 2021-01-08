@@ -9,7 +9,40 @@ namespace UI.WinForms
 {
     public class TestData
     {
-        public IProject CreateTestData(IEnumerable<IService> services)
+        public IEnumerable<IService> Services { get; set; }
+
+        public IProject Project { get; set; }
+
+        public TestData()
+        {
+            Services = CreateServices();
+            Project = CreateTestData(Services);
+        }
+
+        private IEnumerable<IService> CreateServices()
+        {
+            var projectFact = new ProjectFactory();
+            var project = projectFact.Create("Betriebskosten 2021");
+
+            var currentProject = new CurentProjectService(project);
+            projectFact.Project = currentProject;
+
+            return new IService[]
+            {
+                projectFact,
+                currentProject,
+                new CategoryFactory() { Project = currentProject },
+                new PaymentIntervalFactory() { Project = currentProject },
+                new MonthFactory() { Project = currentProject },
+                new PaymentFactory() { Project = currentProject },
+                new YearFactoy() { Project = currentProject },
+                new TransactionFactory() { Project = currentProject },
+                new PaymentIntervalFactory() { Project = currentProject },
+                new PayPatternFactory() { Project = currentProject },
+            };
+        }
+
+        private IProject CreateTestData(IEnumerable<IService> services)
         {
             var currentProject = services.GetService<ICurentProjectService>();
 

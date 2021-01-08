@@ -9,7 +9,7 @@ namespace Data.Services
 {
     public class YearFactoy : ElementFactory, IYearFactoy
     {
-        public IYear GetCreateEmpty()
+        public override IElement CreateEmpty()
         {
             var year = new Year();
 

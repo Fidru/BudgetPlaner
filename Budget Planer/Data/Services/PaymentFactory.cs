@@ -7,7 +7,7 @@ namespace Data.Services
 {
     public class PaymentFactory : ElementFactory, IPaymentFactory
     {
-        public new IPayment GetCreateEmpty()
+        public override IElement CreateEmpty()
         {
             var interval = Project.CurrentProject.Intervals.First();
             var payment = new Payment(interval);
@@ -24,7 +24,7 @@ namespace Data.Services
 
         public IPayment Copy(IPayment original)
         {
-            var newPayment = GetCreateEmpty();
+            var newPayment = CreateEmpty() as IPayment;
 
             newPayment.Name = original.Name;
             newPayment.PayPattern = original.PayPattern;

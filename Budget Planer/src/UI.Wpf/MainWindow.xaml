@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
             xmlns:TreeHelpers="clr-namespace:UI.Wpf.TreeHelpers"
+            xmlns:Project="clr-namespace:IData.Interfaces"
         Title="MainWindow" Width="1768" Height="992"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -19,7 +20,7 @@
                               DockPanel.Dock="Top"
                               HorizontalAlignment="Right" Margin="16"
                               IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                <Menu>
+                <Menu x:Name="mainMenu">
                     <Menu.Resources>
                         <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
                             <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
@@ -38,21 +39,6 @@
                             <VirtualizingStackPanel />
                         </ItemsPanelTemplate>
                     </Menu.ItemsPanel>
-                    <MenuItem Header="Item 1">
-                        <MenuItem Header="Sub Item 1" />
-                        <MenuItem Header="Sub Item 2" />
-                        <MenuItem Header="Sub Item 3" />
-                    </MenuItem>
-                    <MenuItem Header="Item 2">
-                        <MenuItem Header="Sub Item 1" />
-                        <MenuItem Header="Sub Item 2" />
-                        <MenuItem Header="Sub Item 3" />
-                    </MenuItem>
-                    <MenuItem Header="Item 3">
-                        <MenuItem Header="Sub Item 1" />
-                        <MenuItem Header="Sub Item 2" />
-                        <MenuItem Header="Sub Item 3" />
-                    </MenuItem>
                 </Menu>
             </DockPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>

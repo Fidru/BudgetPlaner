@@ -1,11 +1,10 @@
 ﻿using Data.Classes;
 using IData.Interfaces;
 using IData.Services;
-using System.Collections.Generic;
 
 namespace Data.Services
 {
-    public class ElementFactory : IElementFactory, IService
+    public abstract class ElementFactory : IElementFactory, IService
 
     {
         public ElementFactory()
@@ -24,7 +23,7 @@ namespace Data.Services
             return original;
         }
 
-        public IElement GetCreateEmpty()
+        public virtual IElement CreateEmpty()
         {
             return new Element();
         }
@@ -32,14 +31,6 @@ namespace Data.Services
         public void Delete(IElement element)
         {
             element.Delete();
-        }
-
-        public void Delete(IEnumerable<IElement> toDelete)
-        {
-            foreach (var element in toDelete)
-            {
-                Delete(element);
-            }
         }
     }
 }

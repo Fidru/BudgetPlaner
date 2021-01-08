@@ -1,5 +1,4 @@
 ﻿using Data.Classes;
-using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ namespace Data.Services
 {
     public class TransactionFactory : ElementFactory, ITransactionFactory
     {
-        public new ITransaction GetCreateEmpty()
+        public override IElement CreateEmpty()
         {
             var transaction = new Transaction();
 
@@ -64,6 +63,8 @@ namespace Data.Services
                 if (transaction != null)
                 {
                     transaction.Payment.Element = payment;
+                    transaction.Amount = payment.Amount;
+                    transaction.Name = payment.Name;
                 }
                 else
                 {

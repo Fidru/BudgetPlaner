@@ -1,10 +1,7 @@
 ﻿using IData.Interfaces;
-using IData.Services;
-using System;
-using System.Collections.Generic;
 using System.Windows;
-using UI;
 using UI.WinForms;
+using System.Windows.Controls;
 
 namespace UI.Wpf
 {
@@ -17,36 +14,29 @@ namespace UI.Wpf
         {
             InitializeComponent();
 
-            //LoadData();
+            LoadData();
         }
 
-        //private static IProject LoadData()
-        //{
-        //    IEnumerable<IService> services = CreateServices();
-        //    return new TestData().CreateTestData(services);
-        //}
+        private void LoadData()
+        {
+            var data = new TestData();
 
-        //private static IEnumerable<IService> CreateServices()
-        //{
-        //    var projectFact = new ProjectFactory();
-        //    var project = projectFact.Create("Betriebskosten 2021");
+            var project = data.Project;
 
-        //    var currentProject = new CurentProjectService(project);
-        //    projectFact.Project = currentProject;
+            foreach (var year in project.Years)
+            {
+                var mainItem = new MenuItem();
+                mainItem.Header = year.Name;
 
-        //    return new IService[]
-        //    {
-        //        projectFact,
-        //        currentProject,
-        //        new CategoryFactory() { Project = currentProject },
-        //        new PaymentIntervalFactory() { Project = currentProject },
-        //        new MonthFactory() { Project = currentProject },
-        //        new PaymentFactory() { Project = currentProject },
-        //        new YearFactoy() { Project = currentProject },
-        //        new TransactionFactory() { Project = currentProject },
-        //        new PaymentIntervalFactory() { Project = currentProject },
-        //        new PayPatternFactory() { Project = currentProject },
-        //    };
-        //}
+                foreach (var month in year.Months.Elements)
+                {
+                    var subItem = new MenuItem();
+                    subItem.Header = month.Name;
+                    mainItem.Items.Add(subItem);
+                }
+
+                mainMenu.Items.Add(mainItem);
+            }
+        }
     }
 }

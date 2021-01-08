@@ -39,21 +39,21 @@ namespace UI.WinForms.Views.Controls
 
         private void ElementView_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
+            UpdateViews();
+
             var newValue = e.Value;
             var row = elementView.GetRow(e.RowHandle);
             var transaction = row as ITransaction;
 
             if (e.Column.FieldName == "Payed")
             {
-                var difference = (bool)newValue ? transaction.Amount : transaction.Amount * -1;
-
-                //transaction.Month.UpdateBankBalance(difference);
                 transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
             else if (e.Column.FieldName == "Amount")
             {
                 //Change in Amount.Setter
                 transaction.Month.Element.UpdateBankBalanceRow(transaction);
+
                 transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
 
@@ -104,7 +104,7 @@ namespace UI.WinForms.Views.Controls
 
         private void AddNewPayment(object sender, System.EventArgs e)
         {
-            var payment = _services.GetService<IPaymentFactory>().GetCreateEmpty();
+            var payment = _services.GetService<IPaymentFactory>().CreateEmpty() as IPayment;
             payment.IsNew = true;
 
             ShowPaymentView(payment);

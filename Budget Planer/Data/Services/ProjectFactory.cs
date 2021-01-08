@@ -6,7 +6,7 @@ namespace Data.Services
 {
     public class ProjectFactory : ElementFactory, IProjectFactory
     {
-        public new IProject GetCreateEmpty()
+        public override IElement CreateEmpty()
         {
             var project = new Project();
 
