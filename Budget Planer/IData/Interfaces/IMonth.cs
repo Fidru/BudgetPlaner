@@ -1,4 +1,5 @@
 ﻿using IData.Constants;
+using System.Collections.Generic;
 
 namespace IData.Interfaces
 {
@@ -9,6 +10,10 @@ namespace IData.Interfaces
         IAlignedMonths AlignedMonths { get; set; }
 
         IElementCollection<ITransaction> Transactions { get; set; }
+        IEnumerable<ITransaction> Bills { get; }
+        IEnumerable<ITransaction> CreditCardPayments { get; }
+        IEnumerable<ITransaction> FoodPayments { get; }
+        IEnumerable<ITransaction> ExpectedUnexpectedPayments { get; }
 
         void AddTransaction(ITransaction transaction);
 
@@ -23,5 +28,7 @@ namespace IData.Interfaces
         ITransaction GetBankBalanceEndOfMonthPayment { get; }
 
         void UpdateBankBalanceRow(ITransaction transaction);
+
+        new string Name { get; set; }
     }
 }

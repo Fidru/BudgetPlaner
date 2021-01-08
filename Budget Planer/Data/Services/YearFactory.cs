@@ -55,6 +55,11 @@ namespace Data.Services
         {
             var allMonthsSorted = months.OrderBy(m => (int)m.MonthType);
 
+            UpdateFutureBankBalance(allMonthsSorted);
+        }
+
+        public void UpdateFutureBankBalance(IOrderedEnumerable<IMonth> allMonthsSorted)
+        {
             foreach (var month in allMonthsSorted)
             {
                 month.AlignedMonths = new AlignedMonths(month)

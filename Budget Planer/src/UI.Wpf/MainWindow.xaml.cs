@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using XmlSaver.Save;
 using IData.Services;
+using System;
 
 namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
-        public IList<ITransaction> Transactions { get; set; }
         public IMonth CurrentMonth { get; set; }
+
         private IProject _project { get; set; }
         private IEnumerable<IService> _services { get; set; }
 
@@ -21,9 +22,7 @@ namespace UI.Wpf
             var data = new TestData();
             _services = data.Services;
             _project = data.Project;
-
             CurrentMonth = _project.Months.First();
-            Transactions = CurrentMonth.Transactions.Elements.ToList();
 
             InitializeComponent();
 
@@ -35,7 +34,19 @@ namespace UI.Wpf
         {
             monthDisplay.Text = month.Name;
             CurrentMonth = month;
-            SetListViews(CurrentMonth);
+
+            SetListViewItemSource(bills, month.Bills);
+            SetListViewItemSource(foodBills, month.FoodPayments);
+            SetListViewItemSource(creditCard, month.CreditCardPayments);
+            SetListViewItemSource(expectedBills, month.ExpectedUnexpectedPayments);
+        }
+
+        private void SetListViewItemSource(ListView view, IEnumerable<ITransaction> transactions)
+        {
+            if (view.ItemsSource != null)
+            {
+                view.ItemsSource = transactions;
+            }
         }
 
         private void CreateMenu()
@@ -92,12 +103,6 @@ namespace UI.Wpf
             SetCurrentMonth(newMonth);
         }
 
-        private void SetListViews(IMonth month)
-        {
-            Transactions = month.Transactions.Elements.ToList();
-            bills.ItemsSource = Transactions;
-        }
-
         private void save_Click(object sender, RoutedEventArgs e)
         {
             //Update Views
@@ -124,6 +129,29 @@ namespace UI.Wpf
             transaction.Payed = item.IsChecked.HasValue ? item.IsChecked.Value : false;
 
             transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+
+            SetCurrentMonth(transaction.Month.Element);
+        }
+
+        private void textAmount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void textAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                TextBox item = sender as TextBox;
+
+                if (item == null) return;
+
+                ITransaction transaction = item.DataContext as ITransaction;
+
+                // if contains numbers only
+                transaction.Amount = Convert.ToDouble(item.Text);
+                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+                SetCurrentMonth(transaction.Month.Element);
+            }
         }
     }
 }

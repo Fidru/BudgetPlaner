@@ -151,17 +151,24 @@
                     </TreeHelpers:ModifierCollection>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Margin" Value="10,0,10,0" />
         </Style>
         <Style x:Key="CustomHeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
             <!-- This is currently broken is v2.5.1; and does not work -->
-            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
+            <!--<Setter Property="HorizontalAlignment" Value="Left" />-->
             <!-- This works, but will will only change the color for the displayed columns and not the entire header area -->
+
             <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
                 <Setter.Value>
                     <TreeHelpers:ModifierCollection>
                         <TreeHelpers:Modifier TemplatePartName="HeaderBorder" Property="{x:Static Border.BackgroundProperty}">
                             <TreeHelpers:Modifier.Value>
-                                <SolidColorBrush Color="{DynamicResource MaterialDesignShadow}" />
+                                <SolidColorBrush>
+                                    <SolidColorBrush.Color>
+                                        <Color></Color>
+                                        <!--<Color A="255" R="3" G="169" B="244"></Color>-->
+                                    </SolidColorBrush.Color>
+                                </SolidColorBrush>
                             </TreeHelpers:Modifier.Value>
                         </TreeHelpers:Modifier>
                     </TreeHelpers:ModifierCollection>
@@ -173,18 +180,20 @@
         </Style>
 
         <Style x:Key="MyListViewScrollStyle" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+            <Setter Property="Margin" Value="10,0,10,0" />
             <!--This will change the color of the entire list view. If you set this you probably want to set a specific ListViewItem style like below-->
-            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
+            <!--<Setter Property="Background" Value="{DynamicResource MaterialDesignDarkBackground}" />-->
         </Style>
 
         <Style x:Key="ItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
             <Style.Resources>
                 <!-- Item Selection color -->
                 <SolidColorBrush x:Key="MaterialDesignSelection" Color="DodgerBlue" />
-                <!-- Mouse over color and separator color -->
-                <SolidColorBrush x:Key="MaterialDesignDivider" Color="{DynamicResource MaterialDesignShadow}" />
+                <!-- Mouse over color and separator color, (GridLines) -->
+                <!--<SolidColorBrush x:Key="MaterialDesignDivider" Color="{DynamicResource MaterialDesignShadow}" />-->
             </Style.Resources>
-            <Setter Property="Background" Value="Gray" />
+            <!--<Setter Property="Background" Value="{DynamicResource MaterialDesignDarkBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightBackground}" />-->
 
             <Style.Triggers>
                 <!-- Overriding colors by duplicating triggers from the base style-->
@@ -207,8 +216,7 @@
         <materialDesign:DrawerHost.LeftDrawerContent>
             <DockPanel MinWidth="212">
                 <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                              DockPanel.Dock="Top"
-                              HorizontalAlignment="Right" Margin="16"
+                              DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="16"
                               IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
                 <Menu x:Name="mainMenu">
                     <Menu.Resources>
@@ -244,12 +252,13 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="100" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="55" />
+                <RowDefinition Height="50*" />
+                <RowDefinition Height="50*" />
             </Grid.RowDefinitions>
 
             <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                      Mode="PrimaryMid" Grid.ColumnSpan="3">
+                                      Mode="PrimaryMid" Grid.ColumnSpan="3" Margin="10,0,10,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6" />
@@ -260,7 +269,7 @@
                         <ColumnDefinition Width="1316*" />
                     </Grid.ColumnDefinitions>
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                  x:Name="MenuToggleButton" Grid.Column="1" Grid.Row="0" Margin="28,0,31,0" />
+                                  x:Name="MenuToggleButton" Grid.Column="1" Grid.Row="0" Margin="21,0,37,0" />
                 </Grid>
             </materialDesign:ColorZone>
 
@@ -273,8 +282,8 @@
             <Button x:Name="next" Content="Next" VerticalAlignment="Center" HorizontalAlignment="Right"
                 Style="{StaticResource SquareButton}" Grid.Column="3" Grid.Row="1" Height="50" Width="120" Click="next_Click" />
 
-            <ListView x:Name="bills" ItemsSource="{Binding Transactions}" Foreground="{DynamicResource MaterialDesignDarkBackground}"
-                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="0">
+            <ListView x:Name="bills" ItemsSource="{Binding CurrentMonth.Bills}"
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="2" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="2">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
                 </ListView.Resources>
@@ -284,7 +293,8 @@
                         <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"  Style="{StaticResource MaterialDesignActionRadioButton}" Margin="0,10,0,0" Click="radioPaid_Click">
+                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"
+                                                 Style="{StaticResource MaterialDesignActionRadioButton}" Click="radioPaid_Click">
                                         <wpf:PackIcon />
                                     </RadioButton>
                                 </DataTemplate>
@@ -293,7 +303,118 @@
                         <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" />
+                                    <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding CategoryName}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+            <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonth.FoodPayments}"
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+                <ListView.Resources>
+                    <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
+                        <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"  Style="{StaticResource MaterialDesignActionRadioButton}" Click="radioPaid_Click">
+                                        <wpf:PackIcon />
+                                    </RadioButton>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding CategoryName}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+            <ListView x:Name="creditCard" ItemsSource="{Binding CurrentMonth.CreditCardPayments}"
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="2" Grid.Column="3" Grid.RowSpan="1">
+                <ListView.Resources>
+                    <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
+                        <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"  Style="{StaticResource MaterialDesignActionRadioButton}" Click="radioPaid_Click">
+                                        <wpf:PackIcon />
+                                    </RadioButton>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding CategoryName}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+            <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonth.ExpectedUnexpectedPayments}"
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="4" Grid.Column="3" Grid.RowSpan="1">
+                <ListView.Resources>
+                    <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
+                        <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"  Style="{StaticResource MaterialDesignActionRadioButton}" Click="radioPaid_Click">
+                                        <wpf:PackIcon />
+                                    </RadioButton>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

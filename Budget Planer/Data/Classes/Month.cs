@@ -1,6 +1,7 @@
 ﻿using IData.Constants;
 using IData.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Data.Classes
@@ -14,6 +15,7 @@ namespace Data.Classes
             Transactions = new ElementCollection<ITransaction>();
             Name = MonthType.ConvertToText();
             Bankbalance = 0.0;
+            Types = new CategoryTypeCollection();
         }
 
         public override void ConnectElements(IProject project)
@@ -32,6 +34,38 @@ namespace Data.Classes
 
         public IAlignedMonths AlignedMonths { get; set; }
         public IElementCollection<ITransaction> Transactions { get; set; }
+
+        public IEnumerable<ITransaction> Bills
+        {
+            get
+            {
+                return Transactions.Elements.GetTransactionsForCategory(Types.MonthlyBills);
+            }
+        }
+
+        public IEnumerable<ITransaction> CreditCardPayments
+        {
+            get
+            {
+                return Transactions.Elements.GetTransactionsForCategory(Types.CreditCardCategories);
+            }
+        }
+
+        public IEnumerable<ITransaction> FoodPayments
+        {
+            get
+            {
+                return Transactions.Elements.GetTransactionsForCategory(Types.FoodCategories);
+            }
+        }
+
+        public IEnumerable<ITransaction> ExpectedUnexpectedPayments
+        {
+            get
+            {
+                return Transactions.Elements.GetTransactionsForCategory(Types.ExpectedUnexpectedCategories);
+            }
+        }
 
         public MonthEnum MonthType { get; set; }
         public double Bankbalance { get; set; }
@@ -92,6 +126,8 @@ namespace Data.Classes
                             && p.SubCategory != null && p.SubCategoryType == CategoryType.BankbalanceEndOfMonth);
             }
         }
+
+        public CategoryTypeCollection Types { get; }
 
         public override void Delete()
         {
