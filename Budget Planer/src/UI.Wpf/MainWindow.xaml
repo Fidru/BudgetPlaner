@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:TreeHelpers="clr-namespace:UI.Wpf.TreeHelpers"
         Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.Foreground="{DynamicResource PrimaryHueMidBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         mc:Ignorable="d"
         Title="MainWindow" Width="1768" Height="992"
@@ -27,7 +27,7 @@
         </Style>
         <Style x:Key="CustomHeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
             <!-- This is currently broken is v2.5.1; and does not work -->
-            <Setter Property="Background" Value="Fuchsia" />
+            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
 
             <!-- This works, but will will only change the color for the displayed columns and not the entire header area -->
             <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
@@ -35,7 +35,7 @@
                     <TreeHelpers:ModifierCollection>
                         <TreeHelpers:Modifier TemplatePartName="HeaderBorder" Property="{x:Static Border.BackgroundProperty}">
                             <TreeHelpers:Modifier.Value>
-                                <SolidColorBrush Color="Blue" />
+                                <SolidColorBrush Color="{DynamicResource MaterialDesignShadow}" />
                             </TreeHelpers:Modifier.Value>
                         </TreeHelpers:Modifier>
                     </TreeHelpers:ModifierCollection>
@@ -43,17 +43,19 @@
             </Setter>
 
             <!-- Header text color -->
-            <Setter Property="Foreground" Value="Lime" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
 
-            <Style.Resources>
-                <!-- Mouse over color -->
-                <SolidColorBrush x:Key="MaterialDesignBody" Color="Yellow" />
-            </Style.Resources>
+            <!--<Style.Resources>
+                -->
+            <!-- Mouse over color -->
+            <!--
+                <SolidColorBrush x:Key="MaterialDesignBody" />
+            </Style.Resources>-->
         </Style>
 
         <Style x:Key="MyListViewScrollStyle" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
             <!--This will change the color of the entire list view. If you set this you probably want to set a specific ListViewItem style like below-->
-            <Setter Property="Background" Value="MediumOrchid" />
+            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
         </Style>
 
         <Style x:Key="ItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
@@ -61,21 +63,21 @@
                 <!-- Item Selection color -->
                 <SolidColorBrush x:Key="MaterialDesignSelection" Color="DodgerBlue" />
                 <!-- Mouse over color and separator color -->
-                <SolidColorBrush x:Key="MaterialDesignDivider" Color="PaleGreen" />
+                <SolidColorBrush x:Key="MaterialDesignDivider" Color="{DynamicResource MaterialDesignShadow}" />
             </Style.Resources>
-            <Setter Property="Background" Value="DarkOliveGreen" />
+            <Setter Property="Background" Value="Gray" />
 
             <Style.Triggers>
                 <!-- Overriding colors by duplicating triggers from the base style-->
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Chartreuse" />
+                    <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
                 </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsSelected" Value="True" />
                         <Condition Property="Selector.IsSelectionActive" Value="False" />
                     </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="Coral" />
+                    <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
@@ -149,7 +151,7 @@
             <Button x:Name="next" Content="Next" VerticalAlignment="Center" HorizontalAlignment="Right"
                 Style="{StaticResource SquareButton}" Grid.Column="3" Grid.Row="1" Height="50" Width="120" Click="next_Click" />
 
-            <ListView x:Name="bills" ItemsSource="{Binding Transactions}" Foreground="Pink" ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="0">
+            <ListView x:Name="bills" ItemsSource="{Binding Transactions}" Foreground="{DynamicResource MaterialDesignDarkBackground}" ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="0">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
                 </ListView.Resources>
