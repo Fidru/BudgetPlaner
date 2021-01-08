@@ -2,7 +2,7 @@
 
 namespace IData.Services
 {
-    public interface IYearFactoy : IFactory<IYear>
+    public interface IYearFactory : IFactory<IYear>
     {
         IYear Create(string name);
     }

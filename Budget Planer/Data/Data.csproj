@@ -63,7 +63,7 @@
     <Compile Include="Services\ProjectFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TransactionFactory.cs" />
-    <Compile Include="Services\YearFactoy.cs" />
+    <Compile Include="Services\YearFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IData\IData.csproj">

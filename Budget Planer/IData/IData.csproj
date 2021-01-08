@@ -78,7 +78,7 @@
     <Compile Include="Services\IProjectFactory.cs" />
     <Compile Include="Services\IPaymentFactory.cs" />
     <Compile Include="Services\ITransactionFactory.cs" />
-    <Compile Include="Services\IYearFactoy.cs" />
+    <Compile Include="Services\IYearFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

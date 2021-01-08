@@ -32,6 +32,13 @@ namespace Data.Classes
         public ICategory SubCategory { get { return Payment.Element.SubCategory.Element; } }
         public CategoryType SubCategoryType { get { return SubCategory != null ? SubCategory.CategoryType : CategoryType.None; } }
 
+        public string CategoryName { get { return Category.Name; } }
+
+        public string AmountTxt
+        {
+            get { return Amount.ToString("n2"); }
+        }
+
         public override void ConnectElements(IProject project)
         {
             Month.Element = (IMonth)project.Months.GetElementById(Month.Id);

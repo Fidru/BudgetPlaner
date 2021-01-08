@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Data.Services
 {
-    public class YearFactoy : ElementFactory, IYearFactoy
+    public class YearFactory : ElementFactory, IYearFactory
     {
         public override IElement CreateEmpty()
         {

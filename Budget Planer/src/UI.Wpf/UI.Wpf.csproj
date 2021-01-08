@@ -119,6 +119,10 @@
       <Project>{643e6de3-0b10-4950-8c0b-cc55e9897f2c}</Project>
       <Name>UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XmlSaver\XmlSaver.csproj">
+      <Project>{a21d34a5-c6cf-4fd9-86e0-4e2350184290}</Project>
+      <Name>XmlSaver</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ProjectData\" />

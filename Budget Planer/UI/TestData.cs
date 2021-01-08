@@ -35,7 +35,7 @@ namespace UI.WinForms
                 new PaymentIntervalFactory() { Project = currentProject },
                 new MonthFactory() { Project = currentProject },
                 new PaymentFactory() { Project = currentProject },
-                new YearFactoy() { Project = currentProject },
+                new YearFactory() { Project = currentProject },
                 new TransactionFactory() { Project = currentProject },
                 new PaymentIntervalFactory() { Project = currentProject },
                 new PayPatternFactory() { Project = currentProject },
@@ -49,7 +49,7 @@ namespace UI.WinForms
             var project = currentProject.CurrentProject;
 
             var categoryFactory = services.GetService<ICategoryFactory>();
-            var yearFact = services.GetService<IYearFactoy>();
+            var yearFact = services.GetService<IYearFactory>();
             var intervalFactory = services.GetService<IPaymentIntervalFactory>();
             var paymentFactory = services.GetService<IPaymentFactory>();
             var payPatternFactory = services.GetService<IPayPatternFactory>();

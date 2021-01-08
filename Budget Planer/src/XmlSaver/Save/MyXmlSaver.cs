@@ -81,7 +81,7 @@ namespace XmlSaver.Save
 
             elements.AddRange(ReadElements<IMonthFactory>(services, XmlIds.Months, XmlIds.Month, reader));
             elements.AddRange(ReadElements<ITransactionFactory>(services, XmlIds.Transactions, XmlIds.Transaction, reader));
-            elements.AddRange(ReadElements<IYearFactoy>(services, XmlIds.Years, XmlIds.Year, reader));
+            elements.AddRange(ReadElements<IYearFactory>(services, XmlIds.Years, XmlIds.Year, reader));
 
             reader.Close();
 

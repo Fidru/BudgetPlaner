@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
         xmlns:TreeHelpers="clr-namespace:UI.Wpf.TreeHelpers"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource PrimaryHueMidBrush}"
@@ -12,6 +14,131 @@
         Title="MainWindow" Width="1768" Height="992"
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
+        <Style x:Key="MaterialDesignActionRadioButton" TargetType="{x:Type RadioButton}">
+            <Style.Resources>
+                <Style TargetType="wpf:PackIcon">
+                    <Setter Property="Width" Value="20" />
+                    <Setter Property="Height" Value="20" />
+                </Style>
+            </Style.Resources>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
+            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="wpf:ShadowAssist.ShadowDepth" Value="Depth0" />
+            <Setter Property="wpf:ToggleButtonAssist.OnContent" Value="{StaticResource CheckMarkIcon}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(wpf:ShadowAssist.ShadowDepth), Converter={x:Static converters:ShadowConverter.Instance}}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="0.23" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="*" To="Checked">
+                                            <Storyboard FillBehavior="HoldEnd">
+                                                <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OffScaleTransform">
+                                                    <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.0" />
+                                                    <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                                <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OnScaleTransform">
+                                                    <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                    <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.2" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                        <VisualTransition From="Checked" To="Unchecked">
+                                            <Storyboard FillBehavior="HoldEnd">
+                                                <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OnScaleTransform">
+                                                    <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.0" />
+                                                    <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                                <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OffScaleTransform">
+                                                    <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                    <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.2" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OffScaleTransform"
+                                                         To="0" />
+                                            <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OnScaleTransform"
+                                                         To="1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OffScaleTransform"
+                                                         To="1" />
+                                            <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="OnScaleTransform"
+                                                         To="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="IndeterminateCheck" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="OffGrid" RenderTransformOrigin=".5,.5" Background="{TemplateBinding Background}">
+                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              FlowDirection="LeftToRight" />
+                                <Grid.Clip>
+                                    <EllipseGeometry RadiusX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}"
+                                                 RadiusY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}">
+                                        <EllipseGeometry.Center>
+                                            <MultiBinding Converter="{StaticResource PointValueConverter}">
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Width" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Height" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                            </MultiBinding>
+                                        </EllipseGeometry.Center>
+                                    </EllipseGeometry>
+                                </Grid.Clip>
+                                <Grid.RenderTransform>
+                                    <ScaleTransform x:Name="OffScaleTransform" ScaleX="1" ScaleY="1" />
+                                </Grid.RenderTransform>
+                            </Grid>
+                            <Grid x:Name="OnGrid" RenderTransformOrigin=".5,.5" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              FlowDirection="LeftToRight"
+                                              Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(wpf:ToggleButtonAssist.OnContent)}"
+                                              ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(wpf:ToggleButtonAssist.OnContentTemplate)}" />
+                                <Grid.Clip>
+                                    <EllipseGeometry RadiusX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}"
+                                                 RadiusY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}">
+                                        <EllipseGeometry.Center>
+                                            <MultiBinding Converter="{StaticResource PointValueConverter}">
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Width" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Height" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                            </MultiBinding>
+                                        </EllipseGeometry.Center>
+                                    </EllipseGeometry>
+                                </Grid.Clip>
+                                <Grid.RenderTransform>
+                                    <ScaleTransform x:Name="OnScaleTransform" ScaleX="0" ScaleY="1" />
+                                </Grid.RenderTransform>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="SquareButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignRaisedButton}">
             <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
                 <Setter.Value>
@@ -28,7 +155,6 @@
         <Style x:Key="CustomHeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
             <!-- This is currently broken is v2.5.1; and does not work -->
             <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
-
             <!-- This works, but will will only change the color for the displayed columns and not the entire header area -->
             <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
                 <Setter.Value>
@@ -44,13 +170,6 @@
 
             <!-- Header text color -->
             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
-
-            <!--<Style.Resources>
-                -->
-            <!-- Mouse over color -->
-            <!--
-                <SolidColorBrush x:Key="MaterialDesignBody" />
-            </Style.Resources>-->
         </Style>
 
         <Style x:Key="MyListViewScrollStyle" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
@@ -110,6 +229,9 @@
                             <VirtualizingStackPanel />
                         </ItemsPanelTemplate>
                     </Menu.ItemsPanel>
+
+                    <MenuItem Name="save" Header="Save" Click="save_Click" />
+                    <MenuItem Name="load" Header="Load" Click="load_Click" />
                 </Menu>
             </DockPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>
@@ -145,26 +267,49 @@
             <Button x:Name="prev" Content="Previous" VerticalAlignment="Center" HorizontalAlignment="Left"
                 Style="{StaticResource SquareButton}" Grid.Column="0" Grid.Row="1" Height="50" Width="120" Click="prev_Click" />
 
-            <TextBlock x:Name="monthDisplay" VerticalAlignment="Center" HorizontalAlignment="Center"
-                Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="Month" />
+            <TextBlock x:Name="monthDisplay" Text="Month"  VerticalAlignment="Center" HorizontalAlignment="Center"
+                Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" />
 
             <Button x:Name="next" Content="Next" VerticalAlignment="Center" HorizontalAlignment="Right"
                 Style="{StaticResource SquareButton}" Grid.Column="3" Grid.Row="1" Height="50" Width="120" Click="next_Click" />
 
-            <ListView x:Name="bills" ItemsSource="{Binding Transactions}" Foreground="{DynamicResource MaterialDesignDarkBackground}" ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="0">
+            <ListView x:Name="bills" ItemsSource="{Binding Transactions}" Foreground="{DynamicResource MaterialDesignDarkBackground}"
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="0">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" />
-                        <GridViewColumn Header="Payed" DisplayMemberBinding="{Binding Payed}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" />
-                        <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" />
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
+                        <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton x:Name="radioPaid" IsChecked="{Binding Payed}"  Style="{StaticResource MaterialDesignActionRadioButton}" Margin="0,10,0,0" Click="radioPaid_Click">
+                                        <wpf:PackIcon />
+                                    </RadioButton>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
+
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding CategoryName}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
             </ListView>
         </Grid>
-
-        <!--</Grid>-->
     </materialDesign:DrawerHost>
 </Window>

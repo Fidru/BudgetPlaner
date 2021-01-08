@@ -4,38 +4,48 @@ using UI.WinForms;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using XmlSaver.Save;
+using IData.Services;
 
 namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
         public IList<ITransaction> Transactions { get; set; }
-        public IMonth currentMonth { get; set; }
+        public IMonth CurrentMonth { get; set; }
+        private IProject _project { get; set; }
+        private IEnumerable<IService> _services { get; set; }
 
         public MainWindow()
         {
             var data = new TestData();
+            _services = data.Services;
+            _project = data.Project;
 
-            currentMonth = data.Project.Months.First();
-            Transactions = currentMonth.Transactions.Elements.ToList();
+            CurrentMonth = _project.Months.First();
+            Transactions = CurrentMonth.Transactions.Elements.ToList();
 
             InitializeComponent();
-            LoadData(data);
-            SetCurrentMonth(data.Project.Months.First());
+
+            CreateMenu();
+            SetCurrentMonth(CurrentMonth);
         }
 
         private void SetCurrentMonth(IMonth month)
         {
             monthDisplay.Text = month.Name;
-            currentMonth = month;
+            CurrentMonth = month;
+            SetListViews(CurrentMonth);
         }
 
-        private void LoadData(TestData data)
+        private void CreateMenu()
         {
-            var project = data.Project;
+            while (mainMenu.Items.Count > 2)
+            {
+                mainMenu.Items.RemoveAt(2);
+            }
 
-            foreach (var year in project.Years)
+            foreach (var year in _project.Years)
             {
                 var mainItem = new MenuItem();
                 mainItem.Header = year.Name;
@@ -60,17 +70,16 @@ namespace UI.Wpf
             var month = menu.Tag as IMonth;
 
             SetCurrentMonth(month);
-            SetViewElements(month);
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
-            SetNewMonth(currentMonth.AlignedMonths.Next);
+            SetNewMonth(CurrentMonth.AlignedMonths.Next);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
-            SetNewMonth(currentMonth.AlignedMonths.Previous);
+            SetNewMonth(CurrentMonth.AlignedMonths.Previous);
         }
 
         private void SetNewMonth(IMonth newMonth)
@@ -81,13 +90,40 @@ namespace UI.Wpf
             }
 
             SetCurrentMonth(newMonth);
-            SetViewElements(currentMonth);
         }
 
-        private void SetViewElements(IMonth month)
+        private void SetListViews(IMonth month)
         {
             Transactions = month.Transactions.Elements.ToList();
             bills.ItemsSource = Transactions;
+        }
+
+        private void save_Click(object sender, RoutedEventArgs e)
+        {
+            //Update Views
+
+            MyXmlSaver saver = new MyXmlSaver();
+            saver.Save(_project);
+        }
+
+        private void load_Click(object sender, RoutedEventArgs e)
+        {
+            MyXmlSaver saver = new MyXmlSaver();
+            _project = saver.Read(_services);
+            CreateMenu();
+            SetCurrentMonth(_project.Years.First().Months.Elements.First());
+        }
+
+        private void radioPaid_Click(object sender, RoutedEventArgs e)
+        {
+            RadioButton item = sender as RadioButton;
+
+            if (item == null) return;
+
+            ITransaction transaction = item.DataContext as ITransaction;
+            transaction.Payed = item.IsChecked.HasValue ? item.IsChecked.Value : false;
+
+            transaction.Month.Element.UpdateBankBalanceEndOfMonth();
         }
     }
 }
