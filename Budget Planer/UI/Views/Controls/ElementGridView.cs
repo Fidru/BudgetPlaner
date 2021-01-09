@@ -41,7 +41,6 @@ namespace UI.WinForms.Views.Controls
         {
             UpdateViews();
 
-            var newValue = e.Value;
             var row = elementView.GetRow(e.RowHandle);
             var transaction = row as ITransaction;
 
@@ -51,9 +50,6 @@ namespace UI.WinForms.Views.Controls
             }
             else if (e.Column.FieldName == "Amount")
             {
-                //Change in Amount.Setter
-                transaction.Month.Element.UpdateBankBalanceRow(transaction);
-
                 transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
 

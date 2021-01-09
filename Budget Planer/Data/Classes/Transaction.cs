@@ -1,10 +1,13 @@
 ﻿using IData.Constants;
 using IData.Interfaces;
+using System;
 
 namespace Data.Classes
 {
     public class Transaction : Element, ITransaction
     {
+        private double _amount;
+
         public Transaction()
             : base()
         {
@@ -23,7 +26,19 @@ namespace Data.Classes
 
         public ISaveableXmlElement<IMonth> Month { get; set; }
         public ISaveableXmlElement<IPayment> Payment { get; set; }
-        public double Amount { get; set; }
+
+        public double Amount
+        {
+            get
+            {
+                return Math.Round(_amount, 2);
+            }
+            set
+            {
+                _amount = value;
+            }
+        }
+
         public bool Payed { get; set; }
 
         public ICategory Category { get { return Payment.Element.Category.Element; } }
@@ -33,11 +48,6 @@ namespace Data.Classes
         public CategoryType SubCategoryType { get { return SubCategory != null ? SubCategory.CategoryType : CategoryType.None; } }
 
         public string CategoryName { get { return Category.Name; } }
-
-        public string AmountTxt
-        {
-            get { return Amount.ToString("n2"); }
-        }
 
         public override void ConnectElements(IProject project)
         {

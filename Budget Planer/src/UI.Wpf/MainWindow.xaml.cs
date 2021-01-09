@@ -114,12 +114,14 @@ namespace UI.Wpf
         {
             SetNewMonth(CurrentMonth.AlignedMonths.Next);
             _nextAnimation.Begin(innerGrid);
+            _nextAnimation.Begin(monthDisplay);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             SetNewMonth(CurrentMonth.AlignedMonths.Previous);
             _previousAnimation.Begin(innerGrid);
+            _previousAnimation.Begin(monthDisplay);
         }
 
         private void SetNewMonth(IMonth newMonth)

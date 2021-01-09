@@ -29,7 +29,7 @@ namespace Data.Services
         public IMonth Create(MonthEnum month, double bankBalance)
         {
             var newMonth = Create(month);
-            newMonth.Bankbalance = bankBalance;
+            newMonth.UpdateBankBalance(bankBalance);
 
             return newMonth;
         }

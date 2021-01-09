@@ -49,6 +49,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightBackground}" />
         </Style>
 
         <Style x:Key="CustomHeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -84,7 +85,7 @@
                         <Condition Property="IsSelected" Value="True" />
                         <Condition Property="Selector.IsSelectionActive" Value="False" />
                     </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource MaterialDesignDarkBackground}" />
+                    <Setter Property="Background" Value="{DynamicResource MaterialDesignLightBackground}" />
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
@@ -157,7 +158,11 @@
                 Style="{StaticResource SquareButton}" Grid.Column="0" Grid.Row="1" Height="50" Width="120" Click="prev_Click" />
 
             <TextBlock x:Name="monthDisplay" Text="Month"  VerticalAlignment="Center" HorizontalAlignment="Center"
-                Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" />
+                Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform />
+                </TextBlock.RenderTransform>
+            </TextBlock>
 
             <Button x:Name="next" Content="Next" VerticalAlignment="Center" HorizontalAlignment="Right"
                 Style="{StaticResource SquareButton}" Grid.Column="3" Grid.Row="1" Height="50" Width="120" Click="next_Click" />

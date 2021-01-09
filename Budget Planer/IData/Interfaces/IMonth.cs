@@ -19,15 +19,13 @@ namespace IData.Interfaces
 
         double OpenTransactions { get; }
 
-        public double Bankbalance { get; set; }
-
         public void UpdateBankBalance(double bankbalance);
+
+        public void AddToBankBalance(double amount);
 
         public void UpdateBankBalanceEndOfMonth();
 
         ITransaction GetBankBalanceEndOfMonthPayment { get; }
-
-        void UpdateBankBalanceRow(ITransaction transaction);
 
         new string Name { get; set; }
     }

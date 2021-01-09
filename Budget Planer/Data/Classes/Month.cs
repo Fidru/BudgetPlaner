@@ -14,7 +14,6 @@ namespace Data.Classes
             AlignedMonths = new AlignedMonths(this);
             Transactions = new ElementCollection<ITransaction>();
             Name = MonthType.ConvertToText();
-            Bankbalance = 0.0;
             Types = new CategoryTypeCollection();
         }
 
@@ -68,7 +67,6 @@ namespace Data.Classes
         }
 
         public MonthEnum MonthType { get; set; }
-        public double Bankbalance { get; set; }
 
         public double OpenTransactions
         {
@@ -87,24 +85,16 @@ namespace Data.Classes
             Transactions.AddElement(transaction);
         }
 
-        public void UpdateBankBalanceRow(ITransaction transaction)
-        {
-            if (IsBankBalancePayment(transaction))
-            {
-                Bankbalance = transaction.Amount;
-            }
-        }
-
-        private bool IsBankBalancePayment(ITransaction transaction)
-        {
-            return BankBalancePayment.Id == transaction.Id;
-        }
-
         public void UpdateBankBalance(double amount)
         {
             var bankBalancePayment = BankBalancePayment;
+            bankBalancePayment.Amount = amount;
+        }
+
+        public void AddToBankBalance(double amount)
+        {
+            var bankBalancePayment = BankBalancePayment;
             bankBalancePayment.Amount += amount;
-            Bankbalance = bankBalancePayment.Amount;
         }
 
         public void UpdateBankBalanceEndOfMonth()

@@ -70,10 +70,8 @@ namespace Data.Services
 
                 if (month.AlignedMonths.Previous != null)
                 {
-                    month.Bankbalance = month.AlignedMonths.Previous.GetBankBalanceEndOfMonthPayment.Amount;
+                    month.UpdateBankBalance(month.AlignedMonths.Previous.GetBankBalanceEndOfMonthPayment.Amount);
                 }
-
-                month.UpdateBankBalance(month.Bankbalance);
                 month.UpdateBankBalanceEndOfMonth();
             }
         }
