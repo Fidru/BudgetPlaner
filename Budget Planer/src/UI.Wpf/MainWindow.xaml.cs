@@ -39,15 +39,15 @@ namespace UI.Wpf
             _previousAnimation = CreateStoryboard(0, 1, -800, 0);
         }
 
-        private Storyboard CreateStoryboard(int from, int to, int fromRender, int toRender)
+        private Storyboard CreateStoryboard(int opacityFrom, int opacityTo, int fromRender, int toRender)
         {
             Storyboard sb = new Storyboard();
             sb.FillBehavior = FillBehavior.HoldEnd;
 
-            var opacityAnimation = new DoubleAnimation(from, to, new Duration(TimeSpan.FromMilliseconds(800)));
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(innerGrid.Opacity)));
+            //var opacityAnimation = new DoubleAnimation(from, to, new Duration(TimeSpan.FromMilliseconds(1000)));
+            //Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(innerGrid.Opacity)));
 
-            sb.Children.Add(opacityAnimation);
+            //sb.Children.Add(opacityAnimation);
 
             DoubleAnimation translateAnimation = new DoubleAnimation(fromRender, toRender, new Duration(TimeSpan.FromMilliseconds(800)));
             Storyboard.SetTargetProperty(translateAnimation, new PropertyPath($"{nameof(innerGrid.RenderTransform)}.{nameof(TranslateTransform.X)}"));
@@ -112,6 +112,11 @@ namespace UI.Wpf
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
+            if (CurrentMonth.AlignedMonths.Next != null)
+            {
+                CurrentMonth.AlignedMonths.Next.UpdateBankBalanceFromPreviousMonth();
+            }
+
             SetNewMonth(CurrentMonth.AlignedMonths.Next);
             _nextAnimation.Begin(innerGrid);
             _nextAnimation.Begin(monthDisplay);
@@ -119,9 +124,10 @@ namespace UI.Wpf
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
-            SetNewMonth(CurrentMonth.AlignedMonths.Previous);
             _previousAnimation.Begin(innerGrid);
             _previousAnimation.Begin(monthDisplay);
+
+            SetNewMonth(CurrentMonth.AlignedMonths.Previous);
         }
 
         private void SetNewMonth(IMonth newMonth)
@@ -182,6 +188,10 @@ namespace UI.Wpf
 
             transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             SetCurrentMonth(transaction.Month.Element);
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

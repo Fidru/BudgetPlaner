@@ -13,6 +13,17 @@
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
         WindowStyle="None" ResizeMode="NoResize">
     <Window.Resources>
+
+        <Style x:Key="MyEditButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconForegroundButton}">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Width" Value="25" />
+        </Style>
+
+        <Style x:Key="MyMaterialDesignHamburgerToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource MaterialDesignHamburgerToggleButton}">
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightBackground}" />
+        </Style>
+
         <Style x:Key="My2ColoredToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
             <Style.Resources>
                 <!-- Checked thumb foreground -->
@@ -94,7 +105,7 @@
     <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
         <materialDesign:DrawerHost.LeftDrawerContent>
             <DockPanel MinWidth="212">
-                <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                <ToggleButton Style="{StaticResource MyMaterialDesignHamburgerToggleButton}"
                               DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="16"
                               IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
                 <Menu x:Name="mainMenu">
@@ -149,13 +160,14 @@
                         <ColumnDefinition Width="111*" />
                         <ColumnDefinition Width="1316*" />
                     </Grid.ColumnDefinitions>
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                    <ToggleButton Style="{StaticResource MyMaterialDesignHamburgerToggleButton}" IsChecked="False"
                                   x:Name="MenuToggleButton" Grid.Row="0" Margin="4,-11,2,-10" Grid.ColumnSpan="3" />
                 </Grid>
             </materialDesign:ColorZone>
 
             <Button x:Name="prev" Content="Previous" VerticalAlignment="Center" HorizontalAlignment="Left"
-                Style="{StaticResource SquareButton}" Grid.Column="0" Grid.Row="1" Height="50" Width="120" Click="prev_Click" />
+                Style="{StaticResource SquareButton}" Grid.Column="0" Grid.Row="1" Height="50" Width="120" Click="prev_Click">
+            </Button>
 
             <TextBlock x:Name="monthDisplay" Text="Month"  VerticalAlignment="Center" HorizontalAlignment="Center"
                 Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap">
@@ -173,9 +185,9 @@
                 </Grid.RenderTransform>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="21*" />
-                    <ColumnDefinition Width="21*" />
-                    <ColumnDefinition Width="21*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="75" />
@@ -203,8 +215,8 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
-                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="250" />
+                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
@@ -215,6 +227,44 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Edit" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <AdornerDecorator>
+                                                <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_Click">
+                                                    <materialDesign:PackIcon Kind="Edit">
+                                                    </materialDesign:PackIcon>
+
+                                                    <Button.Effect>
+                                                        <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                                                    </Button.Effect>
+
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+                                            </AdornerDecorator>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -239,8 +289,8 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
-                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="250" />
+                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
@@ -251,6 +301,44 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Edit" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <AdornerDecorator>
+                                                <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_Click">
+                                                    <materialDesign:PackIcon Kind="Edit">
+                                                    </materialDesign:PackIcon>
+
+                                                    <Button.Effect>
+                                                        <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                                                    </Button.Effect>
+
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+                                            </AdornerDecorator>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -275,8 +363,8 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
-                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="250" />
+                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
@@ -287,6 +375,44 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Edit" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <AdornerDecorator>
+                                                <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_Click">
+                                                    <materialDesign:PackIcon Kind="Edit">
+                                                    </materialDesign:PackIcon>
+
+                                                    <Button.Effect>
+                                                        <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                                                    </Button.Effect>
+
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+                                            </AdornerDecorator>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -311,8 +437,8 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="350" />
-                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="250" />
+                            <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
@@ -323,6 +449,44 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Edit" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <AdornerDecorator>
+                                                <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_Click">
+                                                    <materialDesign:PackIcon Kind="Edit">
+                                                    </materialDesign:PackIcon>
+
+                                                    <Button.Effect>
+                                                        <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                                                    </Button.Effect>
+
+                                                    <Button.Triggers>
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+
+                                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                            <BeginStoryboard>
+                                                                <Storyboard TargetName="DropShadowEffect">
+                                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Button.Triggers>
+                                                </Button>
+                                            </AdornerDecorator>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

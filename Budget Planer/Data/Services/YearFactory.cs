@@ -55,10 +55,10 @@ namespace Data.Services
         {
             var allMonthsSorted = months.OrderBy(m => (int)m.MonthType);
 
-            UpdateFutureBankBalance(allMonthsSorted);
+            ConnectRelatedMonths(allMonthsSorted);
         }
 
-        public void UpdateFutureBankBalance(IOrderedEnumerable<IMonth> allMonthsSorted)
+        public void ConnectRelatedMonths(IOrderedEnumerable<IMonth> allMonthsSorted)
         {
             foreach (var month in allMonthsSorted)
             {
@@ -68,11 +68,7 @@ namespace Data.Services
                     Next = allMonthsSorted.GetRelatedMonth(month, 1)
                 };
 
-                if (month.AlignedMonths.Previous != null)
-                {
-                    month.UpdateBankBalance(month.AlignedMonths.Previous.GetBankBalanceEndOfMonthPayment.Amount);
-                }
-                month.UpdateBankBalanceEndOfMonth();
+                month.UpdateBankBalanceFromPreviousMonth();
             }
         }
 

@@ -85,6 +85,15 @@ namespace Data.Classes
             Transactions.AddElement(transaction);
         }
 
+        public void UpdateBankBalanceFromPreviousMonth()
+        {
+            if (AlignedMonths.Previous != null)
+            {
+                UpdateBankBalance(AlignedMonths.Previous.GetBankBalanceEndOfMonthPayment.Amount);
+            }
+            UpdateBankBalanceEndOfMonth();
+        }
+
         public void UpdateBankBalance(double amount)
         {
             var bankBalancePayment = BankBalancePayment;

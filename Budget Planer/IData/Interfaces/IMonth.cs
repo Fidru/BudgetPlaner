@@ -19,6 +19,8 @@ namespace IData.Interfaces
 
         double OpenTransactions { get; }
 
+        void UpdateBankBalanceFromPreviousMonth();
+
         public void UpdateBankBalance(double bankbalance);
 
         public void AddToBankBalance(double amount);
