@@ -135,6 +135,7 @@
                 <RowDefinition Height="75" />
                 <RowDefinition Height="75" />
                 <RowDefinition Height="50*" />
+                <RowDefinition Height="75" />
                 <RowDefinition Height="50*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
@@ -171,10 +172,13 @@
             <TextBlock Text="Food Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
                 Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
 
-            <TextBlock Text="Expected / Unexpected Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
+            <TextBlock Text="Credit Card Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
                 Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
 
-            <ListView x:Name="bills" ItemsSource="{Binding CurrentMonth.Bills}"  Grid.Row="3" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="2"
+            <TextBlock Text="Expected / Unexpected Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
+                Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="4" Grid.Column="2" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
+
+            <ListView x:Name="bills" ItemsSource="{Binding CurrentMonth.Bills}"  Grid.Row="3" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
                       ItemContainerStyle="{StaticResource ItemStyle}">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -185,7 +189,7 @@
                         <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Checked="ToggleButton_Checked" />
+                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -211,7 +215,7 @@
             </ListView>
 
             <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonth.FoodPayments}"
-                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2">
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="1" Grid.RowSpan="3">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
                 </ListView.Resources>
@@ -221,7 +225,7 @@
                         <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Checked="ToggleButton_Checked" />
+                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -257,7 +261,7 @@
                         <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Checked="ToggleButton_Checked" />
+                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -283,7 +287,7 @@
             </ListView>
 
             <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonth.ExpectedUnexpectedPayments}"
-                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="4" Grid.Column="3" Grid.RowSpan="1">
+                      ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="5" Grid.Column="3" Grid.RowSpan="1">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
                 </ListView.Resources>
@@ -293,7 +297,7 @@
                         <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="125">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Checked="ToggleButton_Checked" />
+                                    <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -318,7 +322,7 @@
                 </ListView.GroupStyle>
             </ListView>
 
-            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"  Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,-10,0" Height="48" />
+            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"  Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,-10,0" Height="48" />
         </Grid>
     </materialDesign:DrawerHost>
 </Window>

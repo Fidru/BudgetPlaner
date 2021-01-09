@@ -110,12 +110,12 @@ namespace Data.Classes
         public void UpdateBankBalanceEndOfMonth()
         {
             var bankBalanceEndOfMonthPayment = GetBankBalanceEndOfMonthPayment;
-            bankBalanceEndOfMonthPayment.Amount = Bankbalance + OpenTransactions;
+            bankBalanceEndOfMonthPayment.Amount = BankBalancePayment.Amount + OpenTransactions;
         }
 
         private ITransaction BankBalancePayment
         {
-            get { return Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance && p.SubCategory == null); }
+            get { return  Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance && p.SubCategory == null); }
         }
 
         public ITransaction GetBankBalanceEndOfMonthPayment

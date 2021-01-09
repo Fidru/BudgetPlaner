@@ -137,21 +137,20 @@ namespace UI.Wpf
                 // if contains numbers only
                 transaction.Amount = Convert.ToDouble(item.Text);
                 transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+
                 SetCurrentMonth(transaction.Month.Element);
             }
         }
 
-        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleButton item = sender as ToggleButton;
 
             if (item == null) return;
 
             ITransaction transaction = item.DataContext as ITransaction;
-            transaction.Payed = item.IsChecked.HasValue ? item.IsChecked.Value : false;
 
             transaction.Month.Element.UpdateBankBalanceEndOfMonth();
-
             SetCurrentMonth(transaction.Month.Element);
         }
     }
