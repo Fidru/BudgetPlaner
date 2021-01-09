@@ -8,15 +8,22 @@ using XmlSaver.Save;
 using IData.Services;
 using System;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
+using System.Threading;
 
 namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
+        private readonly Storyboard _storyboard;
+        private readonly Storyboard _reverse;
+        private readonly Storyboard _previous;
         public IMonth CurrentMonth { get; set; }
 
         private IProject _project { get; set; }
         private IEnumerable<IService> _services { get; set; }
+        public object Threat { get; private set; }
 
         public MainWindow()
         {
@@ -29,6 +36,28 @@ namespace UI.Wpf
 
             CreateMenu();
             SetCurrentMonth(CurrentMonth);
+            _storyboard = CreateStoryboard(0, 1, 800, 0);
+            _reverse = CreateStoryboard(0, 1, -800, 0);
+
+            //_previous = CreateStoryboard(0, 1, 0, 80);
+        }
+
+        private Storyboard CreateStoryboard(int from, int to, int fromRender, int toRender)
+        {
+            Storyboard sb = new Storyboard();
+            sb.FillBehavior = FillBehavior.HoldEnd;
+
+            var opacityAnimation = new DoubleAnimation(from, to, new Duration(TimeSpan.FromMilliseconds(300)));
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(innerGrid.Opacity)));
+
+            sb.Children.Add(opacityAnimation);
+
+            DoubleAnimation translateAnimation = new DoubleAnimation(fromRender, toRender, new Duration(TimeSpan.FromMilliseconds(500)));
+            Storyboard.SetTargetProperty(translateAnimation, new PropertyPath($"{nameof(innerGrid.RenderTransform)}.{nameof(TranslateTransform.X)}"));
+
+            sb.Children.Add(translateAnimation);
+
+            return sb;
         }
 
         private void SetCurrentMonth(IMonth month)
@@ -87,11 +116,13 @@ namespace UI.Wpf
         private void next_Click(object sender, RoutedEventArgs e)
         {
             SetNewMonth(CurrentMonth.AlignedMonths.Next);
+            _storyboard.Begin(innerGrid);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             SetNewMonth(CurrentMonth.AlignedMonths.Previous);
+            _reverse.Begin(innerGrid);
         }
 
         private void SetNewMonth(IMonth newMonth)

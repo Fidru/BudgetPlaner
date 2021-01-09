@@ -115,7 +115,7 @@ namespace Data.Classes
 
         private ITransaction BankBalancePayment
         {
-            get { return  Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance && p.SubCategory == null); }
+            get { return Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance && p.SubCategory == null); }
         }
 
         public ITransaction GetBankBalanceEndOfMonthPayment
