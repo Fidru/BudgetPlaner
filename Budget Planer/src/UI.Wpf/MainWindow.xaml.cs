@@ -18,6 +18,30 @@ namespace UI.Wpf
     {
         private readonly Storyboard _nextAnimation;
         private readonly Storyboard _previousAnimation;
+
+        public Color PrimaryHueLightBrushColor { get { return ConvertThemeColor("PrimaryHueLightBrush"); } }
+        public Color PrimaryHueLightForegroundBrushColor { get { return ConvertThemeColor("PrimaryHueLightForeground"); } }
+        public Color PrimaryHueMidBrushColor { get { return ConvertThemeColor("PrimaryHueMidBrush"); } }
+        public Color PrimaryHueMidForegroundBrushColor { get { return ConvertThemeColor("PrimaryHueMidForegroundBrush"); } }
+        public Color PrimaryHueDarkBrushColor { get { return ConvertThemeColor("PrimaryHueDarkBrush"); } }
+
+        public Color PrimaryHueDarkForegroundBrush
+        {
+            get { return ConvertThemeColor("PrimaryHueDarkForegroundBrush"); }
+        }
+
+        private Color ConvertThemeColor(object hexColorCode)
+        {
+            var foundColor = FindResource(hexColorCode);
+
+            if (foundColor != null)
+            {
+                Color color = (Color)ColorConverter.ConvertFromString(foundColor.ToString());
+                return color;
+            }
+            return new Color() { A = 255, R = 255, G = 255, B = 255 };
+        }
+
         public IMonth CurrentMonth { get; set; }
 
         private IProject _project { get; set; }
@@ -154,10 +178,6 @@ namespace UI.Wpf
             _project = saver.Read(_services);
             CreateMenu();
             SetCurrentMonth(_project.Years.First().Months.Elements.First());
-        }
-
-        private void radioPaid_Click(object sender, RoutedEventArgs e)
-        {
         }
 
         private void textAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

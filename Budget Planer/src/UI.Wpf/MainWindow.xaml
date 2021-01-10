@@ -14,6 +14,13 @@
         WindowStyle="None" ResizeMode="NoResize">
     <Window.Resources>
 
+        <Style x:Key="MyMaterialDesignButtonTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="20,0,0,0" />
+        </Style>
+
         <Style x:Key="MyEditButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconForegroundButton}">
             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
             <Setter Property="Height" Value="25" />
@@ -21,30 +28,16 @@
         </Style>
 
         <Style x:Key="MyMaterialDesignHamburgerToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource MaterialDesignHamburgerToggleButton}">
-            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />
         </Style>
 
         <Style x:Key="My2ColoredToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
             <Style.Resources>
                 <!-- Checked thumb foreground -->
-                <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush">
-                    <SolidColorBrush.Color>
-                        <Color A="255" R="3" G="169" B="244"></Color>
-                    </SolidColorBrush.Color>
-                </SolidColorBrush>
-                <!-- Unchecked thumb foreground -->
-                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{DynamicResource MaterialDesignShadow}" />
-
-                <!-- Checked track color: There will be an opacity of 0.26 applied to it -->
-                <!-- Setting this will also affect the color of the ripple when the thumb is clicked -->
-                <SolidColorBrush x:Key="PrimaryHueLightBrush">
-                    <SolidColorBrush.Color>
-                        <Color A="255" R="3" G="169" B="244"></Color>
-                    </SolidColorBrush.Color>
-                </SolidColorBrush>
-                <!-- Unchecked track color: Hard coded to be black with 0.26 opacity -->
+                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary700}" />
+                <!-- Checked thumb background -->
+                <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary700}" />
             </Style.Resources>
-            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
         </Style>
 
         <Style x:Key="SquareButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignRaisedButton}">
@@ -60,77 +53,120 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Margin" Value="0,0,0,0" />
-            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />
         </Style>
 
         <Style x:Key="CustomHeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
             <Setter Property="Margin" Value="-20,0,0,0" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
+
+            <!--<Setter Property="TreeHelpers:TreeHelpers.Modifiers">
+                <Setter.Value>
+                    <TreeHelpers:ModifierCollection>
+                        <TreeHelpers:Modifier TemplatePartName="HeaderBorder" Property="{x:Static Border.BackgroundProperty}">
+                            <TreeHelpers:Modifier.Value>
+                                <SolidColorBrush Color="Orange" />
+                            </TreeHelpers:Modifier.Value>
+                        </TreeHelpers:Modifier>
+                    </TreeHelpers:ModifierCollection>
+                </Setter.Value>
+            </Setter>-->
+
+            <Style.Resources>
+                <SolidColorBrush x:Key="MaterialDesignDivider" Color="{StaticResource Primary800}" />
+            </Style.Resources>
         </Style>
 
         <Style x:Key="MyListViewScrollStyle" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
             <Setter Property="Margin" Value="10,0,10,0" />
             <!--This will change the color of the entire list view. If you set this you probably want to set a specific ListViewItem style like below-->
             <!--<Setter Property="Background" Value="{DynamicResource MaterialDesignDarkBackground}" />-->
+
+            <Style.Resources>
+                <!-- Header separator color, (GridLines) -->
+                <SolidColorBrush x:Key="MaterialDesignDivider" Color="{StaticResource Primary400}" />
+            </Style.Resources>
         </Style>
 
         <Style x:Key="ItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
             <Style.Resources>
                 <!-- Item Selection color -->
-                <SolidColorBrush x:Key="MaterialDesignSelection" Color="DodgerBlue" />
-                <!-- Mouse over color and separator color, (GridLines) -->
-                <!--<SolidColorBrush x:Key="MaterialDesignDivider" Color="{DynamicResource MaterialDesignShadow}" />-->
+                <SolidColorBrush x:Key="MaterialDesignSelection" Color="{StaticResource Primary100}"/>
+
+                <!-- separator color, (GridLines) -->
+                <SolidColorBrush x:Key="MaterialDesignDivider" Color="{StaticResource Primary300}" />
             </Style.Resources>
-            <!--<Setter Property="Background" Value="{DynamicResource MaterialDesignDarkBackground}" />
-            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightBackground}" />-->
 
             <Style.Triggers>
-                <!-- Overriding colors by duplicating triggers from the base style-->
+                <!-- Mouse Over Colors-->
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}"/>
                 </Trigger>
-                <MultiTrigger>
+                <!--<MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsSelected" Value="True" />
                         <Condition Property="Selector.IsSelectionActive" Value="False" />
                     </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource MaterialDesignLightBackground}" />
-                </MultiTrigger>
+                    <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}"/>
+                </MultiTrigger>-->
             </Style.Triggers>
         </Style>
     </Window.Resources>
 
     <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+
         <materialDesign:DrawerHost.LeftDrawerContent>
-            <DockPanel MinWidth="212">
-                <ToggleButton Style="{StaticResource MyMaterialDesignHamburgerToggleButton}"
-                              DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="16"
+            <DockPanel MinWidth="212" Background="{DynamicResource PrimaryHueMidBrush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="90*" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <ToggleButton Style="{StaticResource MyMaterialDesignHamburgerToggleButton}" Grid.Row="0"
+                              DockPanel.Dock="Top" HorizontalAlignment="Right"
                               IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                <Menu x:Name="mainMenu">
-                    <Menu.Resources>
-                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                            <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
-                                <Setter.Value>
-                                    <TreeHelpers:ModifierCollection>
-                                        <TreeHelpers:Modifier Property="{x:Static Popup.PlacementProperty}"
+
+                    <Menu x:Name="mainMenu" Grid.Row="1">
+                        <Menu.Resources>
+                            <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
+                                    <Setter.Value>
+                                        <TreeHelpers:ModifierCollection>
+                                            <TreeHelpers:Modifier Property="{x:Static Popup.PlacementProperty}"
                                                             Value="{x:Static PlacementMode.Right}"
                                                             TemplatePartName="PART_Popup" />
-                                    </TreeHelpers:ModifierCollection>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Menu.Resources>
-                    <Menu.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </Menu.ItemsPanel>
+                                        </TreeHelpers:ModifierCollection>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <!-- Overriding colors by duplicating triggers from the base style-->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Menu.Resources>
+                        <Menu.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </Menu.ItemsPanel>
 
-                    <MenuItem Name="save" Header="Save" Click="save_Click" />
-                    <MenuItem Name="load" Header="Load" Click="load_Click" />
-                </Menu>
+                        <MenuItem Name="save" Header="Save" Click="save_Click" />
+                        <MenuItem Name="load" Header="Load" Click="load_Click" />
+                    </Menu>
+
+                    <materialDesign:ColorZone Grid.Row="2" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" />
+                </Grid>
             </DockPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>
 
@@ -196,17 +232,13 @@
                     <RowDefinition Height="50*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Monthly Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
-                Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
+                <TextBlock Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
 
-                <TextBlock Text="Food Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
-                Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
+                <TextBlock Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" />
 
-                <TextBlock Text="Credit Card Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
-                Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="2" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
+                <TextBlock Text="Credit Card Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="2" />
 
-                <TextBlock Text="Expected / Unexpected Bills"  VerticalAlignment="Center" HorizontalAlignment="Left"
-                Style="{StaticResource MaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" TextWrapping="Wrap" Height="24" Width="216" Margin="20,0,0,0" />
+                <TextBlock Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
 
                 <ListView x:Name="bills" ItemsSource="{Binding CurrentMonth.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
                       ItemContainerStyle="{StaticResource ItemStyle}">
