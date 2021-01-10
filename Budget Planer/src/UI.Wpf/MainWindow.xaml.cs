@@ -68,10 +68,10 @@ namespace UI.Wpf
             Storyboard sb = new Storyboard();
             sb.FillBehavior = FillBehavior.HoldEnd;
 
-            //var opacityAnimation = new DoubleAnimation(from, to, new Duration(TimeSpan.FromMilliseconds(1000)));
-            //Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(innerGrid.Opacity)));
+            var opacityAnimation = new DoubleAnimation(opacityFrom, opacityTo, new Duration(TimeSpan.FromMilliseconds(300)));
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(innerGrid.Opacity)));
 
-            //sb.Children.Add(opacityAnimation);
+            sb.Children.Add(opacityAnimation);
 
             DoubleAnimation translateAnimation = new DoubleAnimation(fromRender, toRender, new Duration(TimeSpan.FromMilliseconds(800)));
             Storyboard.SetTargetProperty(translateAnimation, new PropertyPath($"{nameof(innerGrid.RenderTransform)}.{nameof(TranslateTransform.X)}"));
@@ -216,6 +216,14 @@ namespace UI.Wpf
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            //new MyXmlSaver().Save(_project);
+
+            //Thread.Sleep(2000);
+            this.Close();
         }
     }
 }
