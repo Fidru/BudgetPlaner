@@ -94,7 +94,7 @@
         <Style x:Key="ItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
             <Style.Resources>
                 <!-- Item Selection color -->
-                <SolidColorBrush x:Key="MaterialDesignSelection" Color="{StaticResource Primary100}"/>
+                <SolidColorBrush x:Key="MaterialDesignSelection" Color="{StaticResource Primary100}" />
 
                 <!-- separator color, (GridLines) -->
                 <SolidColorBrush x:Key="MaterialDesignDivider" Color="{StaticResource Primary300}" />
@@ -104,16 +104,16 @@
                 <!-- Mouse Over Colors-->
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
-                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />
                 </Trigger>
-                <!--<MultiTrigger>
+                <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsSelected" Value="True" />
                         <Condition Property="Selector.IsSelectionActive" Value="False" />
                     </MultiTrigger.Conditions>
                     <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
-                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}"/>
-                </MultiTrigger>-->
+                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />
+                </MultiTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
@@ -138,19 +138,12 @@
                     <Menu x:Name="mainMenu" Grid.Row="1">
                         <Menu.Resources>
                             <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                                <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
-                                    <Setter.Value>
-                                        <TreeHelpers:ModifierCollection>
-                                            <TreeHelpers:Modifier Property="{x:Static Popup.PlacementProperty}"
-                                                            Value="{x:Static PlacementMode.Right}"
-                                                            TemplatePartName="PART_Popup" />
-                                        </TreeHelpers:ModifierCollection>
-                                    </Setter.Value>
-                                </Setter>
                                 <Style.Triggers>
                                     <!-- Overriding colors by duplicating triggers from the base style-->
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                                        <!--BUG would set everything to white foregroun-->
+                                        <!--<Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />-->
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
