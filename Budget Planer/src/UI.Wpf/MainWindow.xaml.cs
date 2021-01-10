@@ -94,10 +94,14 @@ namespace UI.Wpf
 
         private void SetListViewItemSource(ListView view, IEnumerable<ITransaction> transactions)
         {
+            view.BeginInit();
+
             if (view.ItemsSource != null)
             {
                 view.ItemsSource = transactions;
             }
+
+            view.EndInit();
         }
 
         private void CreateMenu()
