@@ -138,6 +138,17 @@
                     <Menu x:Name="mainMenu" Grid.Row="1">
                         <Menu.Resources>
                             <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+
+                                <!--Needed To Open the SubMenu At the Right Edge of the main Menu-->
+                                <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
+                                    <Setter.Value>
+                                        <TreeHelpers:ModifierCollection>
+                                            <TreeHelpers:Modifier Property="{x:Static Popup.PlacementProperty}"
+                                                            Value="{x:Static PlacementMode.Right}"
+                                                            TemplatePartName="PART_Popup" />
+                                        </TreeHelpers:ModifierCollection>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <!-- Overriding colors by duplicating triggers from the base style-->
                                     <Trigger Property="IsMouseOver" Value="True">
