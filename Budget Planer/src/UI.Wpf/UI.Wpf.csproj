@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\YearViewModel.cs" />
     <Compile Include="TreeHelpers\Modifier.cs" />
     <Compile Include="TreeHelpers\ModifierBase.cs" />
     <Compile Include="TreeHelpers\ModifierCollection.cs" />
