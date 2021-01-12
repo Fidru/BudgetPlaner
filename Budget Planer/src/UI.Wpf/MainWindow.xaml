@@ -15,6 +15,10 @@
         WindowStyle="None" ResizeMode="NoResize">
     <Window.Resources>
 
+        <Style x:Key="NewPayment" TargetType="DockPanel">
+            <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}" />
+        </Style>
+
         <Style x:Key="MyMaterialDesignButtonTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -200,13 +204,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6" />
                         <ColumnDefinition Width="20.667" />
-                        <!--<ColumnDefinition Width="16.333" />
-                        <ColumnDefinition Width="57.667" />
-                        <ColumnDefinition Width="200" />-->
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="1300*" />
-                        <!--<ColumnDefinition Width="111*" />-->
-                        <!--<ColumnDefinition Width="1316*" />-->
                     </Grid.ColumnDefinitions>
                     <ToggleButton Style="{StaticResource MyMaterialDesignHamburgerToggleButton}" IsChecked="False"
                                   x:Name="MenuToggleButton" Grid.Row="0" Margin="4,-11,2,-10" Grid.ColumnSpan="3" />
@@ -335,7 +334,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonth.FoodPayments}"
+                    <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonth.Empty}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -409,7 +408,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="creditCard" ItemsSource="{Binding CurrentMonth.CreditCardPayments}"
+                    <ListView x:Name="creditCard" ItemsSource="{Binding CurrentMonth.Empty}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -483,7 +482,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonth.ExpectedUnexpectedPayments}"
+                    <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonth.Empty}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="3" Grid.RowSpan="1">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -558,6 +557,68 @@
                     </ListView>
                 </Grid>
             </DockPanel>
+
+            <!--<DockPanel Style="{StaticResource NewPayment}" Margin="20,425,0,23"
+                       Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition Width="500*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="90" />
+                        <RowDefinition Height="90" />
+                        <RowDefinition Height="90" />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Name" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Category" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Sub Category" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Payment Pattern" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Interval" />
+
+                    <TextBox Grid.Row="1" Grid.Column="1" />
+
+                    <ListBox Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" SelectionMode="Single"
+                             ItemsSource="{Binding Project.Categories}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.Resources>
+                        </ListBox.Resources>
+                    </ListBox>
+
+                    -->
+            <!--<ListBox ItemsSource="{Binding Project.Categories}"
+                        Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" SelectionMode="Single">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+
+                            <DataTemplate>
+                                -->
+            <!--<DataTemplate DataType="{x:Type local:ItemViewModel}">-->
+
+            <!--<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />-->
+            <!--
+                                <CheckBox Content="{Binding Name}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>-->
+            <!--
+                </Grid>
+            </DockPanel>-->
 
             <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"  Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,-10,0" Height="48" />
         </Grid>
