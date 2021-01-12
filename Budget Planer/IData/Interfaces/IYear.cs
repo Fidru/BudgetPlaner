@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IData.Interfaces
+﻿namespace IData.Interfaces
 {
     public interface IYear : IElement
     {

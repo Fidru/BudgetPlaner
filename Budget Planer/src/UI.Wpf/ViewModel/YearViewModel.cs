@@ -1,7 +1,6 @@
 ﻿using IData.Interfaces;
-using System.Linq;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Linq;
 
 namespace UI.Wpf.ViewModel
 {

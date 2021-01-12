@@ -1,11 +1,11 @@
-﻿using DevExpress.XtraGrid.Columns;
-using IData.Interfaces;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Linq;
+﻿using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Columns;
 using IData.Constants;
-using DevExpress.XtraGrid;
+using IData.Interfaces;
 using IData.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace UI.WinForms.Views.Controls
 {

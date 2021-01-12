@@ -1,19 +1,15 @@
 ﻿using IData.Interfaces;
-using System.Windows;
-using UI.WinForms;
-using System.Windows.Controls;
-using System.Collections.Generic;
-using XmlSaver.Save;
 using IData.Services;
 using System;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media.Animation;
-using System.Windows.Media;
-using UI.Wpf.ViewModel;
-using System.Threading.Tasks;
-using System.Threading;
+using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using UI.WinForms;
+using UI.Wpf.ViewModel;
+using XmlSaver.Save;
 
 namespace UI.Wpf
 {

@@ -1,6 +1,6 @@
 ﻿using IData.Interfaces;
-using System.ComponentModel;
 using System;
+using System.ComponentModel;
 
 namespace UI.Wpf.ViewModel
 {
