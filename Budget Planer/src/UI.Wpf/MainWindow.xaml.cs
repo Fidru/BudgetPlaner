@@ -3,48 +3,28 @@ using System.Windows;
 using UI.WinForms;
 using System.Windows.Controls;
 using System.Collections.Generic;
-using System.Linq;
 using XmlSaver.Save;
 using IData.Services;
 using System;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
+using UI.Wpf.ViewModel;
+using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
-        private readonly Storyboard _nextAnimation;
+        private readonly Storyboard _nextAnimationFadeIn;
         private readonly Storyboard _previousAnimation;
 
-        public Color PrimaryHueLightBrushColor { get { return ConvertThemeColor("PrimaryHueLightBrush"); } }
-        public Color PrimaryHueLightForegroundBrushColor { get { return ConvertThemeColor("PrimaryHueLightForeground"); } }
-        public Color PrimaryHueMidBrushColor { get { return ConvertThemeColor("PrimaryHueMidBrush"); } }
-        public Color PrimaryHueMidForegroundBrushColor { get { return ConvertThemeColor("PrimaryHueMidForegroundBrush"); } }
-        public Color PrimaryHueDarkBrushColor { get { return ConvertThemeColor("PrimaryHueDarkBrush"); } }
+        private ProjectViewModel _projectVm;
+        private YearViewModel _yearVm;
 
-        public Color PrimaryHueDarkForegroundBrush
-        {
-            get { return ConvertThemeColor("PrimaryHueDarkForegroundBrush"); }
-        }
-
-        private Color ConvertThemeColor(object hexColorCode)
-        {
-            var foundColor = FindResource(hexColorCode);
-
-            if (foundColor != null)
-            {
-                Color color = (Color)ColorConverter.ConvertFromString(foundColor.ToString());
-                return color;
-            }
-            return new Color() { A = 255, R = 255, G = 255, B = 255 };
-        }
-
-        public IMonth CurrentMonth { get; set; }
-
-        private IProject _project { get; set; }
         private IEnumerable<IService> _services { get; set; }
         public object Threat { get; private set; }
 
@@ -52,56 +32,33 @@ namespace UI.Wpf
         {
             var data = new TestData();
             _services = data.Services;
-            _project = data.Project;
-            CurrentMonth = _project.Months.First();
 
             InitializeComponent();
 
+            _projectVm = new ViewModelFactory().ConvertVm(data.Project);
+            _yearVm = _projectVm.YearsVm.First();
+            DataContext = _yearVm;
+
             CreateMenu();
-            SetCurrentMonth(CurrentMonth);
-            _nextAnimation = CreateStoryboard(0, 1, 800, 0);
-            _previousAnimation = CreateStoryboard(0, 1, -800, 0);
+
+            _nextAnimationFadeIn = CreateStoryboard(1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
+            _previousAnimation = CreateStoryboard(-1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
         }
 
-        private Storyboard CreateStoryboard(int opacityFrom, int opacityTo, int fromRender, int toRender)
+        private Storyboard CreateStoryboard(int fromRender, int toRender, string opacity, string render, int maxTimer)
         {
             Storyboard sb = new Storyboard();
             sb.FillBehavior = FillBehavior.HoldEnd;
 
-            var opacityAnimation = new DoubleAnimation(opacityFrom, opacityTo, new Duration(TimeSpan.FromMilliseconds(300)));
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(innerGrid.Opacity)));
+            var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
+            Storyboard.SetTargetProperty(fadeIn, new PropertyPath(opacity));
+            sb.Children.Add(fadeIn);
 
-            sb.Children.Add(opacityAnimation);
-
-            DoubleAnimation translateAnimation = new DoubleAnimation(fromRender, toRender, new Duration(TimeSpan.FromMilliseconds(800)));
-            Storyboard.SetTargetProperty(translateAnimation, new PropertyPath($"{nameof(innerGrid.RenderTransform)}.{nameof(TranslateTransform.X)}"));
-
-            sb.Children.Add(translateAnimation);
+            DoubleAnimation moveIn = new DoubleAnimation(fromRender, toRender, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
+            Storyboard.SetTargetProperty(moveIn, new PropertyPath($"{render}.{nameof(TranslateTransform.X)}"));
+            sb.Children.Add(moveIn);
 
             return sb;
-        }
-
-        private void SetCurrentMonth(IMonth month)
-        {
-            monthDisplay.Text = month.Name;
-            CurrentMonth = month;
-
-            SetListViewItemSource(bills, month.Bills);
-            SetListViewItemSource(foodBills, month.FoodPayments);
-            SetListViewItemSource(creditCard, month.CreditCardPayments);
-            SetListViewItemSource(expectedBills, month.ExpectedUnexpectedPayments);
-        }
-
-        private void SetListViewItemSource(ListView view, IEnumerable<ITransaction> transactions)
-        {
-            view.BeginInit();
-
-            if (view.ItemsSource != null)
-            {
-                view.ItemsSource = transactions;
-            }
-
-            view.EndInit();
         }
 
         private void CreateMenu()
@@ -111,7 +68,7 @@ namespace UI.Wpf
                 mainMenu.Items.RemoveAt(2);
             }
 
-            foreach (var year in _project.Years)
+            foreach (var year in _projectVm.Project.Years)
             {
                 var mainItem = new MenuItem();
                 mainItem.Header = year.Name;
@@ -133,85 +90,38 @@ namespace UI.Wpf
         private void MonthClicked(object sender, RoutedEventArgs e)
         {
             var menu = sender as MenuItem;
-            var month = menu.Tag as IMonth;
+            var month = menu.Tag as MonthViewModel;
 
-            SetCurrentMonth(month);
+            _yearVm.SelectNewCurrentMonth(month);
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentMonth.AlignedMonths.Next != null)
-            {
-                CurrentMonth.AlignedMonths.Next.UpdateBankBalanceFromPreviousMonth();
-            }
-
-            SetNewMonth(CurrentMonth.AlignedMonths.Next);
-            _nextAnimation.Begin(innerGrid);
-            _nextAnimation.Begin(monthDisplay);
+            // todo
+            _yearVm.SelectNextMonth();
+            _nextAnimationFadeIn.Begin(innerPanel);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
-            _previousAnimation.Begin(innerGrid);
-            _previousAnimation.Begin(monthDisplay);
-
-            SetNewMonth(CurrentMonth.AlignedMonths.Previous);
-        }
-
-        private void SetNewMonth(IMonth newMonth)
-        {
-            if (newMonth == null)
-            {
-                return;
-            }
-
-            SetCurrentMonth(newMonth);
+            // todo
+            _yearVm.SelectPreviousMonth();
+            _previousAnimation.Begin(innerPanel);
         }
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            //Update Views
-
             MyXmlSaver saver = new MyXmlSaver();
-            saver.Save(_project);
+            saver.Save(_projectVm.Project);
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
         {
-            MyXmlSaver saver = new MyXmlSaver();
-            _project = saver.Read(_services);
+            IProject project = new MyXmlSaver().Read(_services);
+
+            DataContext = new ViewModelFactory().ConvertVm(project);
+
             CreateMenu();
-            SetCurrentMonth(_project.Years.First().Months.Elements.First());
-        }
-
-        private void textAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                TextBox item = sender as TextBox;
-
-                if (item == null) return;
-
-                ITransaction transaction = item.DataContext as ITransaction;
-
-                // if contains numbers only
-                transaction.Amount = Convert.ToDouble(item.Text);
-                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
-
-                SetCurrentMonth(transaction.Month.Element);
-            }
-        }
-
-        private void ToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleButton item = sender as ToggleButton;
-
-            if (item == null) return;
-
-            ITransaction transaction = item.DataContext as ITransaction;
-
-            transaction.Month.Element.UpdateBankBalanceEndOfMonth();
-            SetCurrentMonth(transaction.Month.Element);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)

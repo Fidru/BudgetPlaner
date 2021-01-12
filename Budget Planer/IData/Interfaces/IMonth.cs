@@ -25,7 +25,7 @@ namespace IData.Interfaces
 
         public void AddToBankBalance(double amount);
 
-        public void UpdateBankBalanceEndOfMonth();
+        public IIdentifier UpdateBankBalanceEndOfMonth();
 
         ITransaction GetBankBalanceEndOfMonthPayment { get; }
 
