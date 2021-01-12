@@ -11,7 +11,7 @@ namespace UI.Wpf.ViewModel
             var vm = new ProjectViewModel()
             {
                 Project = project,
-                YearsVm = ConvertVms(project.Years),
+                YearsVm = ConvertVms(project.Years)
             };
 
             return vm;
@@ -31,6 +31,8 @@ namespace UI.Wpf.ViewModel
                     MonthsVm = months,
                     Months = year.Months.Elements,
                     CurrentMonth = months.First(),
+                    Year = year,
+                    Element = year,
                 };
                 vms.Add(vm);
             }
@@ -64,39 +66,39 @@ namespace UI.Wpf.ViewModel
         {
             var vm = new MonthViewModel
             {
-                TransactionVms = ConvertVms(month.Transactions.Elements),
                 Name = month.Name,
                 Month = month,
+                Element = month
             };
+
+            vm.TransactionVms = ConvertVms(month.Transactions.Elements, vm);
 
             vm.Bills = vm.TransactionVms.Where(t => month.Bills.Any(b => b.Id == t.Id)).ToList();
 
             return vm;
         }
 
-        public List<TransactionViewModel> ConvertVms(IEnumerable<ITransaction> transactions)
+        public List<TransactionViewModel> ConvertVms(IEnumerable<ITransaction> transactions, MonthViewModel vm)
         {
             var vms = new List<TransactionViewModel>();
 
-            var data = transactions.Select(t => ConvertVm(t)).OfType<TransactionViewModel>().ToList();
+            var data = transactions.Select(t => ConvertVm(t, vm)).OfType<TransactionViewModel>().ToList();
 
             foreach (var transaction in transactions)
             {
-                vms.Add(ConvertVm(transaction));
+                vms.Add(ConvertVm(transaction, vm));
             }
 
             return vms;
         }
 
-        public TransactionViewModel ConvertVm(ITransaction transaction)
+        public TransactionViewModel ConvertVm(ITransaction transaction, MonthViewModel vm)
         {
             return new TransactionViewModel
             {
-                Amount = transaction.Amount,
-                Name = transaction.Name,
-                Payed = transaction.Payed,
                 Transaction = transaction,
-                Id = transaction.Id
+                Element = transaction,
+                MonthVm = vm,
             };
         }
     }

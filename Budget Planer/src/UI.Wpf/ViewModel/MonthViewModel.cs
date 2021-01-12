@@ -6,15 +6,13 @@ using System;
 
 namespace UI.Wpf.ViewModel
 {
-    public class YearViewModel : INotifyPropertyChanged
+    public class YearViewModel : ElementViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public IYear Year { get; set; }
 
         public IEnumerable<IMonth> Months { get; set; }
-
-        public string Name { get; set; }
 
         public List<MonthViewModel> MonthsVm { get; set; }
 
@@ -36,14 +34,6 @@ namespace UI.Wpf.ViewModel
             }
         }
 
-        protected void NotifyPropertyChanged(string info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
-
         public void SelectPreviousMonth()
         {
             if (CurrentMonth.AlignedMonths.Previous != null)
@@ -54,40 +44,92 @@ namespace UI.Wpf.ViewModel
         }
     }
 
-    public class MonthViewModel : INotifyPropertyChanged
+    public class MonthViewModel : ElementViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public List<TransactionViewModel> TransactionVms { get; set; }
 
-        public IEnumerable<TransactionViewModel> TransactionVms { get; set; }
+        public List<TransactionViewModel> Bills
+        {
+            get;
+            set;
+        }
 
-        public List<TransactionViewModel> Bills { get; set; }
         public List<TransactionViewModel> Empty { get; set; }
 
         public AlignedMonthsViewModel AlignedMonths { get; set; }
 
-        public string Name { get; set; }
         public IMonth Month { get; set; }
     }
 
-    public class AlignedMonthsViewModel : INotifyPropertyChanged
+    public class AlignedMonthsViewModel : ElementViewModel
     {
         public MonthViewModel Current { get; set; }
         public MonthViewModel Next { get; set; }
         public MonthViewModel Previous { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class TransactionViewModel : INotifyPropertyChanged
+    public class ElementViewModel : INotifyPropertyChanged
     {
+        public IElement Element { get; set; }
+
+        public Guid Id
+        {
+            get { return Element.Id; }
+        }
+
+        public string Name
+        {
+            get { return Element.Name; }
+            set
+            {
+                Element.Name = value;
+                NotifyPropertyChanged("CurrentMonth");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        protected void NotifyPropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+    }
 
-        public double Amount { get; set; }
+    public class TransactionViewModel : ElementViewModel
+    {
+        public MonthViewModel MonthVm
+        {
+            get; set;
+        }
 
-        public bool Payed { get; set; }
+        public double Amount
+        {
+            get
+            {
+                return Transaction.Amount;
+            }
+            set
+            {
+                Transaction.Amount = value;
+                Transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+                NotifyPropertyChanged("Amount");
+            }
+        }
+
+        public bool Payed
+        {
+            get { return Transaction.Payed; }
+            set
+            {
+                Transaction.Payed = value;
+                Transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+                NotifyPropertyChanged("Payed");
+            }
+        }
+
         public ITransaction Transaction { get; set; }
     }
 }

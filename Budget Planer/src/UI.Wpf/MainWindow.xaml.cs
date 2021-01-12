@@ -158,8 +158,8 @@ namespace UI.Wpf
                 TransactionViewModel transaction = item.DataContext as TransactionViewModel;
 
                 // if contains numbers only
-                transaction.Amount = Convert.ToDouble(item.Text);
-                transaction.Transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+                //transaction.Amount = Convert.ToDouble(item.Text);
+                //transaction.UpdateBankBalance();
             }
         }
 
