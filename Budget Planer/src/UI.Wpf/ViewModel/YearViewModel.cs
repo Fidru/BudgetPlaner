@@ -1,51 +1,40 @@
 ﻿using IData.Interfaces;
-using System.ComponentModel;
 using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace UI.Wpf.ViewModel
 {
-    public class YearViewModel : INotifyPropertyChanged
+    public class YearViewModel : ElementViewModel
     {
-        public YearViewModel(IProject project)
+        public IYear Year { get; set; }
+
+        public List<MonthViewModel> MonthsVm { get; set; }
+
+        public MonthViewModel CurrentMonthVm { get; set; }
+
+        public void SelectNewCurrentMonth(MonthViewModel month)
         {
-            Project = project;
-
-            CurrentYear = Project.Years.First();
-            CurrentMonth = CurrentYear.Months.Elements.First();
+            CurrentMonthVm = month;
+            NotifyPropertyChanged(nameof(CurrentMonthVm));
         }
-
-        public IProject Project { get; set; }
-
-        public IYear CurrentYear { get; set; }
-
-        public IMonth CurrentMonth { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void SelectNextMonth()
         {
-            if (CurrentMonth.AlignedMonths.Next != null)
+            if (CurrentMonthVm.AlignedMonths.Next != null)
             {
-                CurrentMonth = CurrentMonth.AlignedMonths.Next;
-                CurrentMonth.UpdateBankBalanceFromPreviousMonth();
-                NotifyPropertyChanged("CurrentMonth");
-            }
-        }
-
-        protected void NotifyPropertyChanged(string info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
+                CurrentMonthVm = CurrentMonthVm.AlignedMonths.Next;
+                Year.Months.Elements.Single(m => m.Name == CurrentMonthVm.Name).UpdateBankBalanceFromPreviousMonth();
+                NotifyPropertyChanged(nameof(CurrentMonthVm));
             }
         }
 
         public void SelectPreviousMonth()
         {
-            if (CurrentMonth.AlignedMonths.Previous != null)
+            if (CurrentMonthVm.AlignedMonths.Previous != null)
             {
-                CurrentMonth = CurrentMonth.AlignedMonths.Previous;
-                NotifyPropertyChanged("CurrentMonth");
+                CurrentMonthVm = CurrentMonthVm.AlignedMonths.Previous;
+                NotifyPropertyChanged(nameof(CurrentMonthVm));
             }
         }
     }
