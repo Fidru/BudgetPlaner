@@ -50,14 +50,6 @@ namespace UI.Wpf
             Storyboard sb = new Storyboard();
             sb.FillBehavior = FillBehavior.HoldEnd;
 
-            //var fadeOut = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
-            //Storyboard.SetTargetProperty(fadeOut, new PropertyPath(opacity));
-            //sb.Children.Add(fadeOut);
-
-            //DoubleAnimation moveOut = new DoubleAnimation(toRender * -1, fromRender, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
-            //Storyboard.SetTargetProperty(moveOut, new PropertyPath($"{render}.{nameof(TranslateTransform.X)}"));
-            //sb.Children.Add(moveOut);
-
             var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
             Storyboard.SetTargetProperty(fadeIn, new PropertyPath(opacity));
             sb.Children.Add(fadeIn);
@@ -117,21 +109,6 @@ namespace UI.Wpf
             _previousAnimation.Begin(innerPanel);
         }
 
-        //private async void UpdatePreviousAsync()
-        //{
-        //    Task<bool> updateTask = UpdatePreviousDataContextAsync();
-
-        //    _previousAnimation.Begin(innerPanel);
-
-        //    await updateTask;
-        //}
-
-        //private async Task<bool> UpdatePreviousDataContextAsync()
-        //{
-        //    await Task.Run(() => _vm.SelectPreviousMonth());
-        //    return true;
-        //}
-
         private void save_Click(object sender, RoutedEventArgs e)
         {
             MyXmlSaver saver = new MyXmlSaver();
@@ -145,33 +122,6 @@ namespace UI.Wpf
             DataContext = new ViewModelFactory().ConvertVm(project);
 
             CreateMenu();
-        }
-
-        private void textAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                TextBox item = sender as TextBox;
-
-                if (item == null) return;
-
-                TransactionViewModel transaction = item.DataContext as TransactionViewModel;
-
-                // if contains numbers only
-                //transaction.Amount = Convert.ToDouble(item.Text);
-                //transaction.UpdateBankBalance();
-            }
-        }
-
-        private void ToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleButton item = sender as ToggleButton;
-
-            if (item == null) return;
-
-            TransactionViewModel transaction = item.DataContext as TransactionViewModel;
-
-            transaction.Transaction.Month.Element.UpdateBankBalanceEndOfMonth();
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)

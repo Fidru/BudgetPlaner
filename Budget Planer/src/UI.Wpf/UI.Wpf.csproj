@@ -74,13 +74,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\AlignedMonthsViewModel.cs" />
+    <Compile Include="ViewModel\ElementViewModel.cs" />
     <Compile Include="ViewModel\MonthViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />
     <Compile Include="TreeHelpers\Modifier.cs" />
     <Compile Include="TreeHelpers\ModifierBase.cs" />
     <Compile Include="TreeHelpers\ModifierCollection.cs" />
     <Compile Include="TreeHelpers\TreeHelpers.cs" />
+    <Compile Include="ViewModel\TransactionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelFactory.cs" />
+    <Compile Include="ViewModel\YearViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

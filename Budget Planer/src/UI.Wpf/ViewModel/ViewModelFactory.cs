@@ -27,10 +27,8 @@ namespace UI.Wpf.ViewModel
 
                 var vm = new YearViewModel
                 {
-                    Name = year.Name,
                     MonthsVm = months,
-                    Months = year.Months.Elements,
-                    CurrentMonth = months.First(),
+                    CurrentMonthVm = months.First(),
                     Year = year,
                     Element = year,
                 };
@@ -56,6 +54,7 @@ namespace UI.Wpf.ViewModel
                     Current = month,
                     Previous = vms.SingleOrDefault(x => x.Month == months.GetRelatedMonth(month.Month, -1)),
                     Next = vms.SingleOrDefault(x => x.Month == months.GetRelatedMonth(month.Month, 1)),
+                    Element = month.Month
                 };
             }
 
@@ -66,16 +65,23 @@ namespace UI.Wpf.ViewModel
         {
             var vm = new MonthViewModel
             {
-                Name = month.Name,
                 Month = month,
                 Element = month
             };
 
             vm.TransactionVms = ConvertVms(month.Transactions.Elements, vm);
 
-            vm.Bills = vm.TransactionVms.Where(t => month.Bills.Any(b => b.Id == t.Id)).ToList();
+            vm.Bills = GetFilteredViewModels(vm.TransactionVms, month.Bills);
+            vm.FoodPayments = GetFilteredViewModels(vm.TransactionVms, month.FoodPayments);
+            vm.CreditCardPayments = GetFilteredViewModels(vm.TransactionVms, month.CreditCardPayments);
+            vm.ExpectedUnexpectedPayments = GetFilteredViewModels(vm.TransactionVms, month.ExpectedUnexpectedPayments);
 
             return vm;
+        }
+
+        private static List<TransactionViewModel> GetFilteredViewModels(IEnumerable<TransactionViewModel> transactionVms, IEnumerable<ITransaction> transactions)
+        {
+            return transactionVms.Where(t => transactions.Any(b => b.Id == t.Id)).ToList();
         }
 
         public List<TransactionViewModel> ConvertVms(IEnumerable<ITransaction> transactions, MonthViewModel vm)

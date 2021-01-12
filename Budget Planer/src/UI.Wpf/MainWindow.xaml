@@ -223,7 +223,7 @@
                 <materialDesign:PackIcon Kind="ArrowLeftBold" Height="42" Width="42" Margin="-3,0,0,0" />
             </Button>
 
-            <TextBlock x:Name="monthDisplay" Text="{Binding CurrentMonth.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
+            <TextBlock x:Name="monthDisplay" Text="{Binding CurrentMonthVm.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
                 Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap">
                 <TextBlock.RenderTransform>
                     <TranslateTransform />
@@ -260,7 +260,7 @@
 
                     <TextBlock Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
 
-                    <ListView x:Name="bills" ItemsSource="{Binding CurrentMonth.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
+                    <ListView x:Name="bills" ItemsSource="{Binding CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
                       ItemContainerStyle="{StaticResource ItemStyle}">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -271,14 +271,14 @@
                                 <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
+                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -334,7 +334,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonth.Empty}"
+                    <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonthVm.FoodPayments}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -345,14 +345,14 @@
                                 <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
+                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -408,7 +408,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="creditCard" ItemsSource="{Binding CurrentMonth.Empty}"
+                    <ListView x:Name="creditCard" ItemsSource="{Binding CurrentMonthVm.CreditCardPayments}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -419,14 +419,14 @@
                                 <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
+                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                            <TextBox Text="{Binding Amount}" TextAlignment="Right" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -482,7 +482,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonth.Empty}"
+                    <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonthVm.ExpectedUnexpectedPayments}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="3" Grid.RowSpan="1">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -493,14 +493,14 @@
                                 <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" Click="ToggleButton_Click" />
+                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" KeyDown="textAmount_KeyDown" />
+                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
