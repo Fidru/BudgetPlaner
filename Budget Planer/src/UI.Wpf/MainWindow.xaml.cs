@@ -174,13 +174,8 @@ namespace UI.Wpf
                 ITransaction transaction = item.DataContext as ITransaction;
 
                 // if contains numbers only
-<<<<<<< Updated upstream
                 transaction.Amount = Convert.ToDouble(item.Text);
                 transaction.Month.Element.UpdateBankBalanceEndOfMonth();
-=======
-                //transaction.Amount = Convert.ToDouble(item.Text);
-                //transaction.UpdateBankBalance();
->>>>>>> Stashed changes
             }
         }
 
