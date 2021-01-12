@@ -12,19 +12,18 @@ using System.Windows.Media;
 using UI.Wpf.ViewModel;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Linq;
-using System.Windows.Documents;
 
 namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
+        private readonly Storyboard _nextAnimationFadeOut;
         private readonly Storyboard _nextAnimationFadeIn;
         private readonly Storyboard _previousAnimation;
 
-        private ProjectViewModel _projectVm;
-        private YearViewModel _yearVm;
+        private YearViewModel _vm;
 
+        private IProject _project { get; set; }
         private IEnumerable<IService> _services { get; set; }
         public object Threat { get; private set; }
 
@@ -32,15 +31,16 @@ namespace UI.Wpf
         {
             var data = new TestData();
             _services = data.Services;
+            _project = data.Project;
 
             InitializeComponent();
 
-            _projectVm = new ViewModelFactory().ConvertVm(data.Project);
-            _yearVm = _projectVm.YearsVm.First();
-            DataContext = _yearVm;
+            _vm = new YearViewModel(_project);
+            DataContext = _vm;
 
             CreateMenu();
 
+            //_nextAnimationFadeOut = CreateStoryboard(1, 0, 0, -800, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform));
             _nextAnimationFadeIn = CreateStoryboard(1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
             _previousAnimation = CreateStoryboard(-1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
         }
@@ -69,6 +69,10 @@ namespace UI.Wpf
             return sb;
         }
 
+        private void SetCurrentMonth(IMonth month)
+        {
+        }
+
         private void CreateMenu()
         {
             while (mainMenu.Items.Count > 2)
@@ -76,7 +80,7 @@ namespace UI.Wpf
                 mainMenu.Items.RemoveAt(2);
             }
 
-            foreach (var year in _projectVm.Project.Years)
+            foreach (var year in _project.Years)
             {
                 var mainItem = new MenuItem();
                 mainItem.Header = year.Name;
@@ -98,51 +102,63 @@ namespace UI.Wpf
         private void MonthClicked(object sender, RoutedEventArgs e)
         {
             var menu = sender as MenuItem;
-            var month = menu.Tag as MonthViewModel;
+            var month = menu.Tag as IMonth;
 
-            _yearVm.SelectNewCurrentMonth(month);
+            SetCurrentMonth(month);
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
-            // todo
-            _yearVm.SelectNextMonth();
+            UpdateNext();
+        }
+
+        private void UpdateNext()
+        {
+            _vm.SelectNextMonth();
+
             _nextAnimationFadeIn.Begin(innerPanel);
+            //_nextAnimationFadeIn.Begin(monthDisplay);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
-            // todo
-            _yearVm.SelectPreviousMonth();
-            _previousAnimation.Begin(innerPanel);
+            UpdatePrevious();
         }
 
-        //private async void UpdatePreviousAsync()
-        //{
-        //    Task<bool> updateTask = UpdatePreviousDataContextAsync();
+        private void UpdatePrevious()
+        {
+            _vm.SelectPreviousMonth();
 
-        //    _previousAnimation.Begin(innerPanel);
+            _previousAnimation.Begin(innerPanel);
+            //_previousAnimation.Begin(monthDisplay);
+        }
 
-        //    await updateTask;
-        //}
+        private async void UpdatePreviousAsync()
+        {
+            Task<bool> updateTask = UpdatePreviousDataContextAsync();
 
-        //private async Task<bool> UpdatePreviousDataContextAsync()
-        //{
-        //    await Task.Run(() => _vm.SelectPreviousMonth());
-        //    return true;
-        //}
+            _previousAnimation.Begin(innerPanel);
+
+            await updateTask;
+        }
+
+        private async Task<bool> UpdatePreviousDataContextAsync()
+        {
+            await Task.Run(() => _vm.SelectPreviousMonth());
+            return true;
+        }
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
             MyXmlSaver saver = new MyXmlSaver();
-            saver.Save(_projectVm.Project);
+            saver.Save(_project);
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
         {
             IProject project = new MyXmlSaver().Read(_services);
 
-            DataContext = new ViewModelFactory().ConvertVm(project);
+            DataContext = new YearViewModel(project);
 
             CreateMenu();
         }
@@ -155,11 +171,11 @@ namespace UI.Wpf
 
                 if (item == null) return;
 
-                TransactionViewModel transaction = item.DataContext as TransactionViewModel;
+                ITransaction transaction = item.DataContext as ITransaction;
 
                 // if contains numbers only
-                //transaction.Amount = Convert.ToDouble(item.Text);
-                //transaction.UpdateBankBalance();
+                transaction.Amount = Convert.ToDouble(item.Text);
+                transaction.Month.Element.UpdateBankBalanceEndOfMonth();
             }
         }
 
@@ -169,9 +185,10 @@ namespace UI.Wpf
 
             if (item == null) return;
 
-            TransactionViewModel transaction = item.DataContext as TransactionViewModel;
+            ITransaction transaction = item.DataContext as ITransaction;
 
-            transaction.Transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+            transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+            SetCurrentMonth(transaction.Month.Element);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
