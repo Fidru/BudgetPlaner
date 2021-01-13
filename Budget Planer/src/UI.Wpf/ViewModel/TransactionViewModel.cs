@@ -3,44 +3,43 @@ using System.Linq;
 
 namespace UI.Wpf.ViewModel
 {
-    public class TransactionViewModel : ElementViewModel
+    public class TransactionViewModel : ElementViewModel<ITransaction>
     {
-        public MonthViewModel MonthVm
+        public TransactionViewModel(ITransaction element) : base(element)
         {
-            get; set;
         }
+
+        public MonthViewModel MonthVm { get; set; }
 
         public double Amount
         {
             get
             {
-                return Transaction.Amount;
+                return Element.Amount;
             }
             set
             {
-                Transaction.Amount = value;
+                Element.Amount = value;
                 UpdateBankBalance();
             }
         }
 
         public bool Payed
         {
-            get { return Transaction.Payed; }
+            get { return Element.Payed; }
             set
             {
-                Transaction.Payed = value;
+                Element.Payed = value;
                 UpdateBankBalance();
             }
         }
 
         private void UpdateBankBalance()
         {
-            var updatedTransaction = Transaction.Month.Element.UpdateBankBalanceEndOfMonth();
+            var updatedTransaction = Element.Month.Element.UpdateBankBalanceEndOfMonth();
             var transactionVm = MonthVm.TransactionVms.Single(t => t.Id == updatedTransaction.Id);
 
             NotifyPropertyChanged(transactionVm, nameof(Amount));
         }
-
-        public ITransaction Transaction { get; set; }
     }
 }

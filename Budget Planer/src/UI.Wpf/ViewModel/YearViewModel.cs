@@ -4,9 +4,11 @@ using System.Linq;
 
 namespace UI.Wpf.ViewModel
 {
-    public class YearViewModel : ElementViewModel
+    public class YearViewModel : ElementViewModel<IYear>
     {
-        public IYear Year { get; set; }
+        public YearViewModel(IYear element) : base(element)
+        {
+        }
 
         public List<MonthViewModel> MonthsVm { get; set; }
 
@@ -23,7 +25,7 @@ namespace UI.Wpf.ViewModel
             if (CurrentMonthVm.AlignedMonths.Next != null)
             {
                 CurrentMonthVm = CurrentMonthVm.AlignedMonths.Next;
-                Year.Months.Elements.Single(m => m.Name == CurrentMonthVm.Name).UpdateBankBalanceFromPreviousMonth();
+                Element.Months.Elements.Single(m => m.Name == CurrentMonthVm.Name).UpdateBankBalanceFromPreviousMonth();
                 NotifyPropertyChanged(nameof(CurrentMonthVm));
             }
         }

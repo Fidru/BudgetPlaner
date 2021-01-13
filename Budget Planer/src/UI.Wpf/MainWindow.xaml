@@ -8,7 +8,7 @@
         xmlns:ViewModel="clr-namespace:UI.Wpf.ViewModel"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource PrimaryHueMidBrush}"
-        d:DataContext="{d:DesignInstance Type=ViewModel:YearViewModel, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance Type=ViewModel:ProjectViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="MainWindow" Width="1768" Height="992"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
@@ -176,8 +176,9 @@
                             </ItemsPanelTemplate>
                         </Menu.ItemsPanel>
 
-                        <MenuItem Name="save" Header="Save" Click="save_Click" />
-                        <MenuItem Name="load" Header="Load" Click="load_Click" />
+                        <MenuItem Name="New" Header="New" Click="New_Click" />
+                        <MenuItem Name="Save" Header="Save" Click="save_Click" />
+                        <MenuItem Name="Load" Header="Load" Click="load_Click" />
                     </Menu>
 
                     <materialDesign:ColorZone Grid.Row="2" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" />
@@ -223,7 +224,7 @@
                 <materialDesign:PackIcon Kind="ArrowLeftBold" Height="42" Width="42" Margin="-3,0,0,0" />
             </Button>
 
-            <TextBlock x:Name="monthDisplay" Text="{Binding CurrentMonthVm.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
+            <TextBlock x:Name="monthDisplay" Text="{Binding CurrentYear.CurrentMonthVm.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
                 Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap">
                 <TextBlock.RenderTransform>
                     <TranslateTransform />
@@ -260,7 +261,7 @@
 
                     <TextBlock Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
 
-                    <ListView x:Name="bills" ItemsSource="{Binding CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
+                    <ListView x:Name="bills" ItemsSource="{Binding CurrentYear.CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
                       ItemContainerStyle="{StaticResource ItemStyle}">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -334,7 +335,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="foodBills" ItemsSource="{Binding CurrentMonthVm.FoodPayments}"
+                    <ListView x:Name="foodBills" ItemsSource="{Binding CurrentYear.CurrentMonthVm.FoodPayments}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -408,7 +409,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="creditCard" ItemsSource="{Binding CurrentMonthVm.CreditCardPayments}"
+                    <ListView x:Name="creditCard" ItemsSource="{Binding CurrentYear.CurrentMonthVm.CreditCardPayments}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -482,7 +483,7 @@
                         </ListView.GroupStyle>
                     </ListView>
 
-                    <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentMonthVm.ExpectedUnexpectedPayments}"
+                    <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentYear.CurrentMonthVm.ExpectedUnexpectedPayments}"
                       ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="3" Grid.RowSpan="1">
                         <ListView.Resources>
                             <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource MyListViewScrollStyle}" />
@@ -558,7 +559,7 @@
                 </Grid>
             </DockPanel>
 
-            <!--<DockPanel Style="{StaticResource NewPayment}" Margin="20,425,0,23"
+            <DockPanel x:Name="paymentPanel" Style="{StaticResource NewPayment}" Margin="20,425,0,23"
                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -576,7 +577,6 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Name" />
-
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Category" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Sub Category" />
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Payment Pattern" />
@@ -585,7 +585,7 @@
                     <TextBox Grid.Row="1" Grid.Column="1" />
 
                     <ListBox Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" SelectionMode="Single"
-                             ItemsSource="{Binding Project.Categories}">
+                             ItemsSource="{Binding CategorieVms}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Orientation="Horizontal" />
@@ -596,8 +596,7 @@
                         </ListBox.Resources>
                     </ListBox>
 
-                    -->
-            <!--<ListBox ItemsSource="{Binding Project.Categories}"
+                    <ListBox ItemsSource="{Binding SubCategorieVms}"
                         Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" SelectionMode="Single">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -605,20 +604,13 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
-
                             <DataTemplate>
-                                -->
-            <!--<DataTemplate DataType="{x:Type local:ItemViewModel}">-->
-
-            <!--<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />-->
-            <!--
                                 <CheckBox Content="{Binding Name}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                    </ListBox>-->
-            <!--
+                    </ListBox>
                 </Grid>
-            </DockPanel>-->
+            </DockPanel>
 
             <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"  Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,-10,0" Height="48" />
         </Grid>

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace UI.Wpf.ViewModel
 {
-    public class MonthViewModel : ElementViewModel
+    public class MonthViewModel : ElementViewModel<IMonth>
     {
+        public MonthViewModel(IMonth element) : base(element)
+        {
+        }
+
         public List<TransactionViewModel> TransactionVms { get; set; }
 
         public List<TransactionViewModel> Bills { get; set; }
@@ -15,7 +19,5 @@ namespace UI.Wpf.ViewModel
         public List<TransactionViewModel> Empty { get; set; }
 
         public AlignedMonthsViewModel AlignedMonths { get; set; }
-
-        public IMonth Month { get; set; }
     }
 }

@@ -4,9 +4,14 @@ using System.ComponentModel;
 
 namespace UI.Wpf.ViewModel
 {
-    public class ElementViewModel : INotifyPropertyChanged
+    public class ElementViewModel<T> : INotifyPropertyChanged where T : IElement
     {
-        public IElement Element { get; set; }
+        public ElementViewModel(T element)
+        {
+            Element = element;
+        }
+
+        public T Element { get; set; }
 
         public Guid Id
         {

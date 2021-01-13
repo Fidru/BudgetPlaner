@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using UI.WinForms;
 using UI.Wpf.ViewModel;
+using UI.Wpf.ViewModel.Factories;
 using XmlSaver.Save;
 
 namespace UI.Wpf
@@ -19,26 +20,27 @@ namespace UI.Wpf
         private readonly Storyboard _previousAnimation;
 
         private ProjectViewModel _projectVm;
-        private YearViewModel _yearVm;
 
         private IEnumerable<IService> _services { get; set; }
         public object Threat { get; private set; }
 
         public MainWindow()
         {
-            var data = new TestData();
-            _services = data.Services;
-
             InitializeComponent();
 
-            _projectVm = new ViewModelFactory().ConvertVm(data.Project);
-            _yearVm = _projectVm.YearsVm.First();
-            DataContext = _yearVm;
-
-            CreateMenu();
+            SetNewDefaultData();
 
             _nextAnimationFadeIn = CreateStoryboard(1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
             _previousAnimation = CreateStoryboard(-1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
+        }
+
+        private void SetNewDefaultData()
+        {
+            var data = new TestData();
+            _services = data.Services;
+            _projectVm = new ProjectViewModelFacotry().ConvertToVm(data.Project);
+            DataContext = _projectVm;
+            CreateMenu();
         }
 
         private Storyboard CreateStoryboard(int fromRender, int toRender, string opacity, string render, int maxTimer)
@@ -59,18 +61,18 @@ namespace UI.Wpf
 
         private void CreateMenu()
         {
-            while (mainMenu.Items.Count > 2)
+            while (mainMenu.Items.Count > 3)
             {
-                mainMenu.Items.RemoveAt(2);
+                mainMenu.Items.RemoveAt(3);
             }
 
-            foreach (var year in _projectVm.Project.Years)
+            foreach (var year in ((ProjectViewModel)DataContext).YearsVm)
             {
                 var mainItem = new MenuItem();
                 mainItem.Header = year.Name;
                 mainItem.Tag = year;
 
-                foreach (var month in year.Months.Elements)
+                foreach (var month in year.MonthsVm)
                 {
                     var subItem = new MenuItem();
                     subItem.Header = month.Name;
@@ -88,34 +90,34 @@ namespace UI.Wpf
             var menu = sender as MenuItem;
             var month = menu.Tag as MonthViewModel;
 
-            _yearVm.SelectNewCurrentMonth(month);
+            _projectVm.CurrentYear.SelectNewCurrentMonth(month);
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
             // todo
-            _yearVm.SelectNextMonth();
+            _projectVm.CurrentYear.SelectNextMonth();
             _nextAnimationFadeIn.Begin(innerPanel);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             // todo
-            _yearVm.SelectPreviousMonth();
+            _projectVm.CurrentYear.SelectPreviousMonth();
             _previousAnimation.Begin(innerPanel);
         }
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
             MyXmlSaver saver = new MyXmlSaver();
-            saver.Save(_projectVm.Project);
+            saver.Save(_projectVm.Element);
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
         {
             IProject project = new MyXmlSaver().Read(_services);
 
-            DataContext = new ViewModelFactory().ConvertVm(project);
+            DataContext = new ProjectViewModelFacotry().ConvertToVm(project);
 
             CreateMenu();
         }
@@ -130,6 +132,11 @@ namespace UI.Wpf
 
             //Thread.Sleep(2000);
             this.Close();
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+            SetNewDefaultData();
         }
     }
 }
