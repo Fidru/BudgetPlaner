@@ -1,4 +1,5 @@
 ﻿using IData.Interfaces;
+using System;
 using System.Linq;
 
 namespace UI.Wpf.ViewModel
@@ -8,6 +9,8 @@ namespace UI.Wpf.ViewModel
         public TransactionViewModel(ITransaction element) : base(element)
         {
         }
+
+        public PaymentViewModel PaymentViewModel { get; set; }
 
         public MonthViewModel MonthVm { get; set; }
 
@@ -40,6 +43,11 @@ namespace UI.Wpf.ViewModel
             var transactionVm = MonthVm.TransactionVms.Single(t => t.Id == updatedTransaction.Id);
 
             NotifyPropertyChanged(transactionVm, nameof(Amount));
+        }
+
+        internal void SelectTransaction()
+        {
+            MonthVm.SelectedTransaction = this;
         }
     }
 }

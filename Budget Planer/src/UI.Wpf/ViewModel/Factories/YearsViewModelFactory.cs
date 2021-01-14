@@ -3,6 +3,18 @@ using System.Linq;
 
 namespace UI.Wpf.ViewModel.Factories
 {
+    public class PaymentViewModelFactory : ViewModelFactoryGeneric<PaymentViewModel, IPayment>
+    {
+        public override PaymentViewModel CreateVm(IPayment element)
+        {
+            var vm = new PaymentViewModel(element);
+
+            vm.SelectedCategory = new CategoryViewModelFacotry().ConvertToVm(element.Category.Element);
+
+            return vm;
+        }
+    }
+
     public class YearsViewModelFactory : ViewModelFactoryGeneric<YearViewModel, IYear>
     {
         public override YearViewModel CreateVm(IYear element)

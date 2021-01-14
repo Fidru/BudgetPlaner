@@ -5,8 +5,23 @@ namespace UI.Wpf.ViewModel
 {
     public class MonthViewModel : ElementViewModel<IMonth>
     {
+        private TransactionViewModel _selectedTransaction;
+
         public MonthViewModel(IMonth element) : base(element)
         {
+        }
+
+        public TransactionViewModel SelectedTransaction
+        {
+            get
+            {
+                return _selectedTransaction;
+            }
+            set
+            {
+                _selectedTransaction = value;
+                NotifyPropertyChanged(nameof(SelectedTransaction));
+            }
         }
 
         public List<TransactionViewModel> TransactionVms { get; set; }

@@ -14,11 +14,13 @@ namespace IData.Interfaces
 
             if (relatedMonth <= 0)
             {
+                //todo previousYear
                 return null;
                 relatedMont = MonthEnum.Dez;
             }
             else if (relatedMonth > 12)
             {
+                // todo nextYear
                 return null;
                 relatedMont = MonthEnum.Jan;
             }

@@ -81,6 +81,7 @@
     <Compile Include="ViewModel\Factories\YearsViewModelFactory.cs" />
     <Compile Include="ViewModel\MonthViewModel.cs" />
     <Compile Include="ViewModel\MonthViewModelExtension.cs" />
+    <Compile Include="ViewModel\PaymentViewModel.cs" />
     <Compile Include="ViewModel\PayPatternViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />
     <Compile Include="TreeHelpers\Modifier.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="ViewModel\TransactionViewModel.cs" />
     <Compile Include="ViewModel\Factories\ViewModelFactoryGeneric.cs" />
     <Compile Include="ViewModel\YearViewModel.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="BudgetPlaner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -98,8 +99,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="BudgetPlaner.xaml.cs">
+      <DependentUpon>BudgetPlaner.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

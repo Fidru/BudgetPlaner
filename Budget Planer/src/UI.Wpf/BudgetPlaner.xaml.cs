@@ -20,6 +20,7 @@ namespace UI.Wpf
         private readonly Storyboard _previousAnimation;
 
         private ProjectViewModel _projectVm;
+        private PaymentViewModel PaymentVm { get; set; }
 
         private IEnumerable<IService> _services { get; set; }
         public object Threat { get; private set; }
@@ -39,7 +40,12 @@ namespace UI.Wpf
             var data = new TestData();
             _services = data.Services;
             _projectVm = new ProjectViewModelFacotry().ConvertToVm(data.Project);
+
+            PaymentVm = _projectVm.CurrentYear.CurrentMonthVm.TransactionVms.First().PaymentViewModel;
+            PaymentVm.PossibleCategories = _projectVm.CategorieVms;
+
             DataContext = _projectVm;
+
             CreateMenu();
         }
 
@@ -124,6 +130,10 @@ namespace UI.Wpf
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            Button button = (Button)sender;
+            var transaction = (TransactionViewModel)button.DataContext;
+
+            transaction.SelectTransaction();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
