@@ -5,7 +5,6 @@ using IData.Services;
 namespace Data.Services
 {
     public abstract class ElementFactory : IElementFactory, IService
-
     {
         public ElementFactory()
         {

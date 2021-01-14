@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace UI.Wpf.ViewModel
 {
-    public class ElementViewModel<T> : INotifyPropertyChanged where T : IElement
+    public class ElementViewModel<T> : IElementViewModel, INotifyPropertyChanged where T : IElement
     {
         public ElementViewModel(T element)
         {
@@ -16,6 +16,7 @@ namespace UI.Wpf.ViewModel
         public Guid Id
         {
             get { return Element.Id; }
+            set { Element.Id = value; }
         }
 
         public string Name

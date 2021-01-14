@@ -10,7 +10,7 @@ namespace UI.Wpf.ViewModel
         {
         }
 
-        public List<MonthViewModel> MonthsVm { get; set; }
+        public List<MonthViewModel> MonthVms { get; set; }
 
         public MonthViewModel CurrentMonthVm { get; set; }
 

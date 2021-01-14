@@ -35,20 +35,6 @@ namespace UI.Wpf
             _previousAnimation = CreateStoryboard(-1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
         }
 
-        private void SetNewDefaultData()
-        {
-            var data = new TestData();
-            _services = data.Services;
-            _projectVm = new ProjectViewModelFacotry().ConvertToVm(data.Project);
-
-            PaymentVm = _projectVm.CurrentYear.CurrentMonthVm.TransactionVms.First().PaymentViewModel;
-            PaymentVm.PossibleCategories = _projectVm.CategorieVms;
-
-            DataContext = _projectVm;
-
-            CreateMenu();
-        }
-
         private Storyboard CreateStoryboard(int fromRender, int toRender, string opacity, string render, int maxTimer)
         {
             Storyboard sb = new Storyboard();
@@ -78,7 +64,7 @@ namespace UI.Wpf
                 mainItem.Header = year.Name;
                 mainItem.Tag = year;
 
-                foreach (var month in year.MonthsVm)
+                foreach (var month in year.MonthVms)
                 {
                     var subItem = new MenuItem();
                     subItem.Header = month.Name;
@@ -123,9 +109,25 @@ namespace UI.Wpf
         {
             IProject project = new MyXmlSaver().Read(_services);
 
-            DataContext = new ProjectViewModelFacotry().ConvertToVm(project);
+            Load(project);
+        }
+
+        private void Load(IProject project)
+        {
+            var repService = _services.GetService<IRepositoryService>();
+
+            _projectVm = new ProjectViewModelFacotry(repService).ConvertToVm(project);
+            DataContext = _projectVm;
 
             CreateMenu();
+        }
+
+        private void SetNewDefaultData()
+        {
+            var data = new TestData();
+            _services = data.Services;
+
+            Load(data.Project);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)

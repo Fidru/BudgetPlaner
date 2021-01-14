@@ -38,6 +38,7 @@ namespace UI.WinForms
                 new TransactionFactory() { Project = currentProject },
                 new PaymentIntervalFactory() { Project = currentProject },
                 new PayPatternFactory() { Project = currentProject },
+                new RepositoryService() { Project = currentProject },
             };
         }
 

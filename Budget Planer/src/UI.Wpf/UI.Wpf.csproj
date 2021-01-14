@@ -76,6 +76,7 @@
     <Compile Include="ViewModel\ElementViewModel.cs" />
     <Compile Include="ViewModel\Factories\CategoryViewModelFacotry.cs" />
     <Compile Include="ViewModel\Factories\MonthViewModelFactory.cs" />
+    <Compile Include="ViewModel\Factories\PaymentViewModelFactory.cs" />
     <Compile Include="ViewModel\Factories\ProjectViewModelFacotry.cs" />
     <Compile Include="ViewModel\Factories\TransactionViewModelFacotry.cs" />
     <Compile Include="ViewModel\Factories\YearsViewModelFactory.cs" />

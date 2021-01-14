@@ -176,9 +176,9 @@
                             </ItemsPanelTemplate>
                         </Menu.ItemsPanel>
 
-                        <MenuItem Name="New" Header="New" Click="New_Click" />
-                        <MenuItem Name="Save" Header="Save" Click="save_Click" />
-                        <MenuItem Name="Load" Header="Load" Click="load_Click" />
+                        <MenuItem Header="New" Click="New_Click" />
+                        <MenuItem Header="Save" Click="save_Click" />
+                        <MenuItem Header="Load" Click="load_Click" />
                     </Menu>
 
                     <materialDesign:ColorZone Grid.Row="2" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" />
