@@ -8,10 +8,9 @@ namespace IData.Interfaces
         ISaveableXmlElement<IPayment> Payment { get; set; }
         double Amount { get; set; }
         bool Payed { get; set; }
-        ICategory Category { get; }
-        string CategoryName { get; }
+        ICategory Category { get; set; }
         CategoryType CategoryType { get; }
-        ICategory SubCategory { get; }
+        ICategory SubCategory { get; set; }
         CategoryType SubCategoryType { get; }
     }
 }

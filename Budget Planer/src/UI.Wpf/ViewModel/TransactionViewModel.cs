@@ -1,6 +1,7 @@
 ﻿using IData.Interfaces;
 using System;
 using System.Linq;
+using System.Windows;
 
 namespace UI.Wpf.ViewModel
 {
@@ -48,6 +49,14 @@ namespace UI.Wpf.ViewModel
         internal void SelectTransaction()
         {
             MonthVm.SelectedTransaction = this;
+        }
+
+        public Visibility CanEdit
+        {
+            get
+            {
+                return Element.CanEdit ? Visibility.Visible : Visibility.Hidden;
+            }
         }
     }
 }

@@ -11,5 +11,7 @@
         void ConnectElements(IProject project);
 
         void Delete();
+
+        bool CanEdit { get; }
     }
 }

@@ -13,6 +13,11 @@ namespace UI.Wpf.ViewModel.Factories
     {
         public IRepositoryService RepositoryService { get; set; }
 
+        public IProject CurrentProject
+        {
+            get { return RepositoryService.Project.CurrentProject; }
+        }
+
         public ViewModelFactoryGeneric(IRepositoryService repositoryService)
         {
             RepositoryService = repositoryService;
@@ -20,6 +25,11 @@ namespace UI.Wpf.ViewModel.Factories
 
         public T ConvertToVm(K element)
         {
+            if (element == null)
+            {
+                return null;
+            }
+
             var vm = RepositoryService.GetViewModel(element.Id) as T;
 
             if (vm == null)

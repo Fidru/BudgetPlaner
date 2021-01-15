@@ -41,18 +41,40 @@ namespace Data.Classes
 
         public bool Payed { get; set; }
 
-        public ICategory Category { get { return Payment.Element.Category.Element; } }
-        public CategoryType CategoryType { get { return Category != null ? Category.CategoryType : CategoryType.None; } }
+        public ICategory Category
+        {
+            get { return Payment.Element.Category.Element; }
+            set { Payment.Element.Category.Element = value; }
+        }
 
-        public ICategory SubCategory { get { return Payment.Element.SubCategory.Element; } }
-        public CategoryType SubCategoryType { get { return SubCategory != null ? SubCategory.CategoryType : CategoryType.None; } }
+        public CategoryType CategoryType
+        {
+            get { return Category != null ? Category.CategoryType : CategoryType.None; }
+        }
 
-        public string CategoryName { get { return Category.Name; } }
+        public ICategory SubCategory
+        {
+            get { return Payment.Element.SubCategory.Element; }
+            set { Payment.Element.SubCategory.Element = value; }
+        }
+
+        public CategoryType SubCategoryType
+        {
+            get { return SubCategory != null ? SubCategory.CategoryType : CategoryType.None; }
+        }
 
         public override void ConnectElements(IProject project)
         {
             Month.Element = (IMonth)project.Months.GetElementById(Month.Id);
             Payment.Element = (IPayment)project.Payments.GetElementById(Payment.Id);
+        }
+
+        public override bool CanEdit
+        {
+            get
+            {
+                return Category.CategoryType != CategoryType.Bankbalance;
+            }
         }
     }
 }

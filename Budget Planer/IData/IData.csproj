@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AffectedMonthsCollection.cs" />
     <Compile Include="Constants\CategoryType.cs" />
     <Compile Include="Constants\CategoryTypeCollection.cs" />
     <Compile Include="Constants\MonthEnum.cs" />

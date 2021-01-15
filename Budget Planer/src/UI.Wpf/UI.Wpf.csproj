@@ -82,6 +82,7 @@
     <Compile Include="ViewModel\Factories\YearsViewModelFactory.cs" />
     <Compile Include="ViewModel\MonthViewModel.cs" />
     <Compile Include="ViewModel\MonthViewModelExtension.cs" />
+    <Compile Include="ViewModel\PaymentPatternViewModel.cs" />
     <Compile Include="ViewModel\PaymentViewModel.cs" />
     <Compile Include="ViewModel\PayPatternViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />

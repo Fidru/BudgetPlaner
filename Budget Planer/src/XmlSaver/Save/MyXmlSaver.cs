@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using XmlSaver.Constants;
 using XmlSaver.Data;
@@ -15,7 +16,8 @@ namespace XmlSaver.Save
     {
         public void Save(IProject project)
         {
-            var fs = File.Open(SavePaths.XmlFile, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            string path = GetSavePath();
+            var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 
             XmlTextWriter writer = new XmlTextWriter(fs, Encoding.UTF8) { Formatting = Formatting.Indented };
 
@@ -38,6 +40,26 @@ namespace XmlSaver.Save
             writer.Close();
         }
 
+        private string GetSavePath()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.Filter = "Xml files (*.xml)|";
+            sfd.FilterIndex = 1;
+            sfd.RestoreDirectory = true;
+            sfd.AddExtension = true;
+            sfd.DefaultExt = ".xml";
+
+            var path = SavePaths.XmlFile;
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                path = sfd.FileName;
+            }
+
+            return path;
+        }
+
         private void SaveElements(IEnumerable<IElement> elements, string groupTag, string itemTag, XmlTextWriter writer)
         {
             writer.WriteStartElement(groupTag);
@@ -57,7 +79,8 @@ namespace XmlSaver.Save
 
         public IProject Read(IEnumerable<IService> services)
         {
-            var reader = XmlReader.Create(SavePaths.XmlFile);
+            var path = GetSavePath();
+            var reader = XmlReader.Create(path);
 
             reader.Read();
             SkipWrongTags(XmlIds.Finance, reader);

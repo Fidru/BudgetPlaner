@@ -115,5 +115,10 @@ namespace Data.Classes
         {
             IsDeleted = true;
         }
+
+        public virtual bool CanEdit
+        {
+            get { return true; }
+        }
     }
 }
