@@ -1,12 +1,13 @@
 ﻿using IData.Interfaces;
 using IData.Services;
+using System.Collections.Generic;
 
 namespace UI.Wpf.ViewModel.Factories
 {
     public class TransactionViewModelFacotry : ViewModelFactoryGeneric<TransactionViewModel, ITransaction>
     {
-        public TransactionViewModelFacotry(IRepositoryService repositoryService)
-            : base(repositoryService)
+        public TransactionViewModelFacotry(IEnumerable<IService> services)
+            : base(services)
         {
         }
 
@@ -14,8 +15,8 @@ namespace UI.Wpf.ViewModel.Factories
         {
             var vm = base.CreateVm(element);
 
-            vm.MonthVm = new MonthViewModelFactory(RepositoryService).ConvertToVm(element.Month.Element);
-            vm.PaymentViewModel = new PaymentViewModelFactory(RepositoryService).ConvertToVm(element.Payment.Element);
+            vm.MonthVm = new MonthViewModelFactory(Services).ConvertToVm(element.Month.Element);
+            vm.PaymentViewModel = new PaymentViewModelFactory(Services).ConvertToVm(element.Payment.Element);
 
             return vm;
         }

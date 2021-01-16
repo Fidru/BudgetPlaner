@@ -7,7 +7,7 @@ namespace IData.Services
     {
         public static T GetService<T>(this IEnumerable<IService> services)
         {
-            return services.OfType<T>().First();
+            return services.OfType<T>().Single();
         }
     }
 }

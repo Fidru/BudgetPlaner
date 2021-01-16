@@ -12,15 +12,17 @@ namespace UI.Wpf.ViewModel.Factories
 
     {
         public IRepositoryService RepositoryService { get; set; }
+        public IEnumerable<IService> Services { get; set; }
 
         public IProject CurrentProject
         {
             get { return RepositoryService.Project.CurrentProject; }
         }
 
-        public ViewModelFactoryGeneric(IRepositoryService repositoryService)
+        public ViewModelFactoryGeneric(IEnumerable<IService> services)
         {
-            RepositoryService = repositoryService;
+            Services = services;
+            RepositoryService = services.GetService<IRepositoryService>();
         }
 
         public T ConvertToVm(K element)

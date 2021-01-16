@@ -1,4 +1,6 @@
-﻿using IData.Interfaces;
+﻿using IData.Constants;
+using IData.Interfaces;
+using System.ComponentModel;
 
 namespace UI.Wpf.ViewModel
 {
@@ -16,9 +18,35 @@ namespace UI.Wpf.ViewModel
         }
     }
 
-    public class AffectedMonthViewModel
+    public class AffectedMonthViewModel : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public bool IsChecked { get; set; }
+        private bool _isSelected;
+
+        public AffectedMonthViewModel(MonthEnum monthType, bool isSelected)
+        {
+            MonthType = monthType;
+            IsSelected = isSelected;
+        }
+
+        public MonthEnum MonthType { get; set; }
+
+        public string Name
+        {
+            get { return MonthType.ConvertToText(); }
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                _isSelected = value;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

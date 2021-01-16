@@ -1,5 +1,8 @@
-﻿using IData.Interfaces;
+﻿using IData.Constants;
+using IData.Interfaces;
+using IData.Services;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UI.Wpf.ViewModel
 {
@@ -15,6 +18,8 @@ namespace UI.Wpf.ViewModel
             SubCategories = new List<CategoryViewModel>();
             Transactions = new List<TransactionViewModel>();
             Intervals = new List<PaymentIntervalViewModel>();
+            AllAffectedMonths = new List<AffectedMonthViewModel>();
+            AffecctedMonths = new List<AffectedMonthViewModel>();
         }
 
         public double Amount
@@ -90,11 +95,35 @@ namespace UI.Wpf.ViewModel
                 _selectedInterval = value;
 
                 Element.PayPattern.Element.Interval.Element = value.Element;
-                Element.PayPattern.Element.UpdateAffectedMonths();
 
-                //Transactions.ForEach(t => t.Element.Payment.Element.payment = value.Element);
-                //UpdateTransactions("SubCategory");
+                if (Element.PayPattern.Element.Interval.Element.Type == PaymentIntervalType.Custom)
+                {
+                    Element.PayPattern.Element.AffectedMonths = AffecctedMonths.Where(x => x.IsSelected).Select(x => x.MonthType);
+                }
+                else
+                {
+                    Element.PayPattern.Element.UpdateAffectedMonths();
+                }
+                AffecctedMonths.ForEach(am => am.IsSelected = Element.PayPattern.Element.AffectedMonths.Contains(am.MonthType));
+                AffecctedMonths.ForEach(am => NotifyPropertyChanged(am, "IsSelected"));
+
+                var monthVm = Transactions.First().MonthVm;
+                var payment = Element;
+
+                TransactionFactory.UpdatePayment(payment, monthVm.Element);
+
+                UpdateTransactions("MonthVm");
+
+                //Remove from Bills....
+                //Remove from FoodBills....
+
+                monthVm.UpdateLists();
             }
         }
+
+        public ITransactionFactory TransactionFactory { get; set; }
+
+        public List<AffectedMonthViewModel> AffecctedMonths { get; set; }
+        public List<AffectedMonthViewModel> AllAffectedMonths { get; set; }
     }
 }

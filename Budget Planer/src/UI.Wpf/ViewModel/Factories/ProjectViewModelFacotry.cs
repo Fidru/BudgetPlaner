@@ -1,13 +1,14 @@
 ﻿using IData.Interfaces;
 using IData.Services;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace UI.Wpf.ViewModel.Factories
 {
     public class ProjectViewModelFacotry : ViewModelFactoryGeneric<ProjectViewModel, IProject>
     {
-        public ProjectViewModelFacotry(IRepositoryService repositoryService)
-            : base(repositoryService)
+        public ProjectViewModelFacotry(IEnumerable<IService> services)
+            : base(services)
         {
         }
 
@@ -15,9 +16,9 @@ namespace UI.Wpf.ViewModel.Factories
         {
             var vm = base.CreateVm(element);
 
-            vm.YearsVm = new YearsViewModelFactory(RepositoryService).ConvertToVms(element.Years);
-            vm.CategorieVms = new CategoryViewModelFacotry(RepositoryService).ConvertToVms(element.Categories);
-            vm.SubCategorieVms = new CategoryViewModelFacotry(RepositoryService).ConvertToVms(element.SubCategories);
+            vm.YearsVm = new YearsViewModelFactory(Services).ConvertToVms(element.Years);
+            vm.CategorieVms = new CategoryViewModelFacotry(Services).ConvertToVms(element.Categories);
+            vm.SubCategorieVms = new CategoryViewModelFacotry(Services).ConvertToVms(element.SubCategories);
 
             vm.CurrentYear = vm.YearsVm.First();
 

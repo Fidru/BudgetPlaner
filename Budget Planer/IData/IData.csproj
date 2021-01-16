@@ -77,7 +77,7 @@
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IElementServiceExtension.cs" />
     <Compile Include="Services\IMonthFactory.cs" />
-    <Compile Include="Services\IPayPatternFactory1.cs" />
+    <Compile Include="Services\IPayPatternFactory.cs" />
     <Compile Include="Services\IProjectFactory.cs" />
     <Compile Include="Services\IPaymentFactory.cs" />
     <Compile Include="Services\ITransactionFactory.cs" />

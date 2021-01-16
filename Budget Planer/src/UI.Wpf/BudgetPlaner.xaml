@@ -27,6 +27,19 @@
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
+
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" />
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="NewPayment" TargetType="DockPanel">
@@ -666,7 +679,8 @@
                                     <RowDefinition Height="95*" Tag="Interval" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit Payment" Style="{StaticResource MyMaterialDesignButtonTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,22,0,21" Width="166" Grid.RowSpan="2" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit Payment" Style="{StaticResource MyMaterialDesignButtonTextBlock}"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,22,0,21" Width="166" Grid.RowSpan="2" />
 
                                 <Button HorizontalAlignment="Right" Style="{StaticResource SquareButton}"
                                         Foreground="{DynamicResource PrimaryHueLightBrush}" BorderBrush="{DynamicResource PrimaryHueLightBrush}"
@@ -703,8 +717,8 @@
                                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Amount" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" />
                                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Category" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
                                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Sub Category" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
-                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Payment Pattern" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
-                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Interval" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
+                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Interval" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
+                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Affected Months" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
 
                                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}"
                                          HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="bold"
@@ -712,45 +726,26 @@
                                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Amount}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
                                 <ListBox Style="{StaticResource MyListBox}" Grid.Row="5" Grid.Column="1"
-                                         ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="0,2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                         ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" />
 
                                 <ListBox Style="{StaticResource MyListBox}" Grid.Row="6" Grid.Column="1"
-                                         ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="0,2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                         ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory}" />
+
                                 <ListBox Style="{StaticResource MyListBox}" Grid.Row="7" Grid.Column="1"
-                                         ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
-                                    <ListBox.ItemTemplate>
+                                         ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}" />
+
+                                <ListView Style="{StaticResource MyListBox}" Grid.Row="8" Grid.Column="1" SelectionMode="Multiple"
+                                         ItemsSource="{Binding AffecctedMonths}">
+
+                                    <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid Margin="0,2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox x:Name="cb" IsChecked="{Binding IsSelected}" Margin="0,0,5,0" />
+                                                <TextBlock Text="{Binding Name}"  Margin="0,0,5,0" />
+                                            </StackPanel>
                                         </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </Grid>
                         </DockPanel>
                     </Border>

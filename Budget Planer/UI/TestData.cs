@@ -31,14 +31,13 @@ namespace UI.WinForms
                 projectFact,
                 currentProject,
                 new CategoryFactory() { Project = currentProject },
-                new PaymentIntervalFactory() { Project = currentProject },
                 new MonthFactory() { Project = currentProject },
                 new PaymentFactory() { Project = currentProject },
-                new YearFactory() { Project = currentProject },
-                new TransactionFactory() { Project = currentProject },
                 new PaymentIntervalFactory() { Project = currentProject },
                 new PayPatternFactory() { Project = currentProject },
                 new RepositoryService() { Project = currentProject },
+                new TransactionFactory() { Project = currentProject },
+                new YearFactory() { Project = currentProject },
             };
         }
 

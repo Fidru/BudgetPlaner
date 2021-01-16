@@ -8,8 +8,8 @@ namespace UI.Wpf.ViewModel.Factories
 {
     public class YearsViewModelFactory : ViewModelFactoryGeneric<YearViewModel, IYear>
     {
-        public YearsViewModelFactory(IRepositoryService repositoryService)
-             : base(repositoryService)
+        public YearsViewModelFactory(IEnumerable<IService> services)
+            : base(services)
         {
         }
 
@@ -17,7 +17,7 @@ namespace UI.Wpf.ViewModel.Factories
         {
             var vm = base.CreateVm(element);
 
-            vm.MonthVms = new MonthViewModelFactory(RepositoryService).ConvertToVms(element.Months.Elements);
+            vm.MonthVms = new MonthViewModelFactory(Services).ConvertToVms(element.Months.Elements);
             vm.CurrentMonthVm = vm.MonthVms.First();
 
             foreach (MonthViewModel month in vm.MonthVms)

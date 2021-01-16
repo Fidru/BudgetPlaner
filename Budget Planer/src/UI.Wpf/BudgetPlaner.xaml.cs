@@ -91,9 +91,9 @@ namespace UI.Wpf
 
         private void Load(IProject project)
         {
-            var repService = _services.GetService<IRepositoryService>();
+            var repService =
 
-            _projectVm = new ProjectViewModelFacotry(repService).ConvertToVm(project);
+            _projectVm = new ProjectViewModelFacotry(_services).ConvertToVm(project);
             DataContext = _projectVm;
 
             CreateMenu();
