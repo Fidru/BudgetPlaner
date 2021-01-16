@@ -21,6 +21,9 @@ namespace UI.Wpf.ViewModel.Factories
             vm.SubCategories = new CategoryViewModelFacotry(RepositoryService).ConvertToVms(CurrentProject.SubCategories);
             vm.SelectedSubCategory = new CategoryViewModelFacotry(RepositoryService).ConvertToVm(element.SubCategory.Element);
 
+            vm.Intervals = new PaymentIntervalViewModelFactory(RepositoryService).ConvertToVms(CurrentProject.Intervals);
+            vm.SelectedInterval = new PaymentIntervalViewModelFactory(RepositoryService).ConvertToVm(element.PayPattern.Element.Interval.Element);
+
             var transactions = CurrentProject.Transactions.Where(t => t.Payment.Id == element.Id);
             vm.Transactions = new TransactionViewModelFacotry(RepositoryService).ConvertToVms(transactions);
 

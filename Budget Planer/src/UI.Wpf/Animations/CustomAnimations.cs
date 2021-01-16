@@ -37,13 +37,15 @@ namespace UI.Wpf.Animations
             _rightToLeft = new PaymentAnimations
             {
                 Start = CreateStoryboard(0, -1280, "RenderTransform", 0, 0, "Opacity", 0, 1, 800),
-                Revert = CreateStoryboard(1280, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
+                //Revert = CreateStoryboard(1280, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
+                Revert = CreateStoryboard(-1280, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
             };
 
             _rightToTopLeft = new PaymentAnimations
             {
                 Start = CreateStoryboard(0, -1280, "RenderTransform", 0, -449, "Opacity", 0, 1, 800),
-                Revert = CreateStoryboard(1280, 0, "RenderTransform", 449, 0, "Opacity", 0, 1, 800)
+                //Revert = CreateStoryboard(1280, 0, "RenderTransform", -449, 0, "Opacity", 0, 1, 800)
+                Revert = CreateStoryboard(-1280, 0, "RenderTransform", -449, 0, "Opacity", 0, 1, 800)
             };
 
             _paymentView = new PaymentAnimations

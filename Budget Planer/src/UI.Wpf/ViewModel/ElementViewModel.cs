@@ -22,7 +22,11 @@ namespace UI.Wpf.ViewModel
         public string Name
         {
             get { return Element.Name; }
-            set { Element.Name = value; }
+            set
+            {
+                Element.Name = value;
+                NotifyPropertyChanged("Name");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

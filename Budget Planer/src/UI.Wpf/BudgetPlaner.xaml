@@ -15,6 +15,20 @@
         WindowStyle="None" ResizeMode="NoResize">
     <Window.Resources>
 
+        <Style x:Key="MyListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="NewPayment" TargetType="DockPanel">
         </Style>
 
@@ -328,7 +342,7 @@
                                 <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}" />
+                                            <ToggleButton Style="{StaticResource My2ColoredToggleButton}" IsChecked="{Binding Payed}"  Visibility="{Binding CanEdit}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -626,7 +640,7 @@
                     </ListView>
 
                     <Border x:Name="paymentPanel" BorderThickness="6" BorderBrush="{StaticResource PrimaryHueLightBrush}"
-                            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="4" Opacity="1" Margin="20,0,20,20">
+                            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="4" Opacity="0" Margin="20,0,20,20">
                         <Border.RenderTransform>
                             <TranslateTransform />
                         </Border.RenderTransform>
@@ -640,16 +654,16 @@
                                     <ColumnDefinition Width="500*" SharedSizeGroup="true" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="39.333" />
-                                    <RowDefinition Height="35.667" />
-                                    <RowDefinition Height="60" />
-                                    <RowDefinition Height="0" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="120*" />
-                                    <RowDefinition Height="120*" />
-                                    <RowDefinition Height="120*" />
-                                    <RowDefinition Height="30*" />
-                                    <RowDefinition Height="30*" />
+                                    <RowDefinition Height="40" Tag="Edit Payment" />
+                                    <RowDefinition Height="36" Tag="Placeholder_1" />
+                                    <RowDefinition Height="60" Tag="Name" />
+                                    <RowDefinition Height="5" Tag="Placeholder_2" />
+                                    <RowDefinition Height="7*" Tag="Amount" />
+                                    <RowDefinition Height="10*" Tag="Category" />
+                                    <RowDefinition Height="10*" Tag="SubCategory" />
+                                    <RowDefinition Height="10*" Tag="Payment Pattern" />
+                                    <RowDefinition Height="10*" Tag="Interval" />
+                                    <RowDefinition Height="95*" Tag="Interval" />
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit Payment" Style="{StaticResource MyMaterialDesignButtonTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,22,0,21" Width="166" Grid.RowSpan="2" />
@@ -660,8 +674,8 @@
                                     <materialDesign:PackIcon Kind="CloseBold" Height="20" Width="20" />
 
                                     <Button.Effect>
-                                        <DropShadowEffect x:Name="DropShadowEffectClose" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}"
-                                                          Opacity=".42" RenderingBias="Performance" />
+                                        <DropShadowEffect x:Name="DropShadowEffectClose" BlurRadius="5" ShadowDepth="1" Direction="270"
+                                                          Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
                                     </Button.Effect>
 
                                     <Button.Triggers>
@@ -686,32 +700,24 @@
                                 </Button>
 
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Height="24" Margin="0,15,0,11" />
-                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Amount" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,5,0,0" />
-                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Category" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,5,0,0" />
-                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Sub Category" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,5,0,0" />
-                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Payment Pattern" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,5,0,0" />
-                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Interval" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,5,0,0" />
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Amount" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" />
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Category" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Sub Category" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
+                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Payment Pattern" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
+                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Interval" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
 
-                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="bold" FontSize="14" Margin="0,11" />
-                                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Amount}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}"
+                                         HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="bold"
+                                         FontSize="14" Margin="0,11" />
+                                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Amount}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
-                                <ListBox Grid.Row="5" Grid.Column="1" SelectionMode="Single"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                             ItemsSource="{Binding Categories}"
-                             SelectedItem="{Binding SelectedCategory}">
-                                    <ListBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" />
-                                            <!--<StackPanel Orientation="Horizontal" />-->
-                                        </ItemsPanelTemplate>
-                                    </ListBox.ItemsPanel>
-
+                                <ListBox Style="{StaticResource MyListBox}" Grid.Row="5" Grid.Column="1"
+                                         ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="0,2">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="100" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Text="{Binding Name}" />
                                             </Grid>
@@ -719,49 +725,32 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
 
-                                <ListBox Grid.Row="6" Grid.Column="1" SelectionMode="Single"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                             ItemsSource="{Binding SubCategories}"
-                             SelectedItem="{Binding SelectedSubCategory}">
-                                    <ListBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ListBox.ItemsPanel>
-
+                                <ListBox Style="{StaticResource MyListBox}" Grid.Row="6" Grid.Column="1"
+                                         ItemsSource="{Binding SubCategories}" SelectedItem="{Binding SelectedSubCategory}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="0,2">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="100" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Text="{Binding Name}" />
                                             </Grid>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-
-                                <!--<ListBox ItemsSource="{Binding SubCategorieVms}"
-              Grid.Row="3" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" SelectionMode="Single">
-            <ListBox.ItemsPanel>
-              <ItemsPanelTemplate>
-                <WrapPanel Orientation="Horizontal" />
-              </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-
-            <ListBox.ItemTemplate>
-              <DataTemplate>
-                <Grid Margin="0,2">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="100" />
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Text="{Binding Name}" />
-                </Grid>
-              </DataTemplate>
-            </ListBox.ItemTemplate>
-          </ListBox>-->
+                                <ListBox Style="{StaticResource MyListBox}" Grid.Row="7" Grid.Column="1"
+                                         ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding Name}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
                             </Grid>
                         </DockPanel>
                     </Border>

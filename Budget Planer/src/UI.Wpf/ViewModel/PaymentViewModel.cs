@@ -1,17 +1,20 @@
 ﻿using IData.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace UI.Wpf.ViewModel
 {
     public class PaymentViewModel : ElementViewModel<IPayment>
     {
         private CategoryViewModel _selectedCategory;
+        private CategoryViewModel _selectedSubCategory;
+        private PaymentIntervalViewModel _selectedInterval;
 
         public PaymentViewModel(IPayment element) : base(element)
         {
             Categories = new List<CategoryViewModel>();
+            SubCategories = new List<CategoryViewModel>();
             Transactions = new List<TransactionViewModel>();
+            Intervals = new List<PaymentIntervalViewModel>();
         }
 
         public double Amount
@@ -26,17 +29,24 @@ namespace UI.Wpf.ViewModel
             }
         }
 
-        public List<TransactionViewModel> Transactions
+        public new string Name
         {
-            get; set;
+            get
+            {
+                return Element.Name;
+            }
+            set
+            {
+                Element.Name = value;
+
+                Transactions.ForEach(t => t.Name = value);
+                UpdateTransactions("Name");
+            }
         }
 
-        public List<PaymentPatternViewModel> PaymentPatterns { get; set; }
-
-        public PaymentPatternViewModel SelectedPaymentPattern { get; set; }
+        public List<TransactionViewModel> Transactions { get; set; }
 
         public List<CategoryViewModel> Categories { get; set; }
-        public List<CategoryViewModel> SubCategories { get; set; }
 
         public CategoryViewModel SelectedCategory
         {
@@ -46,10 +56,45 @@ namespace UI.Wpf.ViewModel
                 _selectedCategory = value;
 
                 Transactions.ForEach(t => t.Element.Category = value.Element);
-                Transactions.ForEach(t => NotifyPropertyChanged(t, "Category"));
+                UpdateTransactions("Category");
             }
         }
 
-        public CategoryViewModel SelectedSubCategory { get; set; }
+        public List<CategoryViewModel> SubCategories { get; set; }
+
+        public CategoryViewModel SelectedSubCategory
+        {
+            get { return _selectedSubCategory; }
+            set
+            {
+                _selectedSubCategory = value;
+
+                Transactions.ForEach(t => t.Element.SubCategory = value.Element);
+                UpdateTransactions("SubCategory");
+            }
+        }
+
+        private void UpdateTransactions(string property)
+        {
+            NotifyPropertyChanged(property);
+            Transactions.ForEach(t => NotifyPropertyChanged(t, property));
+        }
+
+        public List<PaymentIntervalViewModel> Intervals { get; set; }
+
+        public PaymentIntervalViewModel SelectedInterval
+        {
+            get { return _selectedInterval; }
+            set
+            {
+                _selectedInterval = value;
+
+                Element.PayPattern.Element.Interval.Element = value.Element;
+                Element.PayPattern.Element.UpdateAffectedMonths();
+
+                //Transactions.ForEach(t => t.Element.Payment.Element.payment = value.Element);
+                //UpdateTransactions("SubCategory");
+            }
+        }
     }
 }

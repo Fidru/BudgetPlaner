@@ -80,13 +80,14 @@
     <Compile Include="ViewModel\ElementViewModel.cs" />
     <Compile Include="ViewModel\Factories\CategoryViewModelFacotry.cs" />
     <Compile Include="ViewModel\Factories\MonthViewModelFactory.cs" />
+    <Compile Include="ViewModel\Factories\PaymentIntervalViewModelFactory.cs" />
     <Compile Include="ViewModel\Factories\PaymentViewModelFactory.cs" />
+    <Compile Include="ViewModel\Factories\PayPatternViewModelFactory.cs" />
     <Compile Include="ViewModel\Factories\ProjectViewModelFacotry.cs" />
     <Compile Include="ViewModel\Factories\TransactionViewModelFacotry.cs" />
     <Compile Include="ViewModel\Factories\YearsViewModelFactory.cs" />
     <Compile Include="ViewModel\MonthViewModel.cs" />
     <Compile Include="ViewModel\MonthViewModelExtension.cs" />
-    <Compile Include="ViewModel\PaymentPatternViewModel.cs" />
     <Compile Include="ViewModel\PaymentViewModel.cs" />
     <Compile Include="ViewModel\PayPatternViewModel.cs" />
     <Compile Include="ViewModel\ProjectViewModel.cs" />
