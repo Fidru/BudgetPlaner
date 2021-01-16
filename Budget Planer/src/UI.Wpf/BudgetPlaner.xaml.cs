@@ -158,11 +158,12 @@ namespace UI.Wpf
             }
         }
 
-        private static void SelectTransaction(object sender)
+        private void SelectTransaction(object sender)
         {
             Button button = (Button)sender;
             var transaction = (TransactionViewModel)button.DataContext;
 
+            transaction.CurrentMonthVm = ((ProjectViewModel)DataContext).CurrentYear.CurrentMonthVm;
             transaction.SelectTransaction();
         }
 
@@ -181,6 +182,10 @@ namespace UI.Wpf
 
         private void ClosePayment_Click(object sender, RoutedEventArgs e)
         {
+            Button button = (Button)sender;
+            var payment = (PaymentViewModel)button.DataContext;
+
+            payment.Update();
             _animations.ResetAnimations();
         }
     }

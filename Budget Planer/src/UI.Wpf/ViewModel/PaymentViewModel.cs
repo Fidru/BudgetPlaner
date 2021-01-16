@@ -102,23 +102,34 @@ namespace UI.Wpf.ViewModel
                 }
                 else
                 {
-                    Element.PayPattern.Element.UpdateAffectedMonths();
+                    if (MonthVm != null)
+                    {
+                        Element.PayPattern.Element.AffectedMonths = new AffectedMonthsCollection(MonthVm.Element.MonthType, value.Element.Type);
+                    }
                 }
+
                 AffecctedMonths.ForEach(am => am.IsSelected = Element.PayPattern.Element.AffectedMonths.Contains(am.MonthType));
                 AffecctedMonths.ForEach(am => NotifyPropertyChanged(am, "IsSelected"));
-
-                var monthVm = Transactions.First().MonthVm;
-                var payment = Element;
-
-                TransactionFactory.UpdatePayment(payment, monthVm.Element);
-
-                UpdateTransactions("MonthVm");
-
-                //Remove from Bills....
-                //Remove from FoodBills....
-
-                monthVm.UpdateLists();
             }
+        }
+
+        public MonthViewModel MonthVm
+        {
+            get { return Transactions.FirstOrDefault(t => t.CurrentMonthVm != null)?.CurrentMonthVm; }
+        }
+
+        public void Update()
+        {
+            var monthVm = Transactions.First().MonthVm;
+            var payment = Element;
+
+            TransactionFactory.UpdatePayment(payment, monthVm.Element);
+
+            UpdateTransactions("MonthVm");
+
+            monthVm.UpdateLists();
+
+            Transactions.ForEach(t => t.CurrentMonthVm = null);
         }
 
         public ITransactionFactory TransactionFactory { get; set; }

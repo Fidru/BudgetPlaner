@@ -14,6 +14,7 @@ namespace UI.Wpf.ViewModel
         public PaymentViewModel PaymentViewModel { get; set; }
 
         public MonthViewModel MonthVm { get; set; }
+        public MonthViewModel CurrentMonthVm { get; set; }
 
         public double Amount
         {
