@@ -18,6 +18,11 @@
         PaymentRevert,
 
         Hide,
-        HideRevert
+        HideRevert,
+
+        Bills,
+        FoodBills,
+        CreditCardBills,
+        ExpectedUnexpectedBills
     }
 }

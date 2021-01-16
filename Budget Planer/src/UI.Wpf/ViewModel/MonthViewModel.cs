@@ -92,5 +92,11 @@ namespace UI.Wpf.ViewModel
         public List<TransactionViewModel> Empty { get; set; }
 
         public AlignedMonthsViewModel AlignedMonths { get; set; }
+
+        internal void AddTransaction(TransactionViewModel transactionVm)
+        {
+            TransactionVms.Add(transactionVm);
+            UpdateLists();
+        }
     }
 }

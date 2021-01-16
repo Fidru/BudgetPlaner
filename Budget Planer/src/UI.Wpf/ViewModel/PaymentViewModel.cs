@@ -59,6 +59,10 @@ namespace UI.Wpf.ViewModel
             set
             {
                 _selectedCategory = value;
+                if (value != null)
+                {
+                    Element.Category.Element = value.Element;
+                }
 
                 Transactions.ForEach(t => t.Element.Category = value.Element);
                 UpdateTransactions("Category");
@@ -73,6 +77,10 @@ namespace UI.Wpf.ViewModel
             set
             {
                 _selectedSubCategory = value;
+                if (value != null)
+                {
+                    Element.SubCategory.Element = value.Element;
+                }
 
                 Transactions.ForEach(t => t.Element.SubCategory = value.Element);
                 UpdateTransactions("SubCategory");
@@ -93,7 +101,6 @@ namespace UI.Wpf.ViewModel
             set
             {
                 _selectedInterval = value;
-
                 Element.PayPattern.Element.Interval.Element = value.Element;
 
                 if (Element.PayPattern.Element.Interval.Element.Type == PaymentIntervalType.Custom)

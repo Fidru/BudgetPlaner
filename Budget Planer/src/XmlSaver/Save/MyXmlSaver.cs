@@ -16,7 +16,7 @@ namespace XmlSaver.Save
     {
         public void Save(IProject project)
         {
-            string path = GetSavePath();
+            string path = GetFilePath(new SaveFileDialog());
             var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 
             XmlTextWriter writer = new XmlTextWriter(fs, Encoding.UTF8) { Formatting = Formatting.Indented };
@@ -40,21 +40,19 @@ namespace XmlSaver.Save
             writer.Close();
         }
 
-        private string GetSavePath()
+        private string GetFilePath(FileDialog fd)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-
-            sfd.Filter = "Xml files (*.xml)|";
-            sfd.FilterIndex = 1;
-            sfd.RestoreDirectory = true;
-            sfd.AddExtension = true;
-            sfd.DefaultExt = ".xml";
+            fd.Filter = "Xml files (*.xml)|";
+            fd.FilterIndex = 1;
+            fd.RestoreDirectory = true;
+            fd.AddExtension = true;
+            fd.DefaultExt = ".xml";
 
             var path = SavePaths.XmlFile;
 
-            if (sfd.ShowDialog() == DialogResult.OK)
+            if (fd.ShowDialog() == DialogResult.OK)
             {
-                path = sfd.FileName;
+                path = fd.FileName;
             }
 
             return path;
@@ -79,7 +77,7 @@ namespace XmlSaver.Save
 
         public IProject Read(IEnumerable<IService> services)
         {
-            var path = GetSavePath();
+            var path = GetFilePath(new OpenFileDialog());
             var reader = XmlReader.Create(path);
 
             reader.Read();

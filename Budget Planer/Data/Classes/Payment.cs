@@ -6,10 +6,10 @@ namespace Data.Classes
 {
     public class Payment : Element, IPayment
     {
-        public Payment(IPaymentInterval interval)
+        public Payment(IPaymentInterval interval, ICategory category)
             : base()
         {
-            Category = new SaveableXmlElement<ICategory>();
+            Category = new SaveableXmlElement<ICategory>() { Element = category };
             SubCategory = new SaveableXmlElement<ICategory>();
             PayPattern = new SaveableXmlElement<IPayPattern>(new PayPattern(interval));
 

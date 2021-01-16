@@ -24,6 +24,7 @@ namespace Data.Services
         public ITransaction Create(IMonth month, IPayment payment)
         {
             var transaction = new Transaction(month, payment);
+            month.Transactions.AddElement(transaction);
             Project.CurrentProject.Elements.AddElement(transaction);
 
             return transaction;

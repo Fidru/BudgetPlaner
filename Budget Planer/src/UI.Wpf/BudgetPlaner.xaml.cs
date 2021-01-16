@@ -35,7 +35,7 @@ namespace UI.Wpf
                 mainMenu.Items.RemoveAt(3);
             }
 
-            foreach (var year in ((ProjectViewModel)DataContext).YearsVm)
+            foreach (var year in GetProjectViewModel.YearsVm)
             {
                 var mainItem = new MenuItem();
                 mainItem.Header = year.Name;
@@ -52,6 +52,11 @@ namespace UI.Wpf
 
                 mainMenu.Items.Add(mainItem);
             }
+        }
+
+        private ProjectViewModel GetProjectViewModel
+        {
+            get { return ((ProjectViewModel)DataContext); }
         }
 
         private void MonthClicked(object sender, RoutedEventArgs e)
@@ -111,18 +116,23 @@ namespace UI.Wpf
         {
             SelectTransaction(sender);
 
-            if (!_animations.PaymentIsActive)
+            ShowPaymentView(AnimationTag.Bills);
+        }
+
+        private void ShowPaymentView(AnimationTag tag)
+        {
+            if (_animations.PaymentIsActive)
+            {
+                return;
+            }
+
+            if (tag == AnimationTag.Bills)
             {
                 var hideElements = new FrameworkElement[] { monthDisplay, heading_FoodBills, heading_creditCards, heading_expectedBills, foodBills, creditCard, expectedBills, };
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel, hideElements);
             }
-        }
 
-        private void Edit_FoodBills_Click(object sender, RoutedEventArgs e)
-        {
-            SelectTransaction(sender);
-
-            if (!_animations.PaymentIsActive)
+            if (tag == AnimationTag.FoodBills)
             {
                 var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_creditCards, heading_expectedBills, bills, creditCard, expectedBills, };
 
@@ -130,26 +140,16 @@ namespace UI.Wpf
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_FoodBills);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
             }
-        }
 
-        private void Edit_CreditCardBills_Click(object sender, RoutedEventArgs e)
-        {
-            SelectTransaction(sender);
-
-            if (!_animations.PaymentIsActive)
+            if (tag == AnimationTag.CreditCardBills)
             {
                 var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_FoodBills, heading_expectedBills, bills, foodBills, expectedBills, };
                 _animations.StartAnimation(AnimationTag.RightToLeft, creditCard, hideElements);
                 _animations.StartAnimation(AnimationTag.RightToLeft, heading_creditCards);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
             }
-        }
 
-        private void Edit_ExpectedBills_Click(object sender, RoutedEventArgs e)
-        {
-            SelectTransaction(sender);
-
-            if (!_animations.PaymentIsActive)
+            if (tag == AnimationTag.ExpectedUnexpectedBills)
             {
                 var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_FoodBills, heading_creditCards, bills, foodBills, creditCard, };
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, expectedBills, hideElements);
@@ -158,12 +158,30 @@ namespace UI.Wpf
             }
         }
 
+        private void Edit_FoodBills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+            ShowPaymentView(AnimationTag.FoodBills);
+        }
+
+        private void Edit_CreditCardBills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+            ShowPaymentView(AnimationTag.CreditCardBills);
+        }
+
+        private void Edit_ExpectedBills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+            ShowPaymentView(AnimationTag.ExpectedUnexpectedBills);
+        }
+
         private void SelectTransaction(object sender)
         {
             Button button = (Button)sender;
             var transaction = (TransactionViewModel)button.DataContext;
 
-            transaction.CurrentMonthVm = ((ProjectViewModel)DataContext).CurrentYear.CurrentMonthVm;
+            transaction.CurrentMonthVm = GetProjectViewModel.CurrentYear.CurrentMonthVm;
             transaction.SelectTransaction();
         }
 
@@ -178,6 +196,25 @@ namespace UI.Wpf
         private void New_Click(object sender, RoutedEventArgs e)
         {
             SetNewDefaultData();
+        }
+
+        private void Add_Payment_Click(object sender, RoutedEventArgs e)
+        {
+            var paymentService = _services.GetService<IPaymentFactory>();
+            var newPayment = paymentService.CreateEmpty() as IPayment;
+
+            var monthVm = GetProjectViewModel.CurrentYear.CurrentMonthVm;
+
+            var transactionService = _services.GetService<ITransactionFactory>();
+
+            var newTransaction = transactionService.Create(monthVm.Element, newPayment);
+            var transactionVm = new TransactionViewModelFacotry(_services).ConvertToVm(newTransaction);
+            transactionVm.CurrentMonthVm = monthVm;
+            transactionVm.SelectTransaction();
+
+            monthVm.AddTransaction(transactionVm);
+
+            ShowPaymentView(AnimationTag.Bills);
         }
 
         private void ClosePayment_Click(object sender, RoutedEventArgs e)

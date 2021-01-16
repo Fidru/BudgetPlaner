@@ -10,7 +10,8 @@ namespace Data.Services
         public override IElement CreateEmpty()
         {
             var interval = Project.CurrentProject.Intervals.First();
-            var payment = new Payment(interval);
+            var payment = new Payment(interval, Project.CurrentProject.Categories.First());
+
             Project.CurrentProject.Elements.AddElement(payment);
             return payment;
         }

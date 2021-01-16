@@ -334,6 +334,36 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
+                    <Button HorizontalAlignment="Right" Style="{StaticResource SquareButton}"
+                                        Foreground="{DynamicResource PrimaryHueLightBrush}" BorderBrush="{DynamicResource PrimaryHueLightBrush}"
+                                        Grid.Row="0" Grid.Column="0" Click="Add_Payment_Click" Height="32" Width="56">
+                        <materialDesign:PackIcon Kind="Add" Height="20" Width="20" />
+
+                        <Button.Effect>
+                            <DropShadowEffect x:Name="DropShadowEffectAdd" BlurRadius="5" ShadowDepth="1" Direction="270"
+                                                          Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                        </Button.Effect>
+
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard TargetName="DropShadowEffectAdd">
+                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
+                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard TargetName="DropShadowEffectAdd">
+                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
 
                     <TextBlock Opacity="1" x:Name="heading_FoodBills" Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" />
 

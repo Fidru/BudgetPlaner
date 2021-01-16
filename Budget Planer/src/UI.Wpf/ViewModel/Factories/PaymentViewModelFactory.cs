@@ -35,7 +35,6 @@ namespace UI.Wpf.ViewModel.Factories
             vm.Intervals = new PaymentIntervalViewModelFactory(Services).ConvertToVms(CurrentProject.Intervals);
             vm.SelectedInterval = new PaymentIntervalViewModelFactory(Services).ConvertToVm(element.PayPattern.Element.Interval.Element);
 
-
             return vm;
         }
 
