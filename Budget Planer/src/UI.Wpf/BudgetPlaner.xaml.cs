@@ -1,13 +1,10 @@
 ﻿using IData.Interfaces;
 using IData.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using UI.WinForms;
+using UI.Wpf.Animations;
 using UI.Wpf.ViewModel;
 using UI.Wpf.ViewModel.Factories;
 using XmlSaver.Save;
@@ -16,11 +13,8 @@ namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
-        private readonly Storyboard _nextAnimationFadeIn;
-        private readonly Storyboard _previousAnimation;
-
+        private readonly CustomAnimations _animations;
         private ProjectViewModel _projectVm;
-        private PaymentViewModel PaymentVm { get; set; }
 
         private IEnumerable<IService> _services { get; set; }
         public object Threat { get; private set; }
@@ -31,24 +25,7 @@ namespace UI.Wpf
 
             SetNewDefaultData();
 
-            _nextAnimationFadeIn = CreateStoryboard(1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
-            _previousAnimation = CreateStoryboard(-1200, 0, nameof(innerPanel.Opacity), nameof(innerPanel.RenderTransform), 800);
-        }
-
-        private Storyboard CreateStoryboard(int fromRender, int toRender, string opacity, string render, int maxTimer)
-        {
-            Storyboard sb = new Storyboard();
-            sb.FillBehavior = FillBehavior.HoldEnd;
-
-            var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
-            Storyboard.SetTargetProperty(fadeIn, new PropertyPath(opacity));
-            sb.Children.Add(fadeIn);
-
-            DoubleAnimation moveIn = new DoubleAnimation(fromRender, toRender, new Duration(TimeSpan.FromMilliseconds(maxTimer)));
-            Storyboard.SetTargetProperty(moveIn, new PropertyPath($"{render}.{nameof(TranslateTransform.X)}"));
-            sb.Children.Add(moveIn);
-
-            return sb;
+            _animations = new CustomAnimations();
         }
 
         private void CreateMenu()
@@ -89,14 +66,14 @@ namespace UI.Wpf
         {
             // todo
             _projectVm.CurrentYear.SelectNextMonth();
-            _nextAnimationFadeIn.Begin(innerPanel);
+            _animations.StartAnimation(AnimationTag.Next, innerPanel);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             // todo
             _projectVm.CurrentYear.SelectPreviousMonth();
-            _previousAnimation.Begin(innerPanel);
+            _animations.StartAnimation(AnimationTag.Previous, innerPanel);
         }
 
         private void save_Click(object sender, RoutedEventArgs e)
@@ -130,7 +107,58 @@ namespace UI.Wpf
             Load(data.Project);
         }
 
-        private void Edit_Click(object sender, RoutedEventArgs e)
+        private void Edit_Bills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+
+            if (!_animations.PaymentIsActive)
+            {
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_FoodBills, heading_creditCards, heading_expectedBills, foodBills, creditCard, expectedBills, };
+                _animations.StartAnimation(AnimationTag.Payment, paymentPanel, hideElements);
+            }
+        }
+
+        private void Edit_FoodBills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+
+            if (!_animations.PaymentIsActive)
+            {
+                var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_creditCards, heading_expectedBills, bills, creditCard, expectedBills, };
+
+                _animations.StartAnimation(AnimationTag.MiddleToLeft, foodBills, hiddenElements);
+                _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_FoodBills);
+                _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
+            }
+        }
+
+        private void Edit_CreditCardBills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+
+            if (!_animations.PaymentIsActive)
+            {
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_FoodBills, heading_expectedBills, bills, foodBills, expectedBills, };
+                _animations.StartAnimation(AnimationTag.RightToLeft, creditCard, hideElements);
+                _animations.StartAnimation(AnimationTag.RightToLeft, heading_creditCards);
+                _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
+            }
+        }
+
+        private void Edit_ExpectedBills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectTransaction(sender);
+
+            if (!_animations.PaymentIsActive)
+            {
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_FoodBills, heading_creditCards, bills, foodBills, creditCard, };
+                _animations.StartAnimation(AnimationTag.RightToTopLeft, expectedBills, hideElements);
+                _animations.StartAnimation(AnimationTag.RightToTopLeft, heading_expectedBills);
+                _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
+            }
+        }
+
+        private static void SelectTransaction(object sender)
         {
             Button button = (Button)sender;
             var transaction = (TransactionViewModel)button.DataContext;
@@ -149,6 +177,11 @@ namespace UI.Wpf
         private void New_Click(object sender, RoutedEventArgs e)
         {
             SetNewDefaultData();
+        }
+
+        private void ClosePayment_Click(object sender, RoutedEventArgs e)
+        {
+            _animations.ResetAnimations();
         }
     }
 }

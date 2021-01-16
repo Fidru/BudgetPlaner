@@ -71,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animations\AnimationElement.cs" />
+    <Compile Include="Animations\AnimationTag.cs" />
+    <Compile Include="Animations\CustomAnimations.cs" />
+    <Compile Include="Animations\PaymentAnimations.cs" />
     <Compile Include="ViewModel\AlignedMonthsViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\ElementViewModel.cs" />
@@ -147,9 +151,7 @@
       <Name>XmlSaver</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProjectData\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\MaterialDesignThemes.4.0.0-ci2347\build\MaterialDesignThemes.targets" Condition="Exists('..\..\packages\MaterialDesignThemes.4.0.0-ci2347\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
