@@ -50,7 +50,7 @@ namespace UI.ViewModel
             }
         }
 
-        private List<TransactionViewModel> Transactions
+        public List<TransactionViewModel> Transactions
         {
             get
             {

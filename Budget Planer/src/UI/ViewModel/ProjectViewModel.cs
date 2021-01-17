@@ -43,36 +43,49 @@ namespace UI.ViewModel
 
         public bool SelectNextMonth()
         {
-            if (CurrentYear.SelectNextMonth())
+            var nextMonth = CurrentYear.CurrentMonthVm.AlignedMonths.Next;
+
+            if (nextMonth != null)
             {
-                SetNewMonthAndYear();
+                nextMonth.Element.UpdateBankBalanceFromPreviousMonth();
+                SetNewMonthAndYear(nextMonth);
 
                 return true;
             }
             return false;
-        }
-
-        private void SetNewMonthAndYear()
-        {
-            CurrentYear = CurrentYear.CurrentMonthVm.Year;
-            CurrentYear.CurrentMonthVm.UpdateLists();
-
-            NotifyPropertyChanged(CurrentYear, nameof(CurrentYear.CurrentMonthVm));
-            NotifyPropertyChanged(CurrentYear.CurrentMonthVm, nameof(CurrentYear.CurrentMonthVm.Name));
-
-            NotifyPropertyChanged(nameof(CombinedMonthName));
-            NotifyPropertyChanged(CurrentYear, nameof(Name));
         }
 
         public bool SelectPreviousMonth()
         {
-            if (CurrentYear.SelectPreviousMonth())
+            var previousMonth = CurrentYear.CurrentMonthVm.AlignedMonths.Previous;
+
+            if (previousMonth != null)
             {
-                SetNewMonthAndYear();
+                SetNewMonthAndYear(previousMonth);
 
                 return true;
             }
             return false;
+        }
+
+        private void SetNewMonthAndYear(MonthViewModel newMonth)
+        {
+            CurrentYear = newMonth.Year;
+            CurrentYear.CurrentMonthVm = newMonth;
+
+            CurrentYear.CurrentMonthVm.UpdateLists();
+
+            NotifyPropertyChanged(nameof(CurrentYear));
+            NotifyPropertyChanged(CurrentYear, nameof(CurrentYear.CurrentMonthVm));
+            //NotifyPropertyChanged(CurrentYear.CurrentMonthVm, nameof(CurrentYear.CurrentMonthVm.Name));
+
+            NotifyPropertyChanged(nameof(CombinedMonthName));
+
+            //NotifyPropertyChanged(CurrentYear, nameof(CurrentYear.CurrentMonthVm));
+            //NotifyPropertyChanged(CurrentYear.CurrentMonthVm, nameof(CurrentYear.CurrentMonthVm.Name));
+
+            //NotifyPropertyChanged(nameof(CombinedMonthName));
+            //NotifyPropertyChanged(CurrentYear, nameof(Name));
         }
 
         public void UpdateViewModels()
@@ -90,6 +103,18 @@ namespace UI.ViewModel
                     transaction.IsNew = false;
                 }
             }
+        }
+
+        public void AddYear()
+        {
+            var yearFactory = Services.GetService<IYearFactory>();
+            var year = yearFactory.Create("New Year");
+            var newYear = new YearsViewModelFactory(Services).ConvertToVm(year);
+
+            var lastMonth = YearVms.OrderBy(y => y.Element.SortOrder).Last().MonthVms.OrderBy(m => (int)m.Element.MonthType).Last();
+            lastMonth.AlignedMonths.Next = newYear.MonthVms.OrderBy(m => (int)m.Element.MonthType).First();
+
+            YearVms.Add(newYear);
         }
     }
 }

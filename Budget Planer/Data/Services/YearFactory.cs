@@ -13,8 +13,6 @@ namespace Data.Services
         {
             var year = new Year();
 
-            //CreateMonths(year);
-
             Project.CurrentProject.Elements.AddElement(year);
 
             return year;

@@ -20,9 +20,9 @@ namespace UI.Wpf
 
         private void CreateMenu()
         {
-            while (mainMenu.Items.Count > 3)
+            while (mainMenu.Items.Count > 4)
             {
-                mainMenu.Items.RemoveAt(3);
+                mainMenu.Items.RemoveAt(4);
             }
 
             if (GetProjectViewModel == null)
@@ -213,6 +213,13 @@ namespace UI.Wpf
             GetProjectViewModel.UpdateViewModels();
 
             _animations.ResetAnimations();
+        }
+
+        private void Add_Year_Click(object sender, RoutedEventArgs e)
+        {
+            GetProjectViewModel.AddYear();
+
+            CreateMenu();
         }
     }
 }
