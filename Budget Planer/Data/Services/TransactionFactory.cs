@@ -81,6 +81,12 @@ namespace Data.Services
             var newAffectedMonths = payment.PayPattern.Element.AffectedMonths;
             IEnumerable<ITransaction> projectTransactions = Project.CurrentProject.Transactions.GetTransactionsByPayment(payment);
 
+            if (!newAffectedMonths.Any())
+            {
+                payment.Delete();
+                projectTransactions.ToList().ForEach(t => t.Delete());
+            }
+
             var removedTransactions = projectTransactions.Where(t => !newAffectedMonths.Contains(t.Month.Element.MonthType));
 
             removedTransactions.ToList().ForEach(t => t.Delete());

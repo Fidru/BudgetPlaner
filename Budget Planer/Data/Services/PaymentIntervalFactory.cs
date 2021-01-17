@@ -9,18 +9,18 @@ namespace Data.Services
     {
         public override IElement CreateEmpty()
         {
-            var payPattern = new PaymentInterval();
-            Project.CurrentProject.Elements.AddElement(payPattern);
+            var interval = new PaymentInterval();
+            Project.CurrentProject.Elements.AddElement(interval);
 
-            return payPattern;
+            return interval;
         }
 
-        public IPaymentInterval Create(PaymentIntervalType paymentInterval)
+        public IPaymentInterval Create(PaymentIntervalType intervalType)
         {
-            var payPattern = new PaymentInterval(paymentInterval);
-            Project.CurrentProject.Elements.AddElement(payPattern);
+            var interval = new PaymentInterval(intervalType);
+            Project.CurrentProject.Elements.AddElement(interval);
 
-            return payPattern;
+            return interval;
         }
 
         public IPaymentInterval Copy(IPaymentInterval original)

@@ -9,8 +9,10 @@ namespace Data.Services
     {
         public override IElement CreateEmpty()
         {
-            var interval = Project.CurrentProject.Intervals.First();
-            var payment = new Payment(interval, Project.CurrentProject.Categories.First());
+            var factory = new PayPatternFactory() { Project = Project };
+
+            var pattern = factory.CreateEmpty() as IPayPattern;
+            var payment = new Payment(Project.CurrentProject.Categories.First(), pattern);
 
             Project.CurrentProject.Elements.AddElement(payment);
             return payment;

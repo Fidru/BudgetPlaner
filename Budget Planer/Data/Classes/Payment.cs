@@ -6,12 +6,12 @@ namespace Data.Classes
 {
     public class Payment : Element, IPayment
     {
-        public Payment(IPaymentInterval interval, ICategory category)
+        public Payment(ICategory category, IPayPattern pattern)
             : base()
         {
             Category = new SaveableXmlElement<ICategory>() { Element = category };
             SubCategory = new SaveableXmlElement<ICategory>();
-            PayPattern = new SaveableXmlElement<IPayPattern>(new PayPattern(interval));
+            PayPattern = new SaveableXmlElement<IPayPattern>(pattern);
 
             Amount = 0.0;
         }
@@ -49,6 +49,11 @@ namespace Data.Classes
             Category.Element = (ICategory)project.Categories.GetElementById(Category.Id);
             SubCategory.Element = (ICategory)project.SubCategories.GetElementById(SubCategory.Id);
             PayPattern.Element = (IPayPattern)project.PayPatterns.GetElementById(PayPattern.Id);
+
+            if (PayPattern.Element == null)
+            {
+                PayPattern.Element = project.PayPatterns.FirstOrDefault(p => p.Interval.Element.Type == PaymentIntervalType.OneTimePayment);
+            }
         }
 
         public override void Delete()
@@ -59,6 +64,9 @@ namespace Data.Classes
             {
                 var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
                 transactions.ToList().ForEach(t => t.Delete());
+            }
+            else if (PayPattern.Element.Interval.Element.Type == PaymentIntervalType.Custom)
+            {
             }
         }
 
