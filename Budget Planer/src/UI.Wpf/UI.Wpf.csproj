@@ -75,29 +75,10 @@
     <Compile Include="Animations\AnimationTag.cs" />
     <Compile Include="Animations\CustomAnimations.cs" />
     <Compile Include="Animations\PaymentAnimations.cs" />
-    <Compile Include="ViewModel\AlignedMonthsViewModel.cs" />
-    <Compile Include="ViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\ElementViewModel.cs" />
-    <Compile Include="ViewModel\Factories\CategoryViewModelFacotry.cs" />
-    <Compile Include="ViewModel\Factories\MonthViewModelFactory.cs" />
-    <Compile Include="ViewModel\Factories\PaymentIntervalViewModelFactory.cs" />
-    <Compile Include="ViewModel\Factories\PaymentViewModelFactory.cs" />
-    <Compile Include="ViewModel\Factories\PayPatternViewModelFactory.cs" />
-    <Compile Include="ViewModel\Factories\ProjectViewModelFacotry.cs" />
-    <Compile Include="ViewModel\Factories\TransactionViewModelFacotry.cs" />
-    <Compile Include="ViewModel\Factories\YearsViewModelFactory.cs" />
-    <Compile Include="ViewModel\MonthViewModel.cs" />
-    <Compile Include="ViewModel\MonthViewModelExtension.cs" />
-    <Compile Include="ViewModel\PaymentViewModel.cs" />
-    <Compile Include="ViewModel\PayPatternViewModel.cs" />
-    <Compile Include="ViewModel\ProjectViewModel.cs" />
     <Compile Include="TreeHelpers\Modifier.cs" />
     <Compile Include="TreeHelpers\ModifierBase.cs" />
     <Compile Include="TreeHelpers\ModifierCollection.cs" />
     <Compile Include="TreeHelpers\TreeHelpers.cs" />
-    <Compile Include="ViewModel\TransactionViewModel.cs" />
-    <Compile Include="ViewModel\Factories\ViewModelFactoryGeneric.cs" />
-    <Compile Include="ViewModel\YearViewModel.cs" />
     <Page Include="BudgetPlaner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -143,8 +124,8 @@
       <Project>{b14b9dfb-34c5-41a4-a534-ead0cdc0880d}</Project>
       <Name>IData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UI\UI.csproj">
-      <Project>{643e6de3-0b10-4950-8c0b-cc55e9897f2c}</Project>
+    <ProjectReference Include="..\UI\UI.csproj">
+      <Project>{e18014e6-3907-4b6b-848f-0b3dbac4cb6a}</Project>
       <Name>UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\XmlSaver\XmlSaver.csproj">

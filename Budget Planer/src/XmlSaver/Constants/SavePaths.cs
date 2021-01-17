@@ -4,6 +4,6 @@ namespace XmlSaver.Constants
 {
     public static class SavePaths
     {
-        public static string XmlFile = Environment.CurrentDirectory + @"\Default.xml";
+        public static string XmlFile = Environment.CurrentDirectory + @"\BackupSaveFile.xml";
     }
 }

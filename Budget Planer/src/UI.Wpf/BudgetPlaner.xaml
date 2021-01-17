@@ -5,7 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:TreeHelpers="clr-namespace:UI.Wpf.TreeHelpers"
-        xmlns:ViewModel="clr-namespace:UI.Wpf.ViewModel"
+        xmlns:ViewModel="clr-namespace:UI.ViewModel;assembly=UI"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource PrimaryHueMidBrush}"
         d:DataContext="{d:DesignInstance Type=ViewModel:ProjectViewModel, IsDesignTimeCreatable=False}"
@@ -182,6 +182,7 @@
                             <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
 
                                 <!--Needed To Open the SubMenu At the Right Edge of the main Menu-->
+
                                 <Setter Property="TreeHelpers:TreeHelpers.Modifiers">
                                     <Setter.Value>
                                         <TreeHelpers:ModifierCollection>
@@ -192,15 +193,19 @@
                                     </Setter.Value>
                                 </Setter>
                                 <Style.Triggers>
-                                    <!-- Overriding colors by duplicating triggers from the base style-->
+
+                                    <!--Overriding colors by duplicating triggers from the base style-->
+
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+
                                         <!--BUG would set everything to white foregroun-->
-                                        <!--<Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />-->
+                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Menu.Resources>
+
                         <Menu.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel />

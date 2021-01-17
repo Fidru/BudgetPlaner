@@ -8,12 +8,12 @@ namespace UI.WinForms
         [STAThread]
         private static void Main()
         {
-            var testdata = new TestData();
+            //var testdata = new TestData();
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new Form1(testdata.Project, testdata.Services));
+            //Application.Run(new Form1(testdata.Project, testdata.Services));
         }
     }
 }

@@ -42,7 +42,7 @@ namespace XmlSaver.Save
 
         private string GetFilePath(FileDialog fd)
         {
-            fd.Filter = "Xml files (*.xml)|";
+            fd.Filter = "xml files (*.xml)|";
             fd.FilterIndex = 1;
             fd.RestoreDirectory = true;
             fd.AddExtension = true;

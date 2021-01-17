@@ -1,31 +1,24 @@
-﻿using IData.Interfaces;
-using IData.Services;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using UI.WinForms;
+using UI.ViewModel;
+using UI.DefaultData;
+
 using UI.Wpf.Animations;
-using UI.Wpf.ViewModel;
-using UI.Wpf.ViewModel.Factories;
-using XmlSaver.Save;
 
 namespace UI.Wpf
 {
     public partial class MainWindow : Window
     {
         private readonly CustomAnimations _animations;
-        private ProjectViewModel _projectVm;
 
-        private IEnumerable<IService> _services { get; set; }
         public object Threat { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            SetNewDefaultData();
-
             _animations = new CustomAnimations();
+
+            //SetNewDefaultData();
         }
 
         private void CreateMenu()
@@ -64,52 +57,42 @@ namespace UI.Wpf
             var menu = sender as MenuItem;
             var month = menu.Tag as MonthViewModel;
 
-            _projectVm.CurrentYear.SelectNewCurrentMonth(month);
+            GetProjectViewModel.CurrentYear.SelectNewCurrentMonth(month);
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
             // todo
-            _projectVm.CurrentYear.SelectNextMonth();
+            GetProjectViewModel.CurrentYear.SelectNextMonth();
             _animations.StartAnimation(AnimationTag.Next, innerPanel);
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             // todo
-            _projectVm.CurrentYear.SelectPreviousMonth();
+            GetProjectViewModel.CurrentYear.SelectPreviousMonth();
             _animations.StartAnimation(AnimationTag.Previous, innerPanel);
         }
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            MyXmlSaver saver = new MyXmlSaver();
-            saver.Save(_projectVm.Element);
+            GetProjectViewModel.SaveToXml();
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
         {
-            IProject project = new MyXmlSaver().Read(_services);
-
-            Load(project);
+            Load();
         }
 
-        private void Load(IProject project)
+        private void Load()
         {
-            var repService =
-
-            _projectVm = new ProjectViewModelFacotry(_services).ConvertToVm(project);
-            DataContext = _projectVm;
-
+            DataContext = new TestData().LoadFromXml();
             CreateMenu();
         }
 
         private void SetNewDefaultData()
         {
-            var data = new TestData();
-            _services = data.Services;
-
-            Load(data.Project);
+            Load();
         }
 
         private void Edit_Bills_Click(object sender, RoutedEventArgs e)
@@ -182,14 +165,12 @@ namespace UI.Wpf
             var transaction = (TransactionViewModel)button.DataContext;
 
             transaction.CurrentMonthVm = GetProjectViewModel.CurrentYear.CurrentMonthVm;
-            transaction.SelectTransaction();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //new MyXmlSaver().Save(_project);
+            save_Click(sender, e);
 
-            //Thread.Sleep(2000);
             this.Close();
         }
 
@@ -200,19 +181,11 @@ namespace UI.Wpf
 
         private void Add_Payment_Click(object sender, RoutedEventArgs e)
         {
-            var paymentService = _services.GetService<IPaymentFactory>();
-            var newPayment = paymentService.CreateEmpty() as IPayment;
+            Button button = (Button)sender;
+            var month = (MonthViewModel)button.DataContext;
 
             var monthVm = GetProjectViewModel.CurrentYear.CurrentMonthVm;
-
-            var transactionService = _services.GetService<ITransactionFactory>();
-
-            var newTransaction = transactionService.Create(monthVm.Element, newPayment);
-            var transactionVm = new TransactionViewModelFacotry(_services).ConvertToVm(newTransaction);
-            transactionVm.CurrentMonthVm = monthVm;
-            transactionVm.SelectTransaction();
-
-            monthVm.AddTransaction(transactionVm);
+            month.AddNewTransaction();
 
             ShowPaymentView(AnimationTag.Bills);
         }
