@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using UI.ViewModel;
 using UI.DefaultData;
-
+using UI.ViewModel;
 using UI.Wpf.Animations;
 
 namespace UI.Wpf
