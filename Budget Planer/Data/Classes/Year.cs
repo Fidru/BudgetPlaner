@@ -13,9 +13,10 @@ namespace Data.Classes
             Name = DateTime.Now.Year.ToString();
         }
 
-        public Year(string name) : this()
+        public Year(string name, int sortOrder) : this()
         {
             Name = name;
+            SortOrder = sortOrder;
         }
 
         public IElementCollection<IMonth> Months { get; set; }

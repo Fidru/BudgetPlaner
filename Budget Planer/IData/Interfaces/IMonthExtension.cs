@@ -9,19 +9,19 @@ namespace IData.Interfaces
         public static IMonth GetRelatedMonth(this IEnumerable<IMonth> months, IMonth current, int increment)
         {
             int relatedMonth = (int)current.MonthType + increment;
-
+            int yearSortOrder = current.Year.Element.SortOrder;
             MonthEnum relatedMont;
 
             if (relatedMonth <= 0)
             {
                 //todo previousYear
-                return null;
+                yearSortOrder += -1;
                 relatedMont = MonthEnum.Dez;
             }
             else if (relatedMonth > 12)
             {
                 // todo nextYear
-                return null;
+                yearSortOrder += 1;
                 relatedMont = MonthEnum.Jan;
             }
             else
@@ -29,7 +29,7 @@ namespace IData.Interfaces
                 relatedMont = (MonthEnum)relatedMonth;
             }
 
-            return months.Single(m => m.MonthType == relatedMont);
+            return months.SingleOrDefault(m => m.MonthType == relatedMont && m.Year.Element.SortOrder == yearSortOrder);
         }
 
         public static IEnumerable<IMonth> GeMonthsForPayment(this IEnumerable<IMonth> months, IPayment payment)

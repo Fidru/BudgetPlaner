@@ -17,9 +17,17 @@ namespace UI.ViewModel.Factories
 
             vm.TransactionVms = new TransactionViewModelFacotry(Services).ConvertToVms(element.Transactions.Elements);
 
+            vm.Year = new YearsViewModelFactory(Services).ConvertToVm(element.Year.Element);
             vm.TransactionFactory = Services.GetService<ITransactionFactory>();
             vm.PaymentFactory = Services.GetService<IPaymentFactory>();
             vm.Services = Services;
+
+            vm.AlignedMonths = new AlignedMonthsViewModel()
+            {
+                Previous = ConvertToVm(vm.Element.AlignedMonths.Previous)
+                Current = vm,
+                Next = ConvertToVm(vm.Element.AlignedMonths.Next),
+            };
 
             return vm;
         }

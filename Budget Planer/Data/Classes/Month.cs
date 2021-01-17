@@ -10,6 +10,7 @@ namespace Data.Classes
     {
         public Month() : base()
         {
+            Year = new SaveableXmlElement<IYear>();
             MonthType = (MonthEnum)DateTime.Now.Month;
             AlignedMonths = new AlignedMonths(this);
             Transactions = new ElementCollection<ITransaction>();
@@ -21,14 +22,16 @@ namespace Data.Classes
         {
             base.ConnectElements(project);
             Transactions.ConnectIds(project.Transactions);
+            Year.Element = (IYear)project.Years.GetElementById(Year.Id);
 
             AlignedMonths = new AlignedMonths(this);
         }
 
-        public Month(MonthEnum monthType) : this()
+        public Month(MonthEnum monthType, IYear year) : this()
         {
             MonthType = monthType;
             Name = MonthType.ConvertToText();
+            Year.Element = year;
         }
 
         public IAlignedMonths AlignedMonths { get; set; }
@@ -129,6 +132,7 @@ namespace Data.Classes
         }
 
         public CategoryTypeCollection Types { get; }
+        public ISaveableXmlElement<IYear> Year { get; set; }
 
         public override void Delete()
         {

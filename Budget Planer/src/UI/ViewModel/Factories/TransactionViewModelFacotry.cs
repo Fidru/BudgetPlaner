@@ -16,7 +16,6 @@ namespace UI.ViewModel.Factories
             var vm = base.CreateVm(element);
 
             vm.MonthVm = new MonthViewModelFactory(Services).ConvertToVm(element.Month.Element);
-            vm.MonthVm.AddTransaction(vm);
             vm.PaymentViewModel = new PaymentViewModelFactory(Services).ConvertToVm(element.Payment.Element);
 
             return vm;

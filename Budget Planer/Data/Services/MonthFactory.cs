@@ -14,22 +14,14 @@ namespace Data.Services
             return month;
         }
 
-        public IMonth Create(MonthEnum monthType)
+        public IMonth Create(MonthEnum monthType, IYear year)
         {
             var transactionFactory = new TransactionFactory() { Project = Project };
-            var newMonth = new Month(monthType);
+            var newMonth = new Month(monthType, year);
             Project.CurrentProject.Elements.AddElement(newMonth);
 
             var paymentsForMonth = Project.CurrentProject.Payments.GetPaymentsForMonth(monthType);
             transactionFactory.AddTransactions(newMonth, paymentsForMonth);
-
-            return newMonth;
-        }
-
-        public IMonth Create(MonthEnum month, double bankBalance)
-        {
-            var newMonth = Create(month);
-            newMonth.UpdateBankBalance(bankBalance);
 
             return newMonth;
         }

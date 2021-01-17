@@ -200,7 +200,7 @@
                                         <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
 
                                         <!--BUG would set everything to white foregroun-->
-                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />
+                                        <!--<Setter Property="Foreground" Value="{DynamicResource MaterialDesignBackground}" />-->
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -285,12 +285,14 @@
                 </Button.Triggers>
             </Button>
 
-            <TextBlock x:Name="monthDisplay" Text="{Binding CurrentYear.CurrentMonthVm.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
-          Style="{StaticResource MaterialDesignHeadline2TextBlock}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Margin="211,0,210,0">
-                <TextBlock.RenderTransform>
+            <TextBox x:Name="monthDisplay" Text="{Binding CombinedMonthName}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                     FontWeight="Bold" FontSize="56" TextWrapping="Wrap" TextAlignment="Center" TextDecorations="Underline"
+                     Style="{StaticResource MaterialDesignComboBoxEditableTextBox}"
+                     Grid.ColumnSpan="3" Width="716" Grid.Row="1" Margin="510,3,542,3">
+                <TextBox.RenderTransform>
                     <TranslateTransform />
-                </TextBlock.RenderTransform>
-            </TextBlock>
+                </TextBox.RenderTransform>
+            </TextBox>
 
             <Button HorizontalAlignment="Right" Style="{StaticResource SquareButton}" Grid.Row="1" Grid.Column="2" Click="next_Click" Margin="0,10,28,10">
                 <materialDesign:PackIcon Kind="ArrowRightBold" Height="42" Width="42" Margin="3,0,0,0" />

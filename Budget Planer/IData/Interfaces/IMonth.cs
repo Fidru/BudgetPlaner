@@ -6,6 +6,7 @@ namespace IData.Interfaces
     public interface IMonth : IElement
     {
         MonthEnum MonthType { get; set; }
+        ISaveableXmlElement<IYear> Year { get; set; }
 
         IAlignedMonths AlignedMonths { get; set; }
 

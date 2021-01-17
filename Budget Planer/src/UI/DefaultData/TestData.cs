@@ -13,12 +13,15 @@ namespace UI.DefaultData
     {
         public IEnumerable<IService> Services { get; set; }
 
-        public IProject Project { get; set; }
-
         public TestData()
         {
             Services = CreateServices();
-            Project = CreateTestData(Services);
+        }
+
+        public ProjectViewModel GetDefaultData()
+        {
+            var project = CreateTestData(Services);
+            return new ProjectViewModelFacotry(Services).ConvertToVm(project);
         }
 
         public ProjectViewModel LoadFromXml()
@@ -33,7 +36,7 @@ namespace UI.DefaultData
         private IEnumerable<IService> CreateServices()
         {
             var projectFact = new ProjectFactory();
-            var project = projectFact.Create("Betriebskosten 2021");
+            var project = projectFact.Create("Betriebskosten");
 
             var currentProject = new CurentProjectService(project);
             projectFact.Project = currentProject;
@@ -68,8 +71,8 @@ namespace UI.DefaultData
             categoryFactory.Create("Income", "", CategoryType.Income, 0, true);
             categoryFactory.Create("Rent and Housing", "", CategoryType.RentAndHousing, 10, true);
             categoryFactory.Create("Internet and Mobile", "", CategoryType.InternetAndMobile, 20, true);
-            categoryFactory.Create("Food and household", "", CategoryType.FoodAndHousehold, 30, true);
-            categoryFactory.Create("Insurance", "", CategoryType.Insurance, 40, true);
+            categoryFactory.Create("Insurance", "", CategoryType.Insurance, 30, true);
+            categoryFactory.Create("Food and household", "", CategoryType.FoodAndHousehold, 40, true);
             categoryFactory.Create("Credit card", "", CategoryType.CreditCard, 50, true);
             categoryFactory.Create("Extra expenses", "", CategoryType.ExtraExpenses, 60, true);
             categoryFactory.Create("Unexpected expenses", "", CategoryType.UnexpectedExpenses, 70, true);
@@ -87,13 +90,13 @@ namespace UI.DefaultData
             categoryFactory.Create("Phone", "", CategoryType.Phone, 23);
             categoryFactory.Create("Streaming", "", CategoryType.Streaming, 24);
 
-            categoryFactory.Create("Food", "", CategoryType.Food, 31);
-            categoryFactory.Create("Dog Food", "", CategoryType.DogFood, 32);
-            categoryFactory.Create("Fuel", "", CategoryType.Fuel, 33);
+            categoryFactory.Create("Insurance", "", CategoryType.CarInsurance, 31);
+            categoryFactory.Create("Lease", "", CategoryType.Lease, 32);
+            categoryFactory.Create("Credit Appartment", "", CategoryType.CreditAppartment, 33);
 
-            categoryFactory.Create("Insurance", "", CategoryType.CarInsurance, 41);
-            categoryFactory.Create("Lease", "", CategoryType.Lease, 42);
-            categoryFactory.Create("Credit Appartment", "", CategoryType.CreditAppartment, 43);
+            categoryFactory.Create("Food", "", CategoryType.Food, 41);
+            categoryFactory.Create("Dog Food", "", CategoryType.DogFood, 42);
+            categoryFactory.Create("Fuel", "", CategoryType.Fuel, 43);
 
             categoryFactory.Create("Bank balance End Of MOnth", "", CategoryType.BankbalanceEndOfMonth, 81);
 
@@ -122,13 +125,13 @@ namespace UI.DefaultData
             paymentFactory.Create("Gis", categories.GetByType(CategoryType.InternetAndMobile), -41.86, evenMonths, subCategories.GetByType(CategoryType.Gis));
             paymentFactory.Create("Phone", categories.GetByType(CategoryType.InternetAndMobile), -16.55, monthly, subCategories.GetByType(CategoryType.Phone));
 
-            paymentFactory.Create("Food", categories.GetByType(CategoryType.FoodAndHousehold), -200, monthly, subCategories.GetByType(CategoryType.Food));
-            paymentFactory.Create("Dog Food", categories.GetByType(CategoryType.FoodAndHousehold), -180, monthly, subCategories.GetByType(CategoryType.DogFood));
-            paymentFactory.Create("Fuel", categories.GetByType(CategoryType.FoodAndHousehold), -60, monthly, subCategories.GetByType(CategoryType.Fuel));
-
             paymentFactory.Create("Insurance", categories.GetByType(CategoryType.Insurance), -91.92, monthly, subCategories.GetByType(CategoryType.CarInsurance));
             paymentFactory.Create("Lease", categories.GetByType(CategoryType.Insurance), -205.55, monthly, subCategories.GetByType(CategoryType.Lease));
             paymentFactory.Create("Credit Appartment", categories.GetByType(CategoryType.Insurance), -220, monthly, subCategories.GetByType(CategoryType.CreditAppartment));
+
+            paymentFactory.Create("Food", categories.GetByType(CategoryType.FoodAndHousehold), -200, monthly, subCategories.GetByType(CategoryType.Food));
+            paymentFactory.Create("Dog Food", categories.GetByType(CategoryType.FoodAndHousehold), -180, monthly, subCategories.GetByType(CategoryType.DogFood));
+            paymentFactory.Create("Fuel", categories.GetByType(CategoryType.FoodAndHousehold), -60, monthly, subCategories.GetByType(CategoryType.Fuel));
 
             paymentFactory.Create("Deezer", categories.GetByType(CategoryType.CreditCard), -14.99, monthly, subCategories.GetByType(CategoryType.Streaming));
             paymentFactory.Create("Netflix", categories.GetByType(CategoryType.CreditCard), -17.99, monthly, subCategories.GetByType(CategoryType.Streaming));
@@ -142,8 +145,15 @@ namespace UI.DefaultData
             paymentFactory.Create("Bank balance end of Month", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, subCategories.GetByType(CategoryType.BankbalanceEndOfMonth));
 
             yearFact.Create("2021");
+            //yearFact.Create("2022");
 
             return project;
+        }
+
+        public void CreateYear()
+        {
+            var yearFact = Services.GetService<IYearFactory>();
+            yearFact.Create("New Year");
         }
     }
 }

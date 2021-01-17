@@ -1,5 +1,6 @@
 ﻿using IData.Constants;
 using IData.Interfaces;
+using System;
 using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
@@ -14,6 +15,7 @@ namespace XmlSaver.Data.CustomDataTypes
         {
             Attributes.Add(XmlIds.MonthType, new SaveableAttribute(XmlIds.MonthType, (int)Value.MonthType));
             Attributes.Add(XmlIds.Transactions, new SaveableAttribute(XmlIds.Transactions, Value.Transactions.Ids));
+            Attributes.Add(XmlIds.Year, new SaveableAttribute(XmlIds.Year, Value.Year.Id));
         }
 
         public override void ReadAttributes()
@@ -21,6 +23,7 @@ namespace XmlSaver.Data.CustomDataTypes
             base.ReadAttributes();
             Value.MonthType = (MonthEnum)GetAttribute(XmlIds.MonthType);
             Value.Transactions.Ids = GetAttribute(XmlIds.Transactions).ToString();
+            Value.Year.Id = (Guid)GetAttribute(XmlIds.Year);
         }
     }
 }

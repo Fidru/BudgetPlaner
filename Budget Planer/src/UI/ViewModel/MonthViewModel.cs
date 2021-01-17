@@ -21,6 +21,8 @@ namespace UI.ViewModel
             TransactionVms = new List<TransactionViewModel>();
         }
 
+        public YearViewModel Year { get; set; }
+
         public TransactionViewModel SelectedTransaction
         {
             get
@@ -111,7 +113,10 @@ namespace UI.ViewModel
             var newTransaction = TransactionFactory.Create(Element, newPayment);
             var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(newTransaction);
 
+            TransactionVms.Add(transactionVm);
             transactionVm.CurrentMonthVm = this;
+
+            UpdateLists();
         }
 
         public ITransactionFactory TransactionFactory { get; set; }

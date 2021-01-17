@@ -22,7 +22,11 @@ namespace Data.Services
 
         public IYear Create(string name)
         {
-            var year = new Year(name);
+            var lastYear = Project.CurrentProject.Years.OrderBy(y => y.SortOrder).LastOrDefault();
+            int lastSortOrder = lastYear != null ? lastYear.SortOrder : 0;
+
+            var sortOrder = lastSortOrder + 1;
+            var year = new Year(name, sortOrder);
 
             CreateMonths(year);
 
@@ -35,25 +39,25 @@ namespace Data.Services
         {
             var monthFactory = new MonthFactory() { Project = Project };
 
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Jan, 2202.40));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Feb));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Mar));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Apr));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Mai));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Jun));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Jul));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Aug));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Sep));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Oct));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Nov));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Dez));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Jan, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Feb, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Mar, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Apr, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Mai, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Jun, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Jul, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Aug, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Sep, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Oct, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Nov, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Dez, year));
 
-            AlligneMonths(year.Months.Elements);
+            AlligneMonths(Project.CurrentProject.Months);
         }
 
         public void AlligneMonths(IEnumerable<IMonth> months)
         {
-            var allMonthsSorted = months.OrderBy(m => (int)m.MonthType);
+            var allMonthsSorted = months.OrderBy(m => m.Year.Element.SortOrder).ThenBy(m => (int)m.MonthType);
 
             ConnectRelatedMonths(allMonthsSorted);
         }

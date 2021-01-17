@@ -10,14 +10,12 @@ namespace UI.Wpf
     {
         private readonly CustomAnimations _animations;
 
-        public object Threat { get; private set; }
-
         public MainWindow()
         {
             InitializeComponent();
             _animations = new CustomAnimations();
 
-            //SetNewDefaultData();
+            SetNewDefaultData();
         }
 
         private void CreateMenu()
@@ -25,6 +23,11 @@ namespace UI.Wpf
             while (mainMenu.Items.Count > 3)
             {
                 mainMenu.Items.RemoveAt(3);
+            }
+
+            if (GetProjectViewModel == null)
+            {
+                return;
             }
 
             foreach (var year in GetProjectViewModel.YearsVm)
@@ -56,34 +59,44 @@ namespace UI.Wpf
             var menu = sender as MenuItem;
             var month = menu.Tag as MonthViewModel;
 
-            GetProjectViewModel.CurrentYear.SelectNewCurrentMonth(month);
+            var parent = menu.Parent as MenuItem;
+            var project = parent.Tag as YearViewModel;
+
+            if (GetProjectViewModel != null)
+            {
+                GetProjectViewModel.CurrentYear = project;
+                GetProjectViewModel.CurrentYear.SelectNewCurrentMonth(month);
+            }
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
             // todo
-            GetProjectViewModel.CurrentYear.SelectNextMonth();
-            _animations.StartAnimation(AnimationTag.Next, innerPanel);
+            if (GetProjectViewModel != null && GetProjectViewModel.SelectNextMonth())
+            {
+                _animations.StartAnimation(AnimationTag.Next, innerPanel);
+                GetProjectViewModel.CurrentYear.CurrentMonthVm.UpdateLists();
+            }
         }
 
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             // todo
-            GetProjectViewModel.CurrentYear.SelectPreviousMonth();
-            _animations.StartAnimation(AnimationTag.Previous, innerPanel);
+            if (GetProjectViewModel != null && GetProjectViewModel.SelectPreviousMonth())
+            {
+                _animations.StartAnimation(AnimationTag.Previous, innerPanel);
+            }
         }
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            GetProjectViewModel.SaveToXml();
+            if (GetProjectViewModel != null)
+            {
+                GetProjectViewModel.SaveToXml();
+            }
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
-        {
-            Load();
-        }
-
-        private void Load()
         {
             DataContext = new TestData().LoadFromXml();
             CreateMenu();
@@ -91,7 +104,8 @@ namespace UI.Wpf
 
         private void SetNewDefaultData()
         {
-            Load();
+            DataContext = new TestData().GetDefaultData();
+            CreateMenu();
         }
 
         private void Edit_Bills_Click(object sender, RoutedEventArgs e)
@@ -168,7 +182,7 @@ namespace UI.Wpf
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            save_Click(sender, e);
+            //save_Click(sender, e);
 
             this.Close();
         }
@@ -181,10 +195,10 @@ namespace UI.Wpf
         private void Add_Payment_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            var month = (MonthViewModel)button.DataContext;
+            var project = (ProjectViewModel)button.DataContext;
 
-            var monthVm = GetProjectViewModel.CurrentYear.CurrentMonthVm;
-            month.AddNewTransaction();
+            var monthVm = project.CurrentYear.CurrentMonthVm;
+            monthVm.AddNewTransaction();
 
             ShowPaymentView(AnimationTag.Bills);
         }
