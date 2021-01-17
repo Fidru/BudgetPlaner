@@ -4,7 +4,7 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class TransactionXmlElement : NodeXmlElement<ITransaction>
+    public class TransactionXmlElement : ElementXmlElement<ITransaction>
     {
         public TransactionXmlElement(string xmlTag, ITransaction value) : base(xmlTag, value)
         {

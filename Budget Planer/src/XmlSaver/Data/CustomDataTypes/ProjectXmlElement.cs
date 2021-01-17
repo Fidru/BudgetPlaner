@@ -3,7 +3,7 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class ProjectXmlElement : NodeXmlElement<IProject>
+    public class ProjectXmlElement : ElementXmlElement<IProject>
     {
         public ProjectXmlElement(string xmlTag, IProject value) : base(xmlTag, value)
         {

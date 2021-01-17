@@ -4,7 +4,7 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class PaymentIntervalXmlElement : NodeXmlElement<IPaymentInterval>
+    public class PaymentIntervalXmlElement : ElementXmlElement<IPaymentInterval>
     {
         public PaymentIntervalXmlElement(string xmlTag, IPaymentInterval value)
             : base(xmlTag, value)

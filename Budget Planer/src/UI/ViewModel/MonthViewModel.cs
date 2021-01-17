@@ -9,6 +9,7 @@ namespace UI.ViewModel
     public class MonthViewModel : ElementViewModel<IMonth>
     {
         private TransactionViewModel _selectedTransaction;
+        private List<TransactionViewModel> _transactions;
 
         public MonthViewModel CurrentMonth
         {
@@ -38,12 +39,8 @@ namespace UI.ViewModel
 
         public void UpdateLists()
         {
-            var newTrans = TransactionVms.Where(x => !x.Element.IsDeleted).ToList();
-
             if (TransactionVms.Any())
             {
-                TransactionVms = newTrans;
-
                 NotifyPropertyChanged("TransactionVms");
                 NotifyPropertyChanged("Bills");
                 NotifyPropertyChanged("FoodPayments");
@@ -52,7 +49,17 @@ namespace UI.ViewModel
             }
         }
 
-        public List<TransactionViewModel> TransactionVms { get; set; }
+        public List<TransactionViewModel> TransactionVms
+        {
+            get
+            {
+                return _transactions.Where(x => !x.Element.IsDeleted).ToList();
+            }
+            set
+            {
+                _transactions = value;
+            }
+        }
 
         public List<TransactionViewModel> Bills
         {
@@ -102,8 +109,11 @@ namespace UI.ViewModel
 
         internal void AddTransaction(TransactionViewModel transactionVm)
         {
-            TransactionVms.Add(transactionVm);
-            UpdateLists();
+            if (TransactionVms.All(t => t.Id != transactionVm.Id))
+            {
+                _transactions.Add(transactionVm);
+                UpdateLists();
+            }
         }
 
         public void AddNewTransaction()
@@ -113,7 +123,8 @@ namespace UI.ViewModel
             var newTransaction = TransactionFactory.Create(Element, newPayment);
             var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(newTransaction);
 
-            TransactionVms.Add(transactionVm);
+            AddTransaction(transactionVm);
+            transactionVm.PaymentViewModel.AddTransaction(transactionVm);
             transactionVm.CurrentMonthVm = this;
 
             UpdateLists();

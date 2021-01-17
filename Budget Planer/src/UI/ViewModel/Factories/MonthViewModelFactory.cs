@@ -24,7 +24,7 @@ namespace UI.ViewModel.Factories
 
             vm.AlignedMonths = new AlignedMonthsViewModel()
             {
-                Previous = ConvertToVm(vm.Element.AlignedMonths.Previous)
+                Previous = ConvertToVm(vm.Element.AlignedMonths.Previous),
                 Current = vm,
                 Next = ConvertToVm(vm.Element.AlignedMonths.Next),
             };

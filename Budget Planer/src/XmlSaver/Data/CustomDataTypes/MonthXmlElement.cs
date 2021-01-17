@@ -5,7 +5,7 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class MonthXmlElement : NodeXmlElement<IMonth>
+    public class MonthXmlElement : ElementXmlElement<IMonth>
     {
         public MonthXmlElement(string xmlTag, IMonth value) : base(xmlTag, value)
         {

@@ -38,7 +38,6 @@ namespace Data.Classes
 
         public void AddElement(T element)
         {
-            element.IsNew = false;
             if (Elements.Contains(element))
             {
                 return;

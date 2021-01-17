@@ -5,9 +5,9 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class NodeXmlElement<T> : XmlElement<T> where T : IElement
+    public class ElementXmlElement<T> : XmlElement<T> where T : IElement
     {
-        public NodeXmlElement(string xmlTag, T value) : base(xmlTag, value)
+        public ElementXmlElement(string xmlTag, T value) : base(xmlTag, value)
         {
         }
 
@@ -49,6 +49,7 @@ namespace XmlSaver.Data.CustomDataTypes
             Value.CreatedAt = (DateTime)Attributes[XmlIds.CreatedAt].Data;
             Value.ChangedAt = (DateTime)Attributes[XmlIds.ChangedAt].Data;
             Value.Id = (Guid)Attributes[XmlIds.Id].Data;
+            Value.IsNew = false;
         }
     }
 }

@@ -1,17 +1,21 @@
 ﻿using IData.Interfaces;
-using System;
+using IData.Services;
 using System.Collections.Generic;
+using System.Linq;
+using UI.ViewModel.Factories;
 using XmlSaver.Save;
 
 namespace UI.ViewModel
 {
     public class ProjectViewModel : ElementViewModel<IProject>
     {
+        public IEnumerable<IService> Services { get; set; }
+
         public ProjectViewModel(IProject element) : base(element)
         {
         }
 
-        public List<YearViewModel> YearsVm { get; set; }
+        public List<YearViewModel> YearVms { get; set; }
 
         public YearViewModel CurrentYear { get; set; }
 
@@ -69,6 +73,23 @@ namespace UI.ViewModel
                 return true;
             }
             return false;
+        }
+
+        public void UpdateViewModels()
+        {
+            var filtered = Element.Transactions.Where(t => t.IsNew);
+
+            foreach (var transaction in filtered)
+            {
+                if (transaction.IsNew)
+                {
+                    var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(transaction);
+
+                    transactionVm.MonthVm.AddTransaction(transactionVm);
+                    transactionVm.PaymentViewModel.AddTransaction(transactionVm);
+                    transaction.IsNew = false;
+                }
+            }
         }
     }
 }

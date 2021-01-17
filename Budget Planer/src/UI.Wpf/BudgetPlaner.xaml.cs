@@ -30,7 +30,7 @@ namespace UI.Wpf
                 return;
             }
 
-            foreach (var year in GetProjectViewModel.YearsVm)
+            foreach (var year in GetProjectViewModel.YearVms)
             {
                 var mainItem = new MenuItem();
                 mainItem.Header = year.Name;
@@ -209,6 +209,9 @@ namespace UI.Wpf
             var payment = (PaymentViewModel)button.DataContext;
 
             payment.Update();
+
+            GetProjectViewModel.UpdateViewModels();
+
             _animations.ResetAnimations();
         }
     }

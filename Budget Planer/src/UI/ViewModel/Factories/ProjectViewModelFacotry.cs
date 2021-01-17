@@ -16,11 +16,11 @@ namespace UI.ViewModel.Factories
         {
             var vm = base.CreateVm(element);
 
-            vm.YearsVm = new YearsViewModelFactory(Services).ConvertToVms(element.Years);
+            vm.YearVms = new YearsViewModelFactory(Services).ConvertToVms(element.Years);
             vm.CategorieVms = new CategoryViewModelFacotry(Services).ConvertToVms(element.Categories);
             vm.SubCategorieVms = new CategoryViewModelFacotry(Services).ConvertToVms(element.SubCategories);
 
-            vm.CurrentYear = vm.YearsVm.First();
+            vm.CurrentYear = vm.YearVms.First();
 
             return vm;
         }

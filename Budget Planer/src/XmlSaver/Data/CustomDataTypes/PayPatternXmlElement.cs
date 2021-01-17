@@ -5,7 +5,7 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class PayPatternXmlElement : NodeXmlElement<IPayPattern>
+    public class PayPatternXmlElement : ElementXmlElement<IPayPattern>
     {
         public PayPatternXmlElement(string xmlTag, IPayPattern value) : base(xmlTag, value)
         {

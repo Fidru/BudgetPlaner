@@ -21,16 +21,25 @@ namespace UI.DefaultData
         public ProjectViewModel GetDefaultData()
         {
             var project = CreateTestData(Services);
-            return new ProjectViewModelFacotry(Services).ConvertToVm(project);
+            return CreateProjectViewModel(project);
+        }
+
+        private ProjectViewModel CreateProjectViewModel(IProject project)
+        {
+            var factory = new ProjectViewModelFacotry(Services);
+            factory.Services = Services;
+
+            var vm = factory.ConvertToVm(project);
+            vm.Services = Services;
+
+            return vm;
         }
 
         public ProjectViewModel LoadFromXml()
         {
             IProject project = new MyXmlSaver().Read(Services);
 
-            var _projectVm = new ProjectViewModelFacotry(Services).ConvertToVm(project);
-
-            return _projectVm;
+            return CreateProjectViewModel(project);
         }
 
         private IEnumerable<IService> CreateServices()

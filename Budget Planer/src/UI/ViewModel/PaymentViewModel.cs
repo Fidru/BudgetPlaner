@@ -11,6 +11,7 @@ namespace UI.ViewModel
         private CategoryViewModel _selectedCategory;
         private CategoryViewModel _selectedSubCategory;
         private PaymentIntervalViewModel _selectedInterval;
+        private List<TransactionViewModel> _transactions;
 
         public PaymentViewModel(IPayment element) : base(element)
         {
@@ -49,7 +50,17 @@ namespace UI.ViewModel
             }
         }
 
-        public List<TransactionViewModel> Transactions { get; set; }
+        private List<TransactionViewModel> Transactions
+        {
+            get
+            {
+                return _transactions.Where(t => !t.Element.IsDeleted).ToList();
+            }
+            set
+            {
+                _transactions = value;
+            }
+        }
 
         public List<CategoryViewModel> Categories { get; set; }
 
@@ -127,21 +138,30 @@ namespace UI.ViewModel
 
         public void Update()
         {
-            var monthVm = Transactions.First().MonthVm;
-            var payment = Element;
+            var monthVm = MonthVm;
 
-            TransactionFactory.UpdatePayment(payment, monthVm.Element);
+            if (MonthVm != null)
+            {
+                var payment = Element;
+                TransactionFactory.UpdatePayment(payment, monthVm.Element);
+                UpdateTransactions(nameof(MonthVm));
 
-            UpdateTransactions("MonthVm");
-
-            monthVm.UpdateLists();
-
-            Transactions.ForEach(t => t.CurrentMonthVm = null);
+                monthVm.UpdateLists();
+                Transactions.ForEach(t => t.CurrentMonthVm = null);
+            }
         }
 
         public ITransactionFactory TransactionFactory { get; set; }
 
         public List<AffectedMonthViewModel> AffecctedMonths { get; set; }
         public List<AffectedMonthViewModel> AllAffectedMonths { get; set; }
+
+        internal void AddTransaction(TransactionViewModel transactionVm)
+        {
+            if (Transactions.All(t => t.Id != transactionVm.Id))
+            {
+                _transactions.Add(transactionVm);
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@ using XmlSaver.Constants;
 
 namespace XmlSaver.Data.CustomDataTypes
 {
-    public class YearXmlElement : NodeXmlElement<IYear>
+    public class YearXmlElement : ElementXmlElement<IYear>
     {
         public YearXmlElement(string xmlTag, IYear value) : base(xmlTag, value)
         {
