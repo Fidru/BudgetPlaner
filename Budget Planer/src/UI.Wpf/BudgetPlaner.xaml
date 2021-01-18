@@ -12,7 +12,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Width="1768" Height="992"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
-        WindowStyle="None" ResizeMode="NoResize">
+        x:Name="baseView"
+        WindowStyle="None" ResizeMode="NoResize" Loaded="baseView_Loaded">
     <Window.Resources>
 
         <Style x:Key="MyListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
@@ -160,7 +161,7 @@
         </Style>
     </Window.Resources>
 
-    <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+    <materialDesign:DrawerHost x:Name="bigWindow" IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
 
         <materialDesign:DrawerHost.LeftDrawerContent>
             <DockPanel MinWidth="212" Background="{DynamicResource PrimaryHueMidBrush}">
@@ -328,7 +329,7 @@
                     <TranslateTransform></TranslateTransform>
                 </DockPanel.RenderTransform>
 
-                <Grid>
+                <Grid x:Name="innerGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15*" />
                         <ColumnDefinition Width="15*" />
@@ -341,37 +342,46 @@
                         <RowDefinition Height="50*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
-                    <Button Name="monthly_add" HorizontalAlignment="Left" Style="{StaticResource SquareButton}"
-                                        Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
-                                        Grid.Row="0" Grid.Column="0" Click="Add_Payment_Click" Height="34" Width="34" Padding="0,0,0,0" Margin="161,15,0,10">
-                        <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0,0,0" />
+                    <DockPanel  Grid.Row="0" Grid.Column="0">
 
-                        <Button.Effect>
+                        <DockPanel.Effect>
                             <DropShadowEffect x:Name="DropShadowEffectAdd" BlurRadius="5" ShadowDepth="1" Direction="270"
                                                           Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
-                        </Button.Effect>
+                        </DockPanel.Effect>
 
-                        <Button.Triggers>
-                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="DropShadowEffectAdd">
-                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
+                        <TextBlock  x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
 
-                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="DropShadowEffectAdd">
-                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Button.Triggers>
-                    </Button>
+                        <Button Name="monthly_add" HorizontalAlignment="Left" Style="{StaticResource SquareButton}"
+                                        Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
+                                        Grid.Row="0" Grid.Column="0" Click="Add_Payment_Click" Height="34" Width="34" Padding="0,0,0,0" Margin="0,15,0,10">
+                            <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33"
+                                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                     Padding="0,0,0,0" />
+                            <Button.RenderTransform>
+                                <TranslateTransform />
+                            </Button.RenderTransform>
+
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard TargetName="DropShadowEffectAdd">
+                                            <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
+                                            <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard TargetName="DropShadowEffectAdd">
+                                            <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                            <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </DockPanel>
 
                     <TextBlock Opacity="1" x:Name="heading_FoodBills" Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" />
 

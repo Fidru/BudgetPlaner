@@ -12,13 +12,13 @@ namespace UI.Wpf.Animations
         private PaymentAnimations _nextAnimations { get; set; }
         private PaymentAnimations _middleToLeft { get; set; }
         private PaymentAnimations _rightToLeft { get; set; }
-        private PaymentAnimations _rightToTopLeft { get; set; }
+        private PaymentAnimations _rightBottomToTopLeft { get; set; }
 
         private PaymentAnimations _paymentView { get; set; }
         private PaymentAnimations _hide { get; set; }
         public bool PaymentIsActive { get; private set; }
 
-        public CustomAnimations()
+        public CustomAnimations(Rect leftCordination, Rect middleCordination, Rect rightTop, Rect rightBottom)
         {
             DisplayedAnimations = new List<AnimationElement>();
 
@@ -28,24 +28,29 @@ namespace UI.Wpf.Animations
                 Revert = CreateStoryboard(-1200, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
             };
 
+            var middleToLeftX = GetXvalue(leftCordination, middleCordination);
+
             _middleToLeft = new PaymentAnimations
             {
-                Start = CreateStoryboard(0, -640, "RenderTransform", 0, 0, "Opacity", 0, 1, 800),
-                Revert = CreateStoryboard(-640, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
+                Start = CreateStoryboard(0, middleToLeftX, "RenderTransform", 0, 0, "Opacity", 0, 1, 800),
+                Revert = CreateStoryboard(middleToLeftX, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
             };
 
+            var rightToLeftX = GetXvalue(leftCordination, rightTop);
             _rightToLeft = new PaymentAnimations
             {
-                Start = CreateStoryboard(0, -1280, "RenderTransform", 0, 0, "Opacity", 0, 1, 800),
+                Start = CreateStoryboard(0, rightToLeftX, "RenderTransform", 0, 0, "Opacity", 0, 1, 800),
                 //Revert = CreateStoryboard(1280, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
-                Revert = CreateStoryboard(-1280, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
+                Revert = CreateStoryboard(-rightToLeftX, 0, "RenderTransform", 0, 0, "Opacity", 0, 1, 800)
             };
 
-            _rightToTopLeft = new PaymentAnimations
+            var rightBottomToTopLeftX = GetXvalue(leftCordination, rightBottom);
+            var rightBottomToTopLeftY = GetYvalue(leftCordination, rightBottom);
+            _rightBottomToTopLeft = new PaymentAnimations
             {
-                Start = CreateStoryboard(0, -1280, "RenderTransform", 0, -449, "Opacity", 0, 1, 800),
+                Start = CreateStoryboard(0, rightBottomToTopLeftX, "RenderTransform", 0, rightBottomToTopLeftY, "Opacity", 0, 1, 800),
                 //Revert = CreateStoryboard(1280, 0, "RenderTransform", -449, 0, "Opacity", 0, 1, 800)
-                Revert = CreateStoryboard(-1280, 0, "RenderTransform", -449, 0, "Opacity", 0, 1, 800)
+                Revert = CreateStoryboard(rightBottomToTopLeftX, 0, "RenderTransform", rightBottomToTopLeftY, 0, "Opacity", 0, 1, 800)
             };
 
             _paymentView = new PaymentAnimations
@@ -61,7 +66,17 @@ namespace UI.Wpf.Animations
             };
         }
 
-        private Storyboard CreateStoryboard(int fromX, int toX, string render, int fromY, int toY, string opacity, int opacityFrom, int opacityTo, int maxTimer)
+        private double GetXvalue(Rect leftCordination, Rect middleCordination)
+        {
+            return leftCordination.X - middleCordination.X;
+        }
+
+        private double GetYvalue(Rect leftCordination, Rect middleCordination)
+        {
+            return leftCordination.Y - middleCordination.Y;
+        }
+
+        private Storyboard CreateStoryboard(double fromX, double toX, string render, double fromY, double toY, string opacity, int opacityFrom, int opacityTo, int maxTimer)
         {
             Storyboard sb = new Storyboard();
             sb.FillBehavior = FillBehavior.HoldEnd;
@@ -129,13 +144,13 @@ namespace UI.Wpf.Animations
                     }
                 case AnimationTag.RightToTopLeft:
                     {
-                        _rightToTopLeft.Start.Begin(element);
+                        _rightBottomToTopLeft.Start.Begin(element);
                         DisplayedAnimations.Add(new AnimationElement(AnimationTag.RightToTopLeftRevert, element));
                         return;
                     }
                 case AnimationTag.RightToTopLeftRevert:
                     {
-                        _rightToTopLeft.Revert.Begin(element);
+                        _rightBottomToTopLeft.Revert.Begin(element);
                         return;
                     }
                 case AnimationTag.Payment:
