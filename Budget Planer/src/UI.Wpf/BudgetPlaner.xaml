@@ -727,7 +727,9 @@
                                     <RowDefinition Height="95*" Tag="Interval" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit Current and All Future Payments" Style="{StaticResource MyMaterialDesignButtonTextBlock}"
+                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                           Text="{Binding CurrentMonth.Name, StringFormat='Edit [{0}] and future Payments'}"
+                                           Style="{StaticResource MyMaterialDesignButtonTextBlock}"
                                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Width="383" Grid.RowSpan="2" />
 
                                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource SquareButton}"

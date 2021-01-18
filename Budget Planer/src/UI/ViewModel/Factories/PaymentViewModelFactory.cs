@@ -28,8 +28,8 @@ namespace UI.ViewModel.Factories
             var transactions = CurrentProject.Transactions.Where(t => t.Payment.Id == element.Id);
             vm.Transactions = new TransactionViewModelFacotry(Services).ConvertToVms(transactions);
 
-            vm.AllAffectedMonths = GetAffectedMonthViewModels(new AffectedMonthsCollection());
-            vm.AffecctedMonths = GetAffectedMonthViewModels(element.PayPattern.Element.AffectedMonths);
+            vm.AllAffectedMonths = GetAffectedMonthViewModels(new AffectedMonthsCollection(), vm);
+            vm.AffecctedMonths = GetAffectedMonthViewModels(element.PayPattern.Element.AffectedMonths, vm);
 
             vm.Intervals = new PaymentIntervalViewModelFactory(Services).ConvertToVms(CurrentProject.Intervals);
             vm.SelectedInterval = new PaymentIntervalViewModelFactory(Services).ConvertToVm(element.PayPattern.Element.Interval.Element);
@@ -37,10 +37,10 @@ namespace UI.ViewModel.Factories
             return vm;
         }
 
-        private List<AffectedMonthViewModel> GetAffectedMonthViewModels(IEnumerable<MonthEnum> affectedMonths)
+        private List<AffectedMonthViewModel> GetAffectedMonthViewModels(IEnumerable<MonthEnum> affectedMonths, PaymentViewModel payment)
         {
             var allMonths = new AffectedMonthsCollection();
-            return allMonths.Select(m => new AffectedMonthViewModel(m, affectedMonths.Contains(m))).ToList();
+            return allMonths.Select(m => new AffectedMonthViewModel(m, affectedMonths.Contains(m), payment)).ToList();
         }
     }
 }

@@ -124,31 +124,36 @@ namespace UI.ViewModel
                 }
                 else
                 {
-                    if (MonthVm != null)
+                    if (CurrentMonth != null)
                     {
-                        Element.PayPattern.Element.AffectedMonths = new AffectedMonthsCollection(MonthVm.Element.MonthType, value.Element.Type);
+                        Element.PayPattern.Element.AffectedMonths = new AffectedMonthsCollection(CurrentMonth.Element.MonthType, value.Element.Type);
                     }
                 }
 
-                AffecctedMonths.ForEach(am => am.IsSelected = Element.PayPattern.Element.AffectedMonths.Contains(am.MonthType));
-                AffecctedMonths.ForEach(am => NotifyPropertyChanged(am, "IsSelected"));
+                AffecctedMonths.ForEach(am => am.SetSelected(Element.PayPattern.Element.AffectedMonths.Contains(am.MonthType)));
             }
         }
 
-        public MonthViewModel MonthVm
+        internal void SetToCustomInterval()
+        {
+            _selectedInterval = Intervals.Single(i => i.Element.Type == PaymentIntervalType.Custom);
+            NotifyPropertyChanged(nameof(SelectedInterval));
+        }
+
+        public MonthViewModel CurrentMonth
         {
             get { return Transactions.FirstOrDefault(t => t.CurrentMonthVm != null)?.CurrentMonthVm; }
         }
 
         public void Update()
         {
-            var monthVm = MonthVm;
+            var monthVm = CurrentMonth;
 
-            if (MonthVm != null)
+            if (CurrentMonth != null)
             {
                 var payment = Element;
                 TransactionFactory.UpdatePayment(payment, monthVm.Element);
-                UpdateTransactions(nameof(MonthVm));
+                UpdateTransactions(nameof(CurrentMonth));
 
                 monthVm.UpdateLists();
                 Transactions.ForEach(t => t.CurrentMonthVm = null);

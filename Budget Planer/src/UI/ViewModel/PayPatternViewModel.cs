@@ -22,10 +22,11 @@ namespace UI.ViewModel
     {
         private bool _isSelected;
 
-        public AffectedMonthViewModel(MonthEnum monthType, bool isSelected)
+        public AffectedMonthViewModel(MonthEnum monthType, bool isSelected, PaymentViewModel payment)
         {
             MonthType = monthType;
             IsSelected = isSelected;
+            Payment = payment;
         }
 
         public MonthEnum MonthType { get; set; }
@@ -44,9 +45,39 @@ namespace UI.ViewModel
             set
             {
                 _isSelected = value;
+
+                if (Payment != null)
+                {
+                    if (value)
+                    {
+                        Payment.Element.PayPattern.Element.AddAffectedMonth(MonthType);
+                    }
+                    else
+                    {
+                        Payment.Element.PayPattern.Element.RemoveAffectedMonth(MonthType);
+                    }
+
+                    Payment.SetToCustomInterval();
+                }
             }
         }
 
+        public PaymentViewModel Payment { get; }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        internal void SetSelected(bool isSelected)
+        {
+            _isSelected = isSelected;
+            NotifyPropertyChanged("IsSelected");
+        }
+
+        protected void NotifyPropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
     }
 }

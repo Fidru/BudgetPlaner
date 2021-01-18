@@ -1,6 +1,7 @@
 ﻿using IData.Constants;
 using IData.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Data.Classes
 {
@@ -23,6 +24,33 @@ namespace Data.Classes
         public ISaveableXmlElement<IPaymentInterval> Interval { get; set; }
         public MonthEnum StartsInMonth { get; set; }
         public IEnumerable<MonthEnum> AffectedMonths { get; set; }
+
+        public void AddAffectedMonth(MonthEnum month)
+        {
+            if (AffectedMonths.Contains(month))
+            {
+                return;
+            }
+
+            var newAffectedMonths = new List<MonthEnum>();
+            newAffectedMonths.AddRange(AffectedMonths);
+            newAffectedMonths.Add(month);
+
+            AffectedMonths = newAffectedMonths;
+        }
+
+        public void RemoveAffectedMonth(MonthEnum month)
+        {
+            if (!AffectedMonths.Contains(month))
+            {
+                return;
+            }
+
+            var newAffectedMonths = new List<MonthEnum>(AffectedMonths);
+            newAffectedMonths.Remove(month);
+
+            AffectedMonths = newAffectedMonths;
+        }
 
         public void UpdateAffectedMonths()
         {

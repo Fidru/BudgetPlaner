@@ -9,6 +9,10 @@ namespace IData.Interfaces
         MonthEnum StartsInMonth { get; set; }
         IEnumerable<MonthEnum> AffectedMonths { get; set; }
 
+        void AddAffectedMonth(MonthEnum month);
+
+        void RemoveAffectedMonth(MonthEnum month);
+
         void UpdateAffectedMonths();
     }
 }
