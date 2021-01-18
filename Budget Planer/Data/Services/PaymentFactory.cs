@@ -18,6 +18,19 @@ namespace Data.Services
             return payment;
         }
 
+        public IPayment Create(IMonth month)
+        {
+            var interval = Project.CurrentProject.Intervals.First();
+            var factory = new PayPatternFactory() { Project = Project };
+
+            var pattern = factory.Create(interval, month.MonthType);
+
+            var payment = new Payment(Project.CurrentProject.Categories.First(), pattern);
+            Project.CurrentProject.Elements.AddElement(payment);
+
+            return payment;
+        }
+
         public IPayment Create(string name, ICategory category, double amount, IPayPattern payPattern, ICategory subCategory = null)
         {
             var payment = new Payment(name, category, amount, payPattern, subCategory);

@@ -118,7 +118,7 @@ namespace UI.ViewModel
 
         public void AddNewTransaction()
         {
-            var newPayment = PaymentFactory.CreateEmpty() as IPayment;
+            var newPayment = PaymentFactory.Create(Element);
 
             var newTransaction = TransactionFactory.Create(Element, newPayment);
             var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(newTransaction);
