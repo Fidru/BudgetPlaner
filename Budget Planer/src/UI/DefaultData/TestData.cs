@@ -21,6 +21,8 @@ namespace UI.DefaultData
         public ProjectViewModel GetDefaultData()
         {
             var project = CreateTestData(Services);
+            Services.GetService<IYearFactory>().AlligneMonths();
+
             return CreateProjectViewModel(project);
         }
 
@@ -38,6 +40,7 @@ namespace UI.DefaultData
         public ProjectViewModel LoadFromXml()
         {
             IProject project = new MyXmlSaver().Read(Services);
+            Services.GetService<IYearFactory>().AlligneMonths();
 
             return CreateProjectViewModel(project);
         }

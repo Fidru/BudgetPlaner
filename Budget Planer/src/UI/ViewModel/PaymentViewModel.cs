@@ -30,8 +30,8 @@ namespace UI.ViewModel
             {
                 Element.Amount = value;
 
-                Transactions.ForEach(t => t.Amount = value);
-                Transactions.ForEach(t => NotifyPropertyChanged(t, "Amount"));
+                CurrentTransactions.ForEach(t => t.Amount = value);
+                CurrentTransactions.ForEach(t => NotifyPropertyChanged(t, "Amount"));
             }
         }
 
@@ -62,6 +62,11 @@ namespace UI.ViewModel
             }
         }
 
+        public List<TransactionViewModel> CurrentTransactions
+        {
+            get { return Transactions.Where(x => x.CurrentMonthVm != null).ToList(); }
+        }
+
         public List<CategoryViewModel> Categories { get; set; }
 
         public CategoryViewModel SelectedCategory
@@ -75,7 +80,7 @@ namespace UI.ViewModel
                     Element.Category.Element = value.Element;
                 }
 
-                Transactions.ForEach(t => t.Element.Category = value.Element);
+                CurrentTransactions.ForEach(t => t.Element.Category = value.Element);
                 UpdateTransactions("Category");
             }
         }
@@ -100,8 +105,7 @@ namespace UI.ViewModel
 
         private void UpdateTransactions(string property)
         {
-            NotifyPropertyChanged(property);
-            Transactions.ForEach(t => NotifyPropertyChanged(t, property));
+            CurrentTransactions.ForEach(t => NotifyPropertyChanged(t, property));
         }
 
         public List<PaymentIntervalViewModel> Intervals { get; set; }

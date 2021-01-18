@@ -1,5 +1,4 @@
-﻿using Data.Services;
-using IData.Interfaces;
+﻿using IData.Interfaces;
 using System;
 
 namespace Data.Classes
@@ -27,8 +26,6 @@ namespace Data.Classes
             base.ConnectElements(project);
 
             Months.ConnectIds(project.Months);
-
-            new YearFactory().AlligneMonths(Months.Elements);
         }
     }
 }

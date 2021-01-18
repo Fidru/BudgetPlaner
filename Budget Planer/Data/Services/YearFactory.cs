@@ -50,11 +50,12 @@ namespace Data.Services
             year.Months.AddElement(monthFactory.Create(MonthEnum.Nov, year));
             year.Months.AddElement(monthFactory.Create(MonthEnum.Dez, year));
 
-            AlligneMonths(Project.CurrentProject.Months);
+            AlligneMonths();
         }
 
-        public void AlligneMonths(IEnumerable<IMonth> months)
+        public void AlligneMonths()
         {
+            IEnumerable<IMonth> months = Project.CurrentProject.Months;
             var allMonthsSorted = months.OrderBy(m => m.Year.Element.SortOrder).ThenBy(m => (int)m.MonthType);
 
             ConnectRelatedMonths(allMonthsSorted);

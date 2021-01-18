@@ -34,7 +34,7 @@ namespace Data.Services
         {
             foreach (IPayment payment in paymentsForMonth)
             {
-                UpdateTransactions(payment, new[] { month });
+                UpdateTransactions(payment, new[] { month }, month);
             }
         }
 
@@ -44,20 +44,31 @@ namespace Data.Services
                 new[] { month } :
                 Project.CurrentProject.Months.GeMonthsForPayment(payment);
 
-            UpdateTransactions(payment, months);
+            UpdateTransactions(payment, months, month);
         }
 
-        private void UpdateTransactions(IPayment payment, IEnumerable<IMonth> months)
+        private IEnumerable<IMonth> GetFutureMonths(IEnumerable<IMonth> months, IMonth currentMonth)
         {
-            UpdateProjectMonths(payment, months);
+            var futureMonths = months.Where(m => m.Year.Element.SortOrder >= currentMonth.Year.Element.SortOrder
+            && (int)m.MonthType >= (int)currentMonth.MonthType).ToArray();
+
+            return futureMonths;
+        }
+
+        private void UpdateTransactions(IPayment payment, IEnumerable<IMonth> months, IMonth currentMonth)
+        {
+            UpdateProjectMonths(payment, months, currentMonth);
             RemoveOldTransactions(payment);
         }
 
-        private void UpdateProjectMonths(IPayment payment, IEnumerable<IMonth> months)
+        private void UpdateProjectMonths(IPayment payment, IEnumerable<IMonth> months, IMonth currentMonth)
         {
             var updateMonths = new List<IMonth>();
 
-            foreach (var month in months)
+            var futureMonths = GetFutureMonths(months, currentMonth);
+            var oldMonths = months.Except(futureMonths);
+
+            foreach (var month in futureMonths)
             {
                 var transaction = month.Transactions.Elements.SingleOrDefault(t => t.Payment.Id == payment.Id);
 
