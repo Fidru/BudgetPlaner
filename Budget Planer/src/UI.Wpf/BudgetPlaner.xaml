@@ -342,7 +342,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
-                    <Button HorizontalAlignment="Left" Style="{StaticResource SquareButton}"
+                    <Button Name="monthly_add" HorizontalAlignment="Left" Style="{StaticResource SquareButton}"
                                         Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
                                         Grid.Row="0" Grid.Column="0" Click="Add_Payment_Click" Height="34" Width="34" Padding="0,0,0,0" Margin="161,15,0,10">
                         <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0,0,0" />
@@ -717,8 +717,8 @@
                                     <RowDefinition Height="95*" Tag="Interval" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit Payment" Style="{StaticResource MyMaterialDesignButtonTextBlock}"
-                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,22,0,21" Width="166" Grid.RowSpan="2" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit Current and All Future Payments" Style="{StaticResource MyMaterialDesignButtonTextBlock}"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Width="383" Grid.RowSpan="2" />
 
                                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource SquareButton}"
                                         Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"

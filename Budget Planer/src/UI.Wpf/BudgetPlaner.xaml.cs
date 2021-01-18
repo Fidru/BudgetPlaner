@@ -130,7 +130,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.FoodBills)
             {
-                var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_creditCards, heading_expectedBills, bills, creditCard, expectedBills, };
+                var hiddenElements = new FrameworkElement[] { monthDisplay, monthly_add, heading_Bills, heading_creditCards, heading_expectedBills, bills, creditCard, expectedBills, };
 
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, foodBills, hiddenElements);
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_FoodBills);
@@ -139,7 +139,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.CreditCardBills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_FoodBills, heading_expectedBills, bills, foodBills, expectedBills, };
+                var hideElements = new FrameworkElement[] { monthDisplay, monthly_add, heading_Bills, heading_FoodBills, heading_expectedBills, bills, foodBills, expectedBills, };
                 _animations.StartAnimation(AnimationTag.RightToLeft, creditCard, hideElements);
                 _animations.StartAnimation(AnimationTag.RightToLeft, heading_creditCards);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
@@ -147,7 +147,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.ExpectedUnexpectedBills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, heading_FoodBills, heading_creditCards, bills, foodBills, creditCard, };
+                var hideElements = new FrameworkElement[] { monthDisplay, monthly_add, heading_Bills, heading_FoodBills, heading_creditCards, bills, foodBills, creditCard, };
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, expectedBills, hideElements);
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, heading_expectedBills);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
@@ -199,8 +199,15 @@ namespace UI.Wpf
 
             var monthVm = project.CurrentYear.CurrentMonthVm;
             monthVm.AddNewTransaction();
+        }
 
-            ShowPaymentView(AnimationTag.Bills);
+        private void Add_Credit_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            var project = (ProjectViewModel)button.DataContext;
+
+            var monthVm = project.CurrentYear.CurrentMonthVm;
+            monthVm.AddNewTransaction();
         }
 
         private void ClosePayment_Click(object sender, RoutedEventArgs e)

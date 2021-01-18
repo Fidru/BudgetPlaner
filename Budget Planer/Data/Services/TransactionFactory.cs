@@ -71,12 +71,12 @@ namespace Data.Services
             foreach (var month in futureMonths)
             {
                 var transaction = month.Transactions.Elements.SingleOrDefault(t => t.Payment.Id == payment.Id);
-
                 if (transaction != null)
                 {
                     transaction.Payment.Element = payment;
                     transaction.Amount = payment.Amount;
                     transaction.Name = payment.Name;
+                    transaction.IsDeleted = false;
                 }
                 else
                 {
