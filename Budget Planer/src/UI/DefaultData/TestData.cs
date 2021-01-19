@@ -42,29 +42,6 @@ namespace UI.DefaultData
         {
             IProject project = new MyXmlSaver().Read(Services);
 
-            if (!project.SubCategories.Any(c => c.CategoryType == CategoryType.OpenBills))
-            {
-                var categoryFactory = Services.GetService<ICategoryFactory>();
-                categoryFactory.Create("Open Bills", "", CategoryType.OpenBills, 81);
-
-                var intervalFactory = Services.GetService<IPaymentIntervalFactory>();
-                var payPatternFactory = Services.GetService<IPayPatternFactory>();
-                var transactionFactory = Services.GetService<ITransactionFactory>();
-
-                var montlyInterval = intervalFactory.Create(PaymentIntervalType.Monthly);
-                var monthly = payPatternFactory.Create(montlyInterval, MonthEnum.Jan);
-
-                var paymentFactory = Services.GetService<IPaymentFactory>();
-                var openPayment = paymentFactory.Create("Open Bills", project.Categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, project.SubCategories.GetByType(CategoryType.OpenBills));
-
-                var months = project.Months.ToArray();
-
-                foreach (var month in months)
-                {
-                    transactionFactory.UpdatePayment(openPayment, month);
-                }
-            }
-
             Services.GetService<IYearFactory>().AlligneMonths();
 
             return CreateProjectViewModel(project);

@@ -57,9 +57,9 @@ namespace UI.ViewModel
         private void UpdateBankBalance()
         {
             var updatedTransaction = Element.Month.Element.UpdateBankBalanceEndOfMonth();
-            var transactionVm = MonthVm.TransactionVms.Single(t => t.Id == updatedTransaction.Id);
+            var transactionVm = MonthVm.TransactionVms.Where(t => updatedTransaction.Any(updated => updated.Id == t.Id));
 
-            NotifyPropertyChanged(transactionVm, nameof(Amount));
+            transactionVm.ToList().ForEach(t => NotifyPropertyChanged(t, nameof(Amount)));
         }
 
         public Visibility CanEdit
@@ -97,24 +97,17 @@ namespace UI.ViewModel
             }
         }
 
-        public Brush Fontcolor
+        public bool IsNegativeBankBalance
         {
             get
             {
-                if (IsEndOfMonth)
-                {
-                    if (Amount >= 0)
-                    {
-                        return Brushes.DarkGreen;
-                    }
-                    else
-                    {
-                        return Brushes.DarkRed;
-                    }
-                }
-
-                return null;
+                return IsEndOfMonth && Amount < 0;
             }
+        }
+
+        public bool IsPositiveBankBalance
+        {
+            get { return IsEndOfMonth && Amount > 0; }
         }
     }
 }

@@ -368,7 +368,7 @@
 
                         <DockPanel.Effect>
                             <DropShadowEffect x:Name="DropShadowEffectAdd" BlurRadius="5" ShadowDepth="1" Direction="270"
-                                                          Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                                              Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
                         </DockPanel.Effect>
 
                         <TextBlock  x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
@@ -441,7 +441,15 @@
                                         <DataTemplate>
                                             <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right"
                                                      FontWeight="{Binding FontWeight}" />
-                                            <!--Foreground="{Binding Fontcolor, TargetNullValue={StaticResource MaterialDesignLightForeground}}" -->
+
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsNegativeBankBalance}" Value="True">
+                                                    <Setter TargetName="textAmount" Property="TextBlock.Foreground" Value="DarkRed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsPositiveBankBalance}" Value="True">
+                                                    <Setter TargetName="textAmount" Property="TextBlock.Foreground" Value="DarkGreen" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

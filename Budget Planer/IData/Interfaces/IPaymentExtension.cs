@@ -9,6 +9,7 @@ namespace IData.Interfaces
         public static IEnumerable<IPayment> GetPaymentsForMonth(this IEnumerable<IPayment> payments, MonthEnum currentMonth)
         {
             return payments.Where(t => t.PayPattern.Element.AffectedMonths.Any(p => p == currentMonth))
+            //return payments.Where(t => !t.IsOneTimePayment && t.PayPattern.Element.AffectedMonths.Any(p => p == currentMonth))
             .OrderBy(p => p.Category.Element.SortOrder).ThenBy(p => p.SubCategory.Element?.SortOrder);
         }
 

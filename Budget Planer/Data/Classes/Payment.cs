@@ -62,8 +62,11 @@ namespace Data.Classes
 
             if (PayPattern.Element.Interval.Element.Type == PaymentIntervalType.OneTimePayment)
             {
-                var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
-                transactions.ToList().ForEach(t => t.Delete());
+                if (Month != null)
+                {
+                    var transactions = Month.Transactions.Elements.Where(t => t.Payment.Id == Id);
+                    transactions.ToList().ForEach(t => t.Delete());
+                }
             }
             else if (PayPattern.Element.Interval.Element.Type == PaymentIntervalType.Custom)
             {

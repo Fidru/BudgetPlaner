@@ -109,14 +109,15 @@ namespace Data.Classes
             bankBalancePayment.Amount += amount;
         }
 
-        public IIdentifier UpdateBankBalanceEndOfMonth()
+        public IEnumerable<IIdentifier> UpdateBankBalanceEndOfMonth()
         {
-            GetCostsEndOfMonth.Amount = OpenTransactions;
+            var cotsEndOfMonth = GetCostsEndOfMonth;
+            cotsEndOfMonth.Amount = OpenTransactions;
 
             var bankBalanceEndOfMonthPayment = GetBankBalanceEndOfMonthPayment;
             bankBalanceEndOfMonthPayment.Amount = BankBalancePayment.Amount + OpenTransactions;
 
-            return bankBalanceEndOfMonthPayment;
+            return new[] { bankBalanceEndOfMonthPayment, cotsEndOfMonth };
         }
 
         private ITransaction BankBalancePayment
