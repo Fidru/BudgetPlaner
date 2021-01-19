@@ -3,6 +3,7 @@ using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
 using System.Collections.Generic;
+using System.Linq;
 using UI.ViewModel;
 using UI.ViewModel.Factories;
 using XmlSaver.Save;
@@ -40,6 +41,30 @@ namespace UI.DefaultData
         public ProjectViewModel LoadFromXml()
         {
             IProject project = new MyXmlSaver().Read(Services);
+
+            if (!project.SubCategories.Any(c => c.CategoryType == CategoryType.OpenBills))
+            {
+                var categoryFactory = Services.GetService<ICategoryFactory>();
+                categoryFactory.Create("Open Bills", "", CategoryType.OpenBills, 81);
+
+                var intervalFactory = Services.GetService<IPaymentIntervalFactory>();
+                var payPatternFactory = Services.GetService<IPayPatternFactory>();
+                var transactionFactory = Services.GetService<ITransactionFactory>();
+
+                var montlyInterval = intervalFactory.Create(PaymentIntervalType.Monthly);
+                var monthly = payPatternFactory.Create(montlyInterval, MonthEnum.Jan);
+
+                var paymentFactory = Services.GetService<IPaymentFactory>();
+                var openPayment = paymentFactory.Create("Open Bills", project.Categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, project.SubCategories.GetByType(CategoryType.OpenBills));
+
+                var months = project.Months.ToArray();
+
+                foreach (var month in months)
+                {
+                    transactionFactory.UpdatePayment(openPayment, month);
+                }
+            }
+
             Services.GetService<IYearFactory>().AlligneMonths();
 
             return CreateProjectViewModel(project);
@@ -110,7 +135,8 @@ namespace UI.DefaultData
             categoryFactory.Create("Dog Food", "", CategoryType.DogFood, 42);
             categoryFactory.Create("Fuel", "", CategoryType.Fuel, 43);
 
-            categoryFactory.Create("Bank balance End Of MOnth", "", CategoryType.BankbalanceEndOfMonth, 81);
+            categoryFactory.Create("Open Bills", "", CategoryType.OpenBills, 81);
+            categoryFactory.Create("Bank balance End Of MOnth", "", CategoryType.BankbalanceEndOfMonth, 82);
 
             var montlyInterval = intervalFactory.Create(PaymentIntervalType.Monthly);
             var evenMonthsInterval = intervalFactory.Create(PaymentIntervalType.EverySecondMonth);
@@ -154,6 +180,7 @@ namespace UI.DefaultData
             paymentFactory.Create("OÖ Hausrat", categories.GetByType(CategoryType.ExtraExpenses), -110, yearly);
             paymentFactory.Create("Öamtc", categories.GetByType(CategoryType.ExtraExpenses), -133.70, yearly);
             paymentFactory.Create("Bank balance", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly);
+            paymentFactory.Create("Open Bills", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, subCategories.GetByType(CategoryType.OpenBills));
             paymentFactory.Create("Bank balance end of Month", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, subCategories.GetByType(CategoryType.BankbalanceEndOfMonth));
 
             yearFact.Create("2021");

@@ -53,12 +53,17 @@ namespace UI.ViewModel
         {
             get
             {
-                return _transactions.Where(x => !x.Element.IsDeleted).ToList();
+                return _transactions;
             }
             set
             {
-                _transactions = value;
+                _transactions = SortTransactions(value);
             }
+        }
+
+        private List<TransactionViewModel> SortTransactions(List<TransactionViewModel> value)
+        {
+            return value.Where(x => !x.Element.IsDeleted).OrderBy(p => p.CategorySortOrder).ToList();
         }
 
         public List<TransactionViewModel> Bills
@@ -112,6 +117,9 @@ namespace UI.ViewModel
             if (TransactionVms.All(t => t.Id != transactionVm.Id))
             {
                 _transactions.Add(transactionVm);
+
+                _transactions = SortTransactions(_transactions);
+
                 UpdateLists();
             }
         }

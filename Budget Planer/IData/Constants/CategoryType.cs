@@ -33,6 +33,7 @@
         UnexpectedExpenses,
 
         Bankbalance,
+        OpenBills,
         BankbalanceEndOfMonth,
 
         None,

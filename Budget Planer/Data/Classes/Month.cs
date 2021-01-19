@@ -111,6 +111,8 @@ namespace Data.Classes
 
         public IIdentifier UpdateBankBalanceEndOfMonth()
         {
+            GetCostsEndOfMonth.Amount = OpenTransactions;
+
             var bankBalanceEndOfMonthPayment = GetBankBalanceEndOfMonthPayment;
             bankBalanceEndOfMonthPayment.Amount = BankBalancePayment.Amount + OpenTransactions;
 
@@ -128,6 +130,15 @@ namespace Data.Classes
             {
                 return Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance
                             && p.SubCategory != null && p.SubCategoryType == CategoryType.BankbalanceEndOfMonth);
+            }
+        }
+
+        public ITransaction GetCostsEndOfMonth
+        {
+            get
+            {
+                return Transactions.Elements.Single(p => p.CategoryType == CategoryType.Bankbalance
+                            && p.SubCategory != null && p.SubCategoryType == CategoryType.OpenBills);
             }
         }
 

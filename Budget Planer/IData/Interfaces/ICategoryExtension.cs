@@ -10,5 +10,12 @@ namespace IData.Interfaces
         {
             return categories.Where(c => types.Contains(c.CategoryType));
         }
+
+        public static IEnumerable<ICategory> WithoutBankBalance(this IEnumerable<ICategory> categories)
+        {
+            var bankBalanceTypes = new[] { CategoryType.Bankbalance, CategoryType.BankbalanceEndOfMonth, CategoryType.OpenBills };
+
+            return categories.Where(c => !bankBalanceTypes.Contains(c.CategoryType));
+        }
     }
 }

@@ -17,6 +17,7 @@
     <Window.Resources>
 
         <Style x:Key="MyListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
+
             <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
@@ -39,6 +40,27 @@
                             <TextBlock Text="{Binding Name}" />
                         </Grid>
                     </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource MaterialDesignLightBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource MaterialDesignLightBackground}" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Style.Resources>
+                            <SolidColorBrush  x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource Primary600}" />
+                        </Style.Resources>
+                    </Style>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -399,7 +421,14 @@
                         </ListView.Resources>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="250" />
+                                <GridViewColumn Header="Name" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="250">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" FontWeight="{Binding FontWeight}" />
+                                            <!--FontWeight="{Binding FontWeight}" Foreground="{Binding Fontcolor, TargetNullValue={StaticResource MaterialDesignLightForeground}}" />-->
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Header="Payed" HeaderContainerStyle="{StaticResource CustomHeaderStyle}" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
@@ -410,7 +439,9 @@
                                 <GridViewColumn Header="Amount" HeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right" />
+                                            <TextBox x:Name="textAmount" Text="{Binding Amount}" TextAlignment="Right" HorizontalAlignment="Right"
+                                                     FontWeight="{Binding FontWeight}" />
+                                            <!--Foreground="{Binding Fontcolor, TargetNullValue={StaticResource MaterialDesignLightForeground}}" -->
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

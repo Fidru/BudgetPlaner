@@ -19,10 +19,10 @@ namespace UI.ViewModel.Factories
 
             vm.TransactionFactory = Services.GetService<ITransactionFactory>();
 
-            vm.Categories = new CategoryViewModelFacotry(Services).ConvertToVms(CurrentProject.Categories);
+            vm.Categories = new CategoryViewModelFacotry(Services).ConvertToVms(CurrentProject.Categories.WithoutBankBalance());
             vm.SelectedCategory = new CategoryViewModelFacotry(Services).ConvertToVm(element.Category.Element);
 
-            vm.SubCategories = new CategoryViewModelFacotry(Services).ConvertToVms(CurrentProject.SubCategories);
+            vm.SubCategories = new CategoryViewModelFacotry(Services).ConvertToVms(CurrentProject.SubCategories.WithoutBankBalance());
             vm.SelectedSubCategory = new CategoryViewModelFacotry(Services).ConvertToVm(element.SubCategory.Element);
 
             var transactions = CurrentProject.Transactions.Where(t => t.Payment.Id == element.Id);

@@ -1,6 +1,8 @@
-﻿using IData.Interfaces;
+﻿using IData.Constants;
+using IData.Interfaces;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 
 namespace UI.ViewModel
 {
@@ -65,6 +67,53 @@ namespace UI.ViewModel
             get
             {
                 return Element.CanEdit ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public int CategorySortOrder
+        {
+            get
+            {
+                var sortOrder = Element.SubCategory == null ? Element.Category.SortOrder : Element.SubCategory.SortOrder;
+
+                return sortOrder;
+            }
+        }
+
+        public FontWeight FontWeight
+        {
+            get
+            {
+                return IsEndOfMonth ? FontWeights.Bold : FontWeights.Normal;
+            }
+        }
+
+        private bool IsEndOfMonth
+        {
+            get
+            {
+                return Element.SubCategoryType == CategoryType.BankbalanceEndOfMonth
+                  || (Element.CategoryType == CategoryType.Bankbalance && Element.SubCategoryType == CategoryType.None);
+            }
+        }
+
+        public Brush Fontcolor
+        {
+            get
+            {
+                if (IsEndOfMonth)
+                {
+                    if (Amount >= 0)
+                    {
+                        return Brushes.DarkGreen;
+                    }
+                    else
+                    {
+                        return Brushes.DarkRed;
+                    }
+                }
+
+                return null;
             }
         }
     }

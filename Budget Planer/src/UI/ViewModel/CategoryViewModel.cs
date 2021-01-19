@@ -9,18 +9,6 @@ namespace UI.ViewModel
         {
         }
 
-        public bool IsMainCategory
-        {
-            get
-            {
-                return Element.IsMainCategory;
-            }
-            set
-            {
-                Element.IsMainCategory = value;
-            }
-        }
-
         public CategoryType CategoryType
         {
             get
