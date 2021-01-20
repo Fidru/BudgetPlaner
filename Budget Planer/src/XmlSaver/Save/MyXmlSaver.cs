@@ -113,26 +113,7 @@ namespace XmlSaver.Save
 
         private void ConnectIdsToElements(IProject project)
         {
-            //project.Elements.Elements.OrderBy(e => e.LoadingOrder).ToList().ForEach(e => e.ConnectElements(project));
-
-            var sorted = project.Elements.Elements.OrderBy(e => e.LoadingOrder).ToList();
-
-            foreach (var element in sorted)
-            {
-                if (element is IPaymentInterval)
-                {
-                }
-                if (element is IPayPattern)
-                {
-                }
-                if (element is IPayment)
-                {
-                }
-                if (element is ITransaction)
-                {
-                }
-                element.ConnectElements(project);
-            }
+            project.Elements.Elements.OrderBy(e => e.LoadingOrder).ToList().ForEach(e => e.ConnectElements(project));
         }
 
         private IEnumerable<IElement> ReadElements<T>(IEnumerable<IService> services, string groupTag, string itemTag, XmlReader reader)

@@ -76,5 +76,10 @@ namespace Data.Classes
                 return Category.CategoryType != CategoryType.Bankbalance;
             }
         }
+
+        public override void Delete()
+        {
+            base.Delete();
+        }
     }
 }

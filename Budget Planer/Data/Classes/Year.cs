@@ -1,5 +1,6 @@
 ﻿using IData.Interfaces;
 using System;
+using System.Linq;
 
 namespace Data.Classes
 {
@@ -26,6 +27,13 @@ namespace Data.Classes
             base.ConnectElements(project);
 
             Months.ConnectIds(project.Months);
+        }
+
+        public override void Delete()
+        {
+            base.Delete();
+
+            Months.Elements.ToList().ForEach(m => m.Delete());
         }
     }
 }
