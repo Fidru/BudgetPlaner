@@ -5,7 +5,7 @@ namespace IData.Services
 {
     public interface IPaymentFactory : IElementFactory
     {
-        IPayment Create(string name, ICategory category, double amount, PaymentIntervalType intervalType, ICategory subCategory = null);
+        IPayment Create(string name, ICategory category, double amount, PaymentIntervalType intervalType, MonthEnum startingMonth, ICategory subCategory = null);
 
         IPayment Create(IMonth month);
     }

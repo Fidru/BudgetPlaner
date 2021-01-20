@@ -18,7 +18,7 @@ namespace Data.Services
             return year;
         }
 
-        public IYear Create(string name)
+        public IYear Create(string name, bool addOneTimePayments = false)
         {
             var lastYear = Project.CurrentProject.Years.OrderBy(y => y.SortOrder).LastOrDefault();
             int lastSortOrder = lastYear != null ? lastYear.SortOrder : 0;
@@ -26,29 +26,29 @@ namespace Data.Services
             var sortOrder = lastSortOrder + 1;
             var year = new Year(name, sortOrder);
 
-            CreateMonths(year);
+            CreateMonths(year, addOneTimePayments);
 
             Project.CurrentProject.Elements.AddElement(year);
 
             return year;
         }
 
-        private void CreateMonths(IYear year)
+        private void CreateMonths(IYear year, bool addOneTimePayments)
         {
             var monthFactory = new MonthFactory() { Project = Project };
 
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Jan, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Feb, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Mar, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Apr, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Mai, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Jun, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Jul, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Aug, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Sep, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Oct, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Nov, year));
-            year.Months.AddElement(monthFactory.Create(MonthEnum.Dez, year));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Jan, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Feb, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Mar, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Apr, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Mai, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Jun, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Jul, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Aug, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Sep, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Oct, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Nov, year, addOneTimePayments));
+            year.Months.AddElement(monthFactory.Create(MonthEnum.Dez, year, addOneTimePayments));
 
             AlligneMonths();
         }

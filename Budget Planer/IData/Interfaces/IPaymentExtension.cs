@@ -6,10 +6,12 @@ namespace IData.Interfaces
 {
     public static class IPaymentExtension
     {
-        public static IEnumerable<IPayment> GetPaymentsForMonth(this IEnumerable<IPayment> payments, MonthEnum currentMonth)
+        public static IEnumerable<IPayment> GetPaymentsForMonth(this IEnumerable<IPayment> payments, MonthEnum currentMonth, bool addOneTimePayments = false)
         {
-            return payments.Where(t => !t.IsOneTimePayment && t.PayPattern.Element.AffectedMonths.Any(p => p == currentMonth))
-            .OrderBy(p => p.Category.Element.SortOrder).ThenBy(p => p.SubCategory.Element?.SortOrder);
+            return payments.Where(t => (!t.IsOneTimePayment || addOneTimePayments)
+                    && t.PayPattern.Element.AffectedMonths.Any(p => p == currentMonth))
+                   .OrderBy(p => p.Category.Element.SortOrder)
+                   .ThenBy(p => p.SubCategory.Element?.SortOrder);
         }
 
         public static IEnumerable<IPayment> GetNotAddedPaymentsForMonth(this IEnumerable<IPayment> payments, IMonth month)

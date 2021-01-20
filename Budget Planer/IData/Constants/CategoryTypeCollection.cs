@@ -87,7 +87,7 @@ namespace IData.Constants
                     CategoryType.Food,
                     CategoryType.DogFood,
                     CategoryType.Fuel,
-                    CategoryType.CarInsurance,
+                    CategoryType.SubInsurance,
                     CategoryType.Lease,
                     CategoryType.CreditAppartment,
                 };

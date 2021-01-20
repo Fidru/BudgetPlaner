@@ -32,11 +32,11 @@ namespace Data.Services
             return payment;
         }
 
-        public IPayment Create(string name, ICategory category, double amount, PaymentIntervalType intervalType, ICategory subCategory = null)
+        public IPayment Create(string name, ICategory category, double amount, PaymentIntervalType intervalType, MonthEnum startingMonth, ICategory subCategory = null)
         {
             var interval = Project.CurrentProject.Intervals.Single(i => i.Type == intervalType);
             var factory = new PayPatternFactory() { Project = Project };
-            var pattern = factory.Create(interval, MonthEnum.Jan);
+            var pattern = factory.Create(interval, startingMonth);
 
             var payment = new Payment(name, category, amount, pattern, subCategory);
             Project.CurrentProject.Elements.AddElement(payment);

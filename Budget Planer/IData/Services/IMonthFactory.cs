@@ -5,6 +5,6 @@ namespace IData.Services
 {
     public interface IMonthFactory : IFactory<IMonth>
     {
-        IMonth Create(MonthEnum month, IYear year);
+        IMonth Create(MonthEnum month, IYear year, bool addOneTimePayments);
     }
 }
