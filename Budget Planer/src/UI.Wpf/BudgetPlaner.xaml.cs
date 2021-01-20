@@ -1,9 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using UI.DefaultData;
 using UI.ViewModel;
 using UI.Wpf.Animations;
+using UI.Wpf.TreeHelpers;
 
 namespace UI.Wpf
 {
@@ -197,6 +199,13 @@ namespace UI.Wpf
             Button button = (Button)sender;
             var transaction = (TransactionViewModel)button.DataContext;
 
+            var listview = button.FindParentOfType<ListView>();
+
+            if (listview != null)
+            {
+                listview.SelectedItem = transaction;
+            }
+
             transaction.CurrentMonthVm = GetProjectViewModel.CurrentYear.CurrentMonthVm;
         }
 
@@ -232,6 +241,7 @@ namespace UI.Wpf
 
                 GetProjectViewModel.UpdateViewModels();
             }
+
             _animations.ResetAnimations();
         }
 

@@ -483,11 +483,9 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                <AdornerDecorator>
-                                                    <Button Style="{StaticResource MyEditButton}" Visibility="{Binding CanEdit}"  RenderTransformOrigin="-2.675,0.55" Click="Edit_Bills_Click">
-                                                        <materialDesign:PackIcon Kind="Edit" />
-                                                    </Button>
-                                                </AdornerDecorator>
+                                                <Button Style="{StaticResource MyEditButton}" Visibility="{Binding CanEdit}" Click="Edit_Bills_Click">
+                                                    <materialDesign:PackIcon Kind="Edit" />
+                                                </Button>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -536,7 +534,7 @@
                                         <DataTemplate>
                                             <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <AdornerDecorator>
-                                                    <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_FoodBills_Click">
+                                                    <Button Style="{StaticResource MyEditButton}" Click="Edit_FoodBills_Click">
                                                         <materialDesign:PackIcon Kind="Edit" />
                                                     </Button>
                                                 </AdornerDecorator>
@@ -588,7 +586,7 @@
                                         <DataTemplate>
                                             <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <AdornerDecorator>
-                                                    <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_CreditCardBills_Click">
+                                                    <Button Style="{StaticResource MyEditButton}" Click="Edit_CreditCardBills_Click">
                                                         <materialDesign:PackIcon Kind="Edit">
                                                         </materialDesign:PackIcon>
                                                     </Button>
@@ -641,7 +639,7 @@
                                         <DataTemplate>
                                             <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <AdornerDecorator>
-                                                    <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_ExpectedBills_Click">
+                                                    <Button Style="{StaticResource MyEditButton}" Click="Edit_ExpectedBills_Click">
                                                         <materialDesign:PackIcon Kind="Edit">
                                                         </materialDesign:PackIcon>
                                                     </Button>

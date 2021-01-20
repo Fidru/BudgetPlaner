@@ -75,6 +75,7 @@
     <Compile Include="Animations\AnimationTag.cs" />
     <Compile Include="Animations\CustomAnimations.cs" />
     <Compile Include="Animations\PaymentAnimations.cs" />
+    <Compile Include="TreeHelpers\FindWpfParent.cs" />
     <Compile Include="TreeHelpers\Modifier.cs" />
     <Compile Include="TreeHelpers\ModifierBase.cs" />
     <Compile Include="TreeHelpers\ModifierCollection.cs" />
