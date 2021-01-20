@@ -150,7 +150,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.FoodBills)
             {
-                var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_creditCards, heading_expectedBills, bills, creditCard, expectedBills, };
+                var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_creditCards, heading_expectedBills, bills_list, creditCard, expectedBills, };
 
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, foodBills, hiddenElements);
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_FoodBills);
@@ -159,7 +159,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.CreditCardBills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_expectedBills, bills, foodBills, expectedBills, };
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_expectedBills, bills_list, foodBills, expectedBills, };
                 _animations.StartAnimation(AnimationTag.RightToLeft, creditCard, hideElements);
                 _animations.StartAnimation(AnimationTag.RightToLeft, heading_creditCards);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
@@ -167,7 +167,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.ExpectedUnexpectedBills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_creditCards, bills, foodBills, creditCard, };
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_creditCards, bills_list, foodBills, creditCard, };
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, expectedBills, hideElements);
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, heading_expectedBills);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
