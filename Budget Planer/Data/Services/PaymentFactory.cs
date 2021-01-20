@@ -1,4 +1,5 @@
 ﻿using Data.Classes;
+using IData.Constants;
 using IData.Interfaces;
 using IData.Services;
 using System.Linq;
@@ -31,9 +32,13 @@ namespace Data.Services
             return payment;
         }
 
-        public IPayment Create(string name, ICategory category, double amount, IPayPattern payPattern, ICategory subCategory = null)
+        public IPayment Create(string name, ICategory category, double amount, PaymentIntervalType intervalType, ICategory subCategory = null)
         {
-            var payment = new Payment(name, category, amount, payPattern, subCategory);
+            var interval = Project.CurrentProject.Intervals.Single(i => i.Type == intervalType);
+            var factory = new PayPatternFactory() { Project = Project };
+            var pattern = factory.Create(interval, MonthEnum.Jan);
+
+            var payment = new Payment(name, category, amount, pattern, subCategory);
             Project.CurrentProject.Elements.AddElement(payment);
             return payment;
         }

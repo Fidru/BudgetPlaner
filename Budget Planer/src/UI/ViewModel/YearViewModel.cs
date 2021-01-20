@@ -18,6 +18,8 @@ namespace UI.ViewModel
         {
             CurrentMonthVm = month;
             NotifyPropertyChanged(nameof(CurrentMonthVm));
+
+            CurrentMonthVm.UpdateLists();
         }
     }
 }

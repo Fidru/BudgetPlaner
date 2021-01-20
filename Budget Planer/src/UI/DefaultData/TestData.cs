@@ -115,50 +115,46 @@ namespace UI.DefaultData
             categoryFactory.Create("Open Bills", "", CategoryType.OpenBills, 81);
             categoryFactory.Create("Bank balance End Of MOnth", "", CategoryType.BankbalanceEndOfMonth, 82);
 
-            var montlyInterval = intervalFactory.Create(PaymentIntervalType.Monthly);
-            var evenMonthsInterval = intervalFactory.Create(PaymentIntervalType.EverySecondMonth);
-            var yearlyInterval = intervalFactory.Create(PaymentIntervalType.Yearly);
+            intervalFactory.Create(PaymentIntervalType.Monthly);
+            intervalFactory.Create(PaymentIntervalType.EverySecondMonth);
+            intervalFactory.Create(PaymentIntervalType.Yearly);
             intervalFactory.Create(PaymentIntervalType.EverySixthMonth);
             intervalFactory.Create(PaymentIntervalType.OneTimePayment);
-            intervalFactory.Create(PaymentIntervalType.Custom);
-
-            var monthly = payPatternFactory.Create(montlyInterval, MonthEnum.Jan);
-            var evenMonths = payPatternFactory.Create(evenMonthsInterval, MonthEnum.Feb);
-            var yearly = payPatternFactory.Create(yearlyInterval, MonthEnum.Jan);
+            //intervalFactory.Create(PaymentIntervalType.Custom);
 
             var categories = project.Categories;
             var subCategories = project.SubCategories;
 
-            paymentFactory.Create("Income", categories.GetByType(CategoryType.Income), 1964.45, monthly, subCategories.GetByType(CategoryType.Sallary));
+            paymentFactory.Create("Income", categories.GetByType(CategoryType.Income), 1964.45, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Sallary));
 
-            paymentFactory.Create("Rent", categories.GetByType(CategoryType.RentAndHousing), -524.70, monthly, subCategories.GetByType(CategoryType.Rent));
-            paymentFactory.Create("OperatingCosts", categories.GetByType(CategoryType.RentAndHousing), -128.70, monthly, subCategories.GetByType(CategoryType.OperatingCosts));
-            paymentFactory.Create("Water and Heating", categories.GetByType(CategoryType.RentAndHousing), -57.36, monthly, subCategories.GetByType(CategoryType.WaterAndHeating));
-            paymentFactory.Create("Electricity", categories.GetByType(CategoryType.RentAndHousing), -65, monthly, subCategories.GetByType(CategoryType.Electricity));
+            paymentFactory.Create("Rent", categories.GetByType(CategoryType.RentAndHousing), -524.70, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Rent));
+            paymentFactory.Create("OperatingCosts", categories.GetByType(CategoryType.RentAndHousing), -128.70, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.OperatingCosts));
+            paymentFactory.Create("Water and Heating", categories.GetByType(CategoryType.RentAndHousing), -57.36, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.WaterAndHeating));
+            paymentFactory.Create("Electricity", categories.GetByType(CategoryType.RentAndHousing), -65, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Electricity));
 
-            paymentFactory.Create("A1", categories.GetByType(CategoryType.InternetAndMobile), -32.80, monthly, subCategories.GetByType(CategoryType.Tv));
-            paymentFactory.Create("Gis", categories.GetByType(CategoryType.InternetAndMobile), -41.86, evenMonths, subCategories.GetByType(CategoryType.Gis));
-            paymentFactory.Create("Phone", categories.GetByType(CategoryType.InternetAndMobile), -16.55, monthly, subCategories.GetByType(CategoryType.Phone));
+            paymentFactory.Create("A1", categories.GetByType(CategoryType.InternetAndMobile), -32.80, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Tv));
+            paymentFactory.Create("Gis", categories.GetByType(CategoryType.InternetAndMobile), -41.86, PaymentIntervalType.EverySecondMonth, subCategories.GetByType(CategoryType.Gis));
+            paymentFactory.Create("Phone", categories.GetByType(CategoryType.InternetAndMobile), -16.55, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Phone));
 
-            paymentFactory.Create("Insurance", categories.GetByType(CategoryType.Insurance), -91.92, monthly, subCategories.GetByType(CategoryType.CarInsurance));
-            paymentFactory.Create("Lease", categories.GetByType(CategoryType.Insurance), -205.55, monthly, subCategories.GetByType(CategoryType.Lease));
-            paymentFactory.Create("Credit Appartment", categories.GetByType(CategoryType.Insurance), -220, monthly, subCategories.GetByType(CategoryType.CreditAppartment));
+            paymentFactory.Create("Insurance", categories.GetByType(CategoryType.Insurance), -91.92, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.CarInsurance));
+            paymentFactory.Create("Lease", categories.GetByType(CategoryType.Insurance), -205.55, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Lease));
+            paymentFactory.Create("Credit Appartment", categories.GetByType(CategoryType.Insurance), -220, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.CreditAppartment));
 
-            paymentFactory.Create("Food", categories.GetByType(CategoryType.FoodAndHousehold), -200, monthly, subCategories.GetByType(CategoryType.Food));
-            paymentFactory.Create("Dog Food", categories.GetByType(CategoryType.FoodAndHousehold), -180, monthly, subCategories.GetByType(CategoryType.DogFood));
-            paymentFactory.Create("Fuel", categories.GetByType(CategoryType.FoodAndHousehold), -60, monthly, subCategories.GetByType(CategoryType.Fuel));
+            paymentFactory.Create("Food", categories.GetByType(CategoryType.FoodAndHousehold), -200, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Food));
+            paymentFactory.Create("Dog Food", categories.GetByType(CategoryType.FoodAndHousehold), -180, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.DogFood));
+            paymentFactory.Create("Fuel", categories.GetByType(CategoryType.FoodAndHousehold), -60, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Fuel));
 
-            paymentFactory.Create("Deezer", categories.GetByType(CategoryType.CreditCard), -14.99, monthly, subCategories.GetByType(CategoryType.Streaming));
-            paymentFactory.Create("Netflix", categories.GetByType(CategoryType.CreditCard), -17.99, monthly, subCategories.GetByType(CategoryType.Streaming));
-            paymentFactory.Create("OneDrive", categories.GetByType(CategoryType.CreditCard), -2, monthly, subCategories.GetByType(CategoryType.Streaming));
+            paymentFactory.Create("Deezer", categories.GetByType(CategoryType.CreditCard), -14.99, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Streaming));
+            paymentFactory.Create("Netflix", categories.GetByType(CategoryType.CreditCard), -17.99, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Streaming));
+            paymentFactory.Create("OneDrive", categories.GetByType(CategoryType.CreditCard), -2, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.Streaming));
 
-            paymentFactory.Create("OÖ Versicherung", categories.GetByType(CategoryType.ExtraExpenses), -209.13, yearly);
-            paymentFactory.Create("Uniqa Rechtschutz", categories.GetByType(CategoryType.ExtraExpenses), -110, yearly);
-            paymentFactory.Create("OÖ Hausrat", categories.GetByType(CategoryType.ExtraExpenses), -110, yearly);
-            paymentFactory.Create("Öamtc", categories.GetByType(CategoryType.ExtraExpenses), -133.70, yearly);
-            paymentFactory.Create("Bank balance", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly);
-            paymentFactory.Create("Open Bills", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, subCategories.GetByType(CategoryType.OpenBills));
-            paymentFactory.Create("Bank balance end of Month", categories.GetByType(CategoryType.Bankbalance), 0.0, monthly, subCategories.GetByType(CategoryType.BankbalanceEndOfMonth));
+            paymentFactory.Create("OÖ Versicherung", categories.GetByType(CategoryType.ExtraExpenses), -209.13, PaymentIntervalType.Yearly);
+            paymentFactory.Create("Uniqa Rechtschutz", categories.GetByType(CategoryType.ExtraExpenses), -110, PaymentIntervalType.Yearly);
+            paymentFactory.Create("OÖ Hausrat", categories.GetByType(CategoryType.ExtraExpenses), -110, PaymentIntervalType.Yearly);
+            paymentFactory.Create("Öamtc", categories.GetByType(CategoryType.ExtraExpenses), -133.70, PaymentIntervalType.Yearly);
+            paymentFactory.Create("Bank balance", categories.GetByType(CategoryType.Bankbalance), 0.0, PaymentIntervalType.Monthly);
+            paymentFactory.Create("Open Bills", categories.GetByType(CategoryType.Bankbalance), 0.0, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.OpenBills));
+            paymentFactory.Create("Bank balance end of Month", categories.GetByType(CategoryType.Bankbalance), 0.0, PaymentIntervalType.Monthly, subCategories.GetByType(CategoryType.BankbalanceEndOfMonth));
 
             yearFact.Create("2021");
             //yearFact.Create("2022");

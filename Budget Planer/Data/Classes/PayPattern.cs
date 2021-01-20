@@ -61,7 +61,7 @@ namespace Data.Classes
         {
             base.ConnectElements(project);
 
-            Interval.Element = (IPaymentInterval)project.Intervals.GetElementById(Interval.Element.Id);
+            Interval.Element = (IPaymentInterval)project.Intervals.GetElementById(Interval.Id);
 
             UpdateAffectedMonths();
         }

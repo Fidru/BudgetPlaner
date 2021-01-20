@@ -77,24 +77,24 @@ namespace UI.ViewModel
 
             NotifyPropertyChanged(nameof(CurrentYear));
             NotifyPropertyChanged(CurrentYear, nameof(CurrentYear.CurrentMonthVm));
-            //NotifyPropertyChanged(CurrentYear.CurrentMonthVm, nameof(CurrentYear.CurrentMonthVm.Name));
 
             NotifyPropertyChanged(nameof(CombinedMonthName));
-
-            //NotifyPropertyChanged(CurrentYear, nameof(CurrentYear.CurrentMonthVm));
-            //NotifyPropertyChanged(CurrentYear.CurrentMonthVm, nameof(CurrentYear.CurrentMonthVm.Name));
-
-            //NotifyPropertyChanged(nameof(CombinedMonthName));
-            //NotifyPropertyChanged(CurrentYear, nameof(Name));
         }
 
         public void UpdateViewModels()
         {
+            // New Monthly Transactions only get added to the Current ViewModel, when the Month is clicked
+            // If a future Month gets selected through the main menu, the new Transaction viewModels
+            // have not been created yet
+
             var filtered = Element.Transactions.Where(t => t.IsNew);
 
             foreach (var transaction in filtered)
             {
-                if (transaction.IsNew)
+                if (transaction.Payment.Element.IsOneTimePayment)
+                {
+                }
+                else if (transaction.IsNew)
                 {
                     var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(transaction);
 

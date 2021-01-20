@@ -84,6 +84,8 @@ namespace UI.Wpf
             {
                 GetProjectViewModel.CurrentYear = project;
                 GetProjectViewModel.CurrentYear.SelectNewCurrentMonth(month);
+
+                GetProjectViewModel.UpdateViewModels();
             }
         }
 
@@ -224,10 +226,12 @@ namespace UI.Wpf
             Button button = (Button)sender;
             var payment = (PaymentViewModel)button.DataContext;
 
-            payment.Update();
+            if (payment != null)
+            {
+                payment.Update();
 
-            GetProjectViewModel.UpdateViewModels();
-
+                GetProjectViewModel.UpdateViewModels();
+            }
             _animations.ResetAnimations();
         }
 

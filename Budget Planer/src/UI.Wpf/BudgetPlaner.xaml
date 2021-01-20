@@ -823,18 +823,20 @@
                                 <ListBox Style="{StaticResource MyListBox}" Grid.Row="7" Grid.Column="1"
                                          ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}" />
 
-                                <ListView Style="{StaticResource MyListBox}" Grid.Row="8" Grid.Column="1" SelectionMode="Multiple"
-                                         ItemsSource="{Binding AffecctedMonths}">
+                                <DockPanel Grid.Row="8" Grid.Column="1">
+                                    <ListView Style="{StaticResource MyListBox}" ItemsSource="{Binding AffecctedMonths}"
+                                              SelectionMode="Multiple" IsEnabled="False">
 
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox x:Name="cb" IsChecked="{Binding IsSelected}" Margin="0,0,5,0" />
-                                                <TextBlock Text="{Binding Name}"  Margin="0,0,5,0" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox x:Name="cb" IsChecked="{Binding IsSelected}" Margin="0,0,5,0" />
+                                                    <TextBlock Text="{Binding Name}"  Margin="0,0,5,0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </DockPanel>
                             </Grid>
                         </DockPanel>
                     </Border>
