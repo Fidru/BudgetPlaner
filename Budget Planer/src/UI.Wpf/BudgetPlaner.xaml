@@ -16,6 +16,36 @@
         WindowStyle="None" ResizeMode="NoResize" Loaded="baseView_Loaded">
     <Window.Resources>
 
+        <DropShadowEffect x:Key="MainShadowEffect" x:Name="MainShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270"
+                          Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+
+        <Storyboard x:Key="ShowShadow">
+            <DoubleAnimation Storyboard.TargetProperty="Effect.BlurRadius" To="25" Duration="0:0:0.5" />
+            <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="8" Duration="0:0:0.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="HideShadow">
+            <DoubleAnimation Storyboard.TargetProperty="Effect.BlurRadius" To="5" Duration="0:0:0.5" />
+            <DoubleAnimation Storyboard.TargetProperty="Effect.ShadowDepth" To="1" Duration="0:0:0.5" />
+        </Storyboard>
+
+        <Style x:Key="ShadowListViewStyle" TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+            <Setter Property="Effect" Value="{StaticResource MainShadowEffect}" />
+        </Style>
+
+        <Style x:Key="ShadowTextStyle" TargetType="DockPanel">
+
+            <Setter Property="Effect" Value="{StaticResource MainShadowEffect}" />
+            <Style.Triggers>
+                <EventTrigger  RoutedEvent="FrameworkElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ShowShadow}" />
+                </EventTrigger>
+                <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource HideShadow}" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="MyListBox" TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
 
             <Setter Property="SelectionMode" Value="Single" />
@@ -85,6 +115,17 @@
             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
             <Setter Property="Height" Value="25" />
             <Setter Property="Width" Value="25" />
+
+            <Setter Property="Effect" Value="{StaticResource MainShadowEffect}" />
+            <Style.Triggers>
+                <EventTrigger  RoutedEvent="FrameworkElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ShowShadow}" />
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource HideShadow}" />
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="MyMaterialDesignHamburgerToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource MaterialDesignHamburgerToggleButton}">
@@ -119,6 +160,17 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
             <Setter Property="Background" Value="{DynamicResource MaterialDesignBackground}" />
+
+            <Setter Property="Effect" Value="{StaticResource MainShadowEffect}" />
+            <Style.Triggers>
+                <EventTrigger  RoutedEvent="FrameworkElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ShowShadow}" />
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource HideShadow}" />
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="CustomHeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -246,7 +298,8 @@
             </DockPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>
 
-        <Grid>
+        <Grid x:Name="MainGrid">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="21*" />
                 <ColumnDefinition Width="21*" />
@@ -274,8 +327,7 @@
 
                     <Button Background="Transparent" BorderBrush="Transparent" Foreground="{StaticResource MaterialDesignBackground}"
                          VerticalAlignment="Center" HorizontalAlignment="Right"
-                       Grid.Row="0" Grid.Column="3"  Margin="0,-16,-22,-16" Height="48" Width="82"
-                  Click="Close_Click">
+                       Grid.Row="0" Grid.Column="3"  Margin="0,-16,-22,-16" Height="48" Width="82" Click="Close_Click">
                         <materialDesign:PackIcon Kind="CloseBold" Height="40" Width="40" />
                     </Button>
                 </Grid>
@@ -283,36 +335,12 @@
 
             <Button HorizontalAlignment="Left" Style="{StaticResource SquareButton}" Grid.Row="1" Grid.Column="0" Click="prev_Click" Margin="20,8,0,12">
                 <materialDesign:PackIcon Kind="ArrowLeftBold" Height="42" Width="42" Margin="-3,0,0,0" />
-
-                <Button.Effect>
-                    <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
-                </Button.Effect>
-
-                <Button.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                        <BeginStoryboard>
-                            <Storyboard TargetName="DropShadowEffect">
-                                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-
-                    <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard TargetName="DropShadowEffect">
-                                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Button.Triggers>
             </Button>
 
             <TextBox x:Name="monthDisplay" Text="{Binding CombinedMonthName}" VerticalAlignment="Center" HorizontalAlignment="Center"
                      FontWeight="Bold" FontSize="56" TextWrapping="Wrap" TextAlignment="Center" TextDecorations="Underline"
                      Style="{StaticResource MaterialDesignComboBoxEditableTextBox}"
-                     Grid.ColumnSpan="3" Width="716" Grid.Row="1" Margin="510,3,542,3">
+                     Grid.ColumnSpan="3" Width="716" Grid.Row="1" Margin="510,3,542,3" Effect="{StaticResource MainShadowEffect}">
                 <TextBox.RenderTransform>
                     <TranslateTransform />
                 </TextBox.RenderTransform>
@@ -320,30 +348,6 @@
 
             <Button HorizontalAlignment="Right" Style="{StaticResource SquareButton}" Grid.Row="1" Grid.Column="2" Click="next_Click" Margin="0,10,28,10">
                 <materialDesign:PackIcon Kind="ArrowRightBold" Height="42" Width="42" Margin="3,0,0,0" />
-
-                <Button.Effect>
-                    <DropShadowEffect x:Name="DropShadowEffectRight" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
-                </Button.Effect>
-
-                <Button.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                        <BeginStoryboard>
-                            <Storyboard TargetName="DropShadowEffectRight">
-                                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-
-                    <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard TargetName="DropShadowEffectRight">
-                                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Button.Triggers>
             </Button>
 
             <DockPanel x:Name="innerPanel" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="3" Opacity="1">
@@ -364,12 +368,7 @@
                         <RowDefinition Height="50*" />
                     </Grid.RowDefinitions>
 
-                    <DockPanel  Grid.Row="0" Grid.Column="0">
-
-                        <DockPanel.Effect>
-                            <DropShadowEffect x:Name="DropShadowEffectAdd" BlurRadius="5" ShadowDepth="1" Direction="270"
-                                              Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
-                        </DockPanel.Effect>
+                    <DockPanel  Grid.Row="0" Grid.Column="0" Style="{StaticResource ShadowTextStyle}">
 
                         <TextBlock  x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
 
@@ -382,26 +381,6 @@
                             <Button.RenderTransform>
                                 <TranslateTransform />
                             </Button.RenderTransform>
-
-                            <Button.Triggers>
-                                <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                    <BeginStoryboard>
-                                        <Storyboard TargetName="DropShadowEffectAdd">
-                                            <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                            <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-
-                                <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                    <BeginStoryboard>
-                                        <Storyboard TargetName="DropShadowEffectAdd">
-                                            <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                            <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Button.Triggers>
                         </Button>
                     </DockPanel>
 
@@ -411,8 +390,9 @@
 
                     <TextBlock x:Name="heading_expectedBills" Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
 
-                    <ListView x:Name="bills" ItemsSource="{Binding CurrentYear.CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
-            ItemContainerStyle="{StaticResource ItemStyle}">
+                    <ListView x:Name="bills"
+                              ItemsSource="{Binding CurrentYear.CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
+                              ItemContainerStyle="{StaticResource ItemStyle}">
                         <ListView.RenderTransform>
                             <TranslateTransform />
                         </ListView.RenderTransform>
@@ -459,32 +439,7 @@
                                             <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <AdornerDecorator>
                                                     <Button Style="{StaticResource MyEditButton}" Visibility="{Binding CanEdit}"  RenderTransformOrigin="-2.675,0.55" Click="Edit_Bills_Click">
-                                                        <materialDesign:PackIcon Kind="Edit">
-                                                        </materialDesign:PackIcon>
-
-                                                        <Button.Effect>
-                                                            <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
-                                                        </Button.Effect>
-
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
+                                                        <materialDesign:PackIcon Kind="Edit" />
                                                     </Button>
                                                 </AdornerDecorator>
                                             </StackPanel>
@@ -536,33 +491,7 @@
                                             <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <AdornerDecorator>
                                                     <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_FoodBills_Click">
-                                                        <materialDesign:PackIcon Kind="Edit">
-                                                        </materialDesign:PackIcon>
-
-                                                        <Button.Effect>
-                                                            <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}"
-                                                                              Opacity=".42" RenderingBias="Performance" />
-                                                        </Button.Effect>
-
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
+                                                        <materialDesign:PackIcon Kind="Edit" />
                                                     </Button>
                                                 </AdornerDecorator>
                                             </StackPanel>
@@ -616,31 +545,6 @@
                                                     <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_CreditCardBills_Click">
                                                         <materialDesign:PackIcon Kind="Edit">
                                                         </materialDesign:PackIcon>
-
-                                                        <Button.Effect>
-                                                            <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}"
-                                                                              Opacity=".42" RenderingBias="Performance" />
-                                                        </Button.Effect>
-
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
                                                     </Button>
                                                 </AdornerDecorator>
                                             </StackPanel>
@@ -694,31 +598,6 @@
                                                     <Button Style="{StaticResource MyEditButton}" RenderTransformOrigin="-2.675,0.55" Click="Edit_ExpectedBills_Click">
                                                         <materialDesign:PackIcon Kind="Edit">
                                                         </materialDesign:PackIcon>
-
-                                                        <Button.Effect>
-                                                            <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}"
-                                                                              Opacity=".42" RenderingBias="Performance" />
-                                                        </Button.Effect>
-
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-
-                                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard TargetName="DropShadowEffect">
-                                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
                                                     </Button>
                                                 </AdornerDecorator>
                                             </StackPanel>
@@ -775,31 +654,6 @@
                                         Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
                                         Grid.Row="0" Grid.Column="1" Click="ClosePayment_Click" Height="37" Width="34" Padding="0,0,0,0" Margin="0,5,-20,0" Grid.RowSpan="2">
                                     <materialDesign:PackIcon Kind="CloseCircleOutline" Height="34" Width="34" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0,0,0" />
-
-                                    <Button.Effect>
-                                        <DropShadowEffect x:Name="DropShadowEffectClose" BlurRadius="5" ShadowDepth="1" Direction="270"
-                                                          Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
-                                    </Button.Effect>
-
-                                    <Button.Triggers>
-                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="DropShadowEffectClose">
-                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="25" Duration="0:0:0.5" />
-                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-
-                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="DropShadowEffectClose">
-                                                    <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
-                                                    <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </Button.Triggers>
                                 </Button>
 
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Height="24" Margin="0,15,0,11" />
@@ -810,7 +664,7 @@
                                 <TextBlock Grid.Row="8" Grid.Column="0" Text="Affected Months" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,10,0,0" />
 
                                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}"
-                                         HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="bold"
+                                         HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"
                                          FontSize="14" Margin="0,11" />
                                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Amount}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
