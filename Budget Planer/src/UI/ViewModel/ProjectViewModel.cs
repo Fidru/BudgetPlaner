@@ -91,10 +91,7 @@ namespace UI.ViewModel
 
             foreach (var transaction in filtered)
             {
-                if (transaction.Payment.Element.IsOneTimePayment)
-                {
-                }
-                else if (transaction.IsNew)
+                if (transaction.IsNew)
                 {
                     var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(transaction);
 

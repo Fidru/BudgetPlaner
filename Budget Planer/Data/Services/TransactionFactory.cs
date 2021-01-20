@@ -77,6 +77,7 @@ namespace Data.Services
                     transaction.Amount = payment.Amount;
                     transaction.Name = payment.Name;
                     transaction.IsDeleted = false;
+                    transaction.IsNew = !payment.IsOneTimePayment;
                 }
                 else
                 {
