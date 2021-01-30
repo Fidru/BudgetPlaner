@@ -13,7 +13,7 @@
         Title="MainWindow" Width="1768" Height="992"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
         x:Name="baseView"
-        WindowStyle="None" ResizeMode="NoResize" Loaded="baseView_Loaded">
+        Loaded="baseView_Loaded">
     <Window.Resources>
 
         <DropShadowEffect x:Key="MainShadowEffect" x:Name="MainShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270"

@@ -47,7 +47,11 @@ namespace UI.ViewModel
 
             if (nextMonth != null)
             {
-                nextMonth.Element.UpdateBankBalanceFromPreviousMonth();
+                if (CurrentYear.CurrentMonthVm.Element.OpenTransactions.Any())
+                {
+                    nextMonth.Element.UpdateBankBalanceFromPreviousMonth();
+                }
+
                 SetNewMonthAndYear(nextMonth);
 
                 return true;

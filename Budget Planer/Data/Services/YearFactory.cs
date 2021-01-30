@@ -71,7 +71,10 @@ namespace Data.Services
                     Next = allMonthsSorted.GetRelatedMonth(month, 1)
                 };
 
-                month.UpdateBankBalanceFromPreviousMonth();
+                if (month.AlignedMonths.Previous != null && month.AlignedMonths.Previous.HasOpenTransactions)
+                {
+                    month.UpdateBankBalanceFromPreviousMonth();
+                }
             }
         }
 

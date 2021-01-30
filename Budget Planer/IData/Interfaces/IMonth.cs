@@ -15,10 +15,12 @@ namespace IData.Interfaces
         IEnumerable<ITransaction> CreditCardPayments { get; }
         IEnumerable<ITransaction> FoodPayments { get; }
         IEnumerable<ITransaction> ExpectedUnexpectedPayments { get; }
+        IEnumerable<ITransaction> OpenTransactions { get; }
+        bool HasOpenTransactions { get; }
 
         void AddTransaction(ITransaction transaction);
 
-        double OpenTransactions { get; }
+        double OpenTransactionsSum { get; }
 
         void UpdateBankBalanceFromPreviousMonth();
 

@@ -71,14 +71,25 @@ namespace Data.Classes
 
         public MonthEnum MonthType { get; set; }
 
-        public double OpenTransactions
+        public double OpenTransactionsSum
         {
             get
             {
-                var openPayments = Transactions.Elements.Where(t => !t.Payed
-                && t.CategoryType != CategoryType.Bankbalance).ToArray();
+                return OpenTransactions.Sum(e => e.Amount);
+            }
+        }
 
-                return openPayments.Sum(e => e.Amount);
+        public bool HasOpenTransactions
+        {
+            get { return OpenTransactions.Any(); }
+        }
+
+        public IEnumerable<ITransaction> OpenTransactions
+        {
+            get
+            {
+                return Transactions.Elements.Where(t => !t.Payed
+                          && t.CategoryType != CategoryType.Bankbalance).ToArray();
             }
         }
 
@@ -112,10 +123,10 @@ namespace Data.Classes
         public IEnumerable<IIdentifier> UpdateBankBalanceEndOfMonth()
         {
             var cotsEndOfMonth = GetCostsEndOfMonth;
-            cotsEndOfMonth.Amount = OpenTransactions;
+            cotsEndOfMonth.Amount = OpenTransactionsSum;
 
             var bankBalanceEndOfMonthPayment = GetBankBalanceEndOfMonthPayment;
-            bankBalanceEndOfMonthPayment.Amount = BankBalancePayment.Amount + OpenTransactions;
+            bankBalanceEndOfMonthPayment.Amount = BankBalancePayment.Amount + OpenTransactionsSum;
 
             return new[] { bankBalanceEndOfMonthPayment, cotsEndOfMonth };
         }

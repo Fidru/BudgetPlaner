@@ -187,6 +187,7 @@ namespace UI.DefaultData
             // Extra Expenses Dez
             paymentFactory.Create("Weihnachtsgeld", categories.GetByType(CategoryType.ExtraExpenses), 1300, PaymentIntervalType.Yearly, MonthEnum.Dez, subCategories.GetByType(CategoryType.Sallary));
 #endif
+            //project.Payments.ToList().ForEach(x => x.Amount = 0);
 
             yearFact.Create("2021", true);
 
