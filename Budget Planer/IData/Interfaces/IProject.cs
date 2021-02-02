@@ -13,5 +13,6 @@ namespace IData.Interfaces
         IEnumerable<ICategory> SubCategories { get; }
         IEnumerable<IMonth> Months { get; }
         IElementCollection<IElement> Elements { get; set; }
+        IProjectSetting ProjectSetting { get; set; }
     }
 }

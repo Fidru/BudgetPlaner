@@ -9,6 +9,7 @@ namespace Data.Classes
         public Project() : base()
         {
             Elements = new ElementCollection<IElement>();
+            ProjectSetting = new ProjectSetting();
         }
 
         public Project(string name) : this()
@@ -27,6 +28,7 @@ namespace Data.Classes
         public IEnumerable<IMonth> Months { get { return Elements.Elements.OfType<IMonth>(); } }
         public IEnumerable<ITransaction> Transactions { get { return Elements.Elements.OfType<ITransaction>(); } }
         public IElementCollection<IElement> Elements { get; set; }
+        public IProjectSetting ProjectSetting { get; set; }
 
         public override void Delete()
         {

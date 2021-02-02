@@ -43,5 +43,6 @@
         public static string Years = "Years";
         public static string Year = "Year";
         public static string Bankbalance = "Bankbalance";
+        public static string QuickSave = "QuickSave";
     }
 }

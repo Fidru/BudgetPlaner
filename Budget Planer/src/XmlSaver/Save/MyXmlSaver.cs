@@ -14,9 +14,18 @@ namespace XmlSaver.Save
 {
     public class MyXmlSaver
     {
+        private string _quickSave = @"C:\Users\pc\OneDrive\organizatorisches\Betriebskosten\Betriebskosten 2021 - Kopie.xml";
+
         public void Save(IProject project)
         {
-            string path = GetFilePath(new SaveFileDialog());
+            string path = project.ProjectSetting.QuickSavePath;
+
+            if (string.IsNullOrEmpty(path) || !new FileInfo(path).Exists)
+            {
+                path = GetFilePath(new SaveFileDialog());
+                project.ProjectSetting.QuickSavePath = path;
+            }
+
             var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 
             XmlTextWriter writer = new XmlTextWriter(fs, Encoding.UTF8) { Formatting = Formatting.Indented };
@@ -77,13 +86,24 @@ namespace XmlSaver.Save
 
         public IProject Read(IEnumerable<IService> services)
         {
-            var path = GetFilePath(new OpenFileDialog());
+            string path = "";
+#if DEBUG
+            path = _quickSave;
+#endif
+            if (string.IsNullOrEmpty(path) || !new FileInfo(path).Exists)
+            {
+                path = GetFilePath(new OpenFileDialog());
+            }
+
             var reader = XmlReader.Create(path);
 
             reader.Read();
             SkipWrongTags(XmlIds.Finance, reader);
 
-            return ReadProject(services, reader);
+            var project = ReadProject(services, reader);
+            project.ProjectSetting.QuickSavePath = path;
+
+            return project;
         }
 
         private IProject ReadProject(IEnumerable<IService> services, XmlReader reader)

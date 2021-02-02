@@ -126,7 +126,14 @@ namespace UI.Wpf
 
         private void SetNewDefaultData()
         {
+#if DEBUG
+            DataContext = new TestData().LoadFromXml();
+#endif
+
+#if RELEASE
             DataContext = new TestData().GetDefaultData();
+#endif
+
             CreateMenu();
         }
 

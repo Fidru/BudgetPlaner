@@ -45,6 +45,7 @@
     <Compile Include="Classes\Category.cs" />
     <Compile Include="Classes\Element.cs" />
     <Compile Include="Classes\ElementCollection.cs" />
+    <Compile Include="Classes\ProjectSetting.cs" />
     <Compile Include="Classes\SaveableXmlElement.cs" />
     <Compile Include="Classes\Month.cs" />
     <Compile Include="Classes\PaymentInterval.cs" />
