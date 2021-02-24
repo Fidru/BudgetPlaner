@@ -14,7 +14,7 @@ namespace XmlSaver.Save
 {
     public class MyXmlSaver
     {
-        private string _quickSave = @"C:\Users\pc\OneDrive\organizatorisches\Betriebskosten\Betriebskosten 2021 - Kopie.xml";
+        private string _quickSave = @"J:\OneDrive\organizatorisches\Betriebskosten\Betriebskosten 2021 - Kopie.xml";
 
         public void Save(IProject project)
         {

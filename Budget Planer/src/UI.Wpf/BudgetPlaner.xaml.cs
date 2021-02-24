@@ -27,7 +27,7 @@ namespace UI.Wpf
             var creditCordination = GetRectangle(heading_creditCards, baseView);
             var expectedCordination = GetRectangle(heading_expectedBills, baseView);
 
-            _animations = new CustomAnimations(billsCordination, foodCordination, creditCordination, expectedCordination);
+            _animations = new CustomAnimations(billsCordination, expectedCordination, creditCordination, foodCordination);
         }
 
         private Rect GetRectangle(FrameworkElement child, FrameworkElement parent)
@@ -161,8 +161,8 @@ namespace UI.Wpf
             {
                 var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_creditCards, heading_expectedBills, bills_list, creditCard, expectedBills, };
 
-                _animations.StartAnimation(AnimationTag.MiddleToLeft, foodBills, hiddenElements);
-                _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_FoodBills);
+                _animations.StartAnimation(AnimationTag.RightToTopLeft, foodBills, hiddenElements);
+                _animations.StartAnimation(AnimationTag.RightToTopLeft, heading_FoodBills);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
             }
 
@@ -177,8 +177,8 @@ namespace UI.Wpf
             if (tag == AnimationTag.ExpectedUnexpectedBills)
             {
                 var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_creditCards, bills_list, foodBills, creditCard, };
-                _animations.StartAnimation(AnimationTag.RightToTopLeft, expectedBills, hideElements);
-                _animations.StartAnimation(AnimationTag.RightToTopLeft, heading_expectedBills);
+                _animations.StartAnimation(AnimationTag.MiddleToLeft, expectedBills, hideElements);
+                _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_expectedBills);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
             }
         }

@@ -430,11 +430,11 @@
                         </Button>
                     </DockPanel>
 
-                    <TextBlock Opacity="1" x:Name="heading_FoodBills" Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" />
+                    <TextBlock Opacity="1" x:Name="heading_FoodBills" Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
 
                     <TextBlock x:Name="heading_creditCards" Text="Credit Card Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="2" />
 
-                    <TextBlock x:Name="heading_expectedBills" Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
+                    <TextBlock x:Name="heading_expectedBills" Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" />
 
                     <ListView x:Name="bills_list"
                               ItemsSource="{Binding CurrentYear.CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"
@@ -505,7 +505,8 @@
                     </ListView>
 
                     <ListView Opacity="1" x:Name="foodBills" ItemsSource="{Binding CurrentYear.CurrentMonthVm.FoodPayments}"
-            ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
+                        ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="3" Grid.RowSpan="1">
+
                         <ListView.RenderTransform>
                             <TranslateTransform />
                         </ListView.RenderTransform>
@@ -610,7 +611,7 @@
                     </ListView>
 
                     <ListView x:Name="expectedBills" ItemsSource="{Binding CurrentYear.CurrentMonthVm.ExpectedUnexpectedPayments}"
-            ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="3" Grid.Column="3" Grid.RowSpan="1">
+                        ItemContainerStyle="{StaticResource ItemStyle}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
                         <ListView.RenderTransform>
                             <TranslateTransform />
                         </ListView.RenderTransform>
