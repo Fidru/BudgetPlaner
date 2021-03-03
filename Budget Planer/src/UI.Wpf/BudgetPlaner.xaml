@@ -418,9 +418,9 @@
 
                         <TextBlock  x:Name="heading_Bills" Text="Monthly Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="0" />
 
-                        <Button Name="monthly_add" HorizontalAlignment="Left" Style="{StaticResource SquareButtonShadow}"
+                        <Button Name="bills_add" HorizontalAlignment="Left" Style="{StaticResource SquareButtonShadow}" Click="Add_Payment_Click" Grid.Row="0" Grid.Column="0"
                                         Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
-                                        Grid.Row="0" Grid.Column="0" Click="Add_Payment_Click" Height="34" Width="34" Padding="0,0,0,0" Margin="0,15,0,10">
+                                        Height="34" Width="34" Padding="0,0,0,0" Margin="0,15,0,10">
                             <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33"
                                                      VerticalAlignment="Center" HorizontalAlignment="Center"
                                                      Padding="0,0,0,0" />
@@ -430,11 +430,56 @@
                         </Button>
                     </DockPanel>
 
-                    <TextBlock Opacity="1" x:Name="heading_FoodBills" Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
+                    <DockPanel x:Name="food_heading_panel" Grid.Row="2" Grid.Column="2"
+                               Style="{StaticResource ShadowTextStyle}">
 
-                    <TextBlock x:Name="heading_creditCards" Text="Credit Card Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="2" />
+                        <TextBlock Opacity="1" x:Name="heading_FoodBills" Text="Food Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="2" Grid.Column="2" />
 
-                    <TextBlock x:Name="heading_expectedBills" Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="1" />
+                        <Button Name="food_add" HorizontalAlignment="Left" Style="{StaticResource SquareButtonShadow}" Click="Add_Payment_Food_Click" Grid.Row="2" Grid.Column="2"
+                                        Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
+                                        Height="34" Width="34" Padding="0,0,0,0" Margin="0,15,0,10">
+                            <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33"
+                                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                     Padding="0,0,0,0" />
+                            <Button.RenderTransform>
+                                <TranslateTransform />
+                            </Button.RenderTransform>
+                        </Button>
+                    </DockPanel>
+
+                    <DockPanel x:Name="credit_heading_panel" Grid.Row="0" Grid.Column="2"
+                               Style="{StaticResource ShadowTextStyle}">
+
+                        <TextBlock x:Name="heading_creditCards" Text="Credit Card Bills" Style="{StaticResource MyMaterialDesignButtonTextBlock}" Grid.Row="0" Grid.Column="2" />
+
+                        <Button Name="credit_add" HorizontalAlignment="Left" Style="{StaticResource SquareButtonShadow}" Click="Add_Payment_Credit_Click"  Grid.Row="0" Grid.Column="2"
+                                        Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
+                                        Height="34" Width="34" Padding="0,0,0,0" Margin="0,15,0,10">
+                            <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33"
+                                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                     Padding="0,0,0,0" />
+                            <Button.RenderTransform>
+                                <TranslateTransform />
+                            </Button.RenderTransform>
+                        </Button>
+                    </DockPanel>
+
+                    <DockPanel x:Name="expected_heading_panel"  Grid.Row="0" Grid.Column="1"
+                               Style="{StaticResource ShadowTextStyle}">
+
+                        <TextBlock x:Name="heading_expectedBills" Text="Expected / Unexpected Bills"  Style="{StaticResource MyMaterialDesignButtonTextBlock}"  Grid.Row="0" Grid.Column="1" />
+
+                        <Button Name="expected_add" HorizontalAlignment="Left" Style="{StaticResource SquareButtonShadow}" Click="Add_Payment_Expected_Click" Grid.Row="0" Grid.Column="1"
+                                Foreground="{DynamicResource PrimaryHueMidBrush}" BorderBrush="Transparent"
+                                Height="34" Width="34" Padding="0,0,0,0" Margin="0,15,0,10">
+                            <materialDesign:PackIcon Kind="AddCircleOutline" Height="33" Width="33"
+                                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                     Padding="0,0,0,0" />
+                            <Button.RenderTransform>
+                                <TranslateTransform />
+                            </Button.RenderTransform>
+                        </Button>
+                    </DockPanel>
 
                     <ListView x:Name="bills_list"
                               ItemsSource="{Binding CurrentYear.CurrentMonthVm.Bills}"  Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" Grid.RowSpan="3"

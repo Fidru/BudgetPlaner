@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using IData.Constants;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using UI.DefaultData;
 using UI.ViewModel;
@@ -153,13 +153,13 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.Bills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_FoodBills, heading_creditCards, heading_expectedBills, foodBills, creditCard, expectedBills, };
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_FoodBills, food_add, heading_creditCards, credit_add, heading_expectedBills, expected_add, foodBills, creditCard, expectedBills };
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel, hideElements);
             }
 
             if (tag == AnimationTag.FoodBills)
             {
-                var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_creditCards, heading_expectedBills, bills_list, creditCard, expectedBills, };
+                var hiddenElements = new FrameworkElement[] { monthDisplay, heading_Bills, bills_add, heading_creditCards, credit_add, heading_expectedBills, expected_add, bills_list, creditCard, expectedBills, };
 
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, foodBills, hiddenElements);
                 _animations.StartAnimation(AnimationTag.RightToTopLeft, heading_FoodBills);
@@ -168,7 +168,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.CreditCardBills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_expectedBills, bills_list, foodBills, expectedBills, };
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, bills_add, heading_FoodBills, food_add, heading_expectedBills, expected_add, bills_list, foodBills, expectedBills, };
                 _animations.StartAnimation(AnimationTag.RightToLeft, creditCard, hideElements);
                 _animations.StartAnimation(AnimationTag.RightToLeft, heading_creditCards);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
@@ -176,7 +176,7 @@ namespace UI.Wpf
 
             if (tag == AnimationTag.ExpectedUnexpectedBills)
             {
-                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, monthly_add, heading_FoodBills, heading_creditCards, bills_list, foodBills, creditCard, };
+                var hideElements = new FrameworkElement[] { monthDisplay, heading_Bills, bills_add, heading_FoodBills, food_add, heading_creditCards, credit_add, bills_list, foodBills, creditCard, };
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, expectedBills, hideElements);
                 _animations.StartAnimation(AnimationTag.MiddleToLeft, heading_expectedBills);
                 _animations.StartAnimation(AnimationTag.Payment, paymentPanel);
@@ -230,11 +230,31 @@ namespace UI.Wpf
 
         private void Add_Payment_Click(object sender, RoutedEventArgs e)
         {
+            AddNewTransactions(sender, CategoryType.Income);
+        }
+
+        private void Add_Payment_Expected_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewTransactions(sender, CategoryType.ExtraExpenses);
+        }
+
+        private void Add_Payment_Credit_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewTransactions(sender, CategoryType.CreditCard);
+        }
+
+        private void Add_Payment_Food_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewTransactions(sender, CategoryType.FoodAndHousehold);
+        }
+
+        private static void AddNewTransactions(object sender, CategoryType categoryType)
+        {
             Button button = (Button)sender;
             var project = (ProjectViewModel)button.DataContext;
 
             var monthVm = project.CurrentYear.CurrentMonthVm;
-            monthVm.AddNewTransaction();
+            monthVm.AddNewTransaction(categoryType);
         }
 
         private void ClosePayment_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using IData.Interfaces;
+﻿using IData.Constants;
+using IData.Interfaces;
 using IData.Services;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,9 +125,9 @@ namespace UI.ViewModel
             }
         }
 
-        public void AddNewTransaction()
+        public void AddNewTransaction(CategoryType categoryType)
         {
-            var newPayment = PaymentFactory.Create(Element);
+            var newPayment = PaymentFactory.Create(Element, categoryType);
 
             var newTransaction = TransactionFactory.Create(Element, newPayment);
             var transactionVm = new TransactionViewModelFacotry(Services).ConvertToVm(newTransaction);

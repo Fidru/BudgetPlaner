@@ -7,6 +7,6 @@ namespace IData.Services
     {
         IPayment Create(string name, ICategory category, double amount, PaymentIntervalType intervalType, MonthEnum startingMonth, ICategory subCategory = null);
 
-        IPayment Create(IMonth month);
+        IPayment Create(IMonth month, CategoryType categoryType);
     }
 }

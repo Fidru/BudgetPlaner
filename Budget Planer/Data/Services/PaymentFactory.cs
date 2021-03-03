@@ -19,14 +19,16 @@ namespace Data.Services
             return payment;
         }
 
-        public IPayment Create(IMonth month)
+        public IPayment Create(IMonth month, CategoryType categoryType)
         {
             var interval = Project.CurrentProject.Intervals.First();
             var factory = new PayPatternFactory() { Project = Project };
 
             var pattern = factory.Create(interval, month.MonthType);
 
-            var payment = new Payment(Project.CurrentProject.Categories.First(), pattern);
+            Payment payment;
+
+            payment = new Payment(Project.CurrentProject.Categories.Single(c => c.CategoryType == categoryType), pattern);
             Project.CurrentProject.Elements.AddElement(payment);
 
             return payment;
